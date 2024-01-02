@@ -1,0 +1,75 @@
+// Filename: HeaderSimple.module.scss
+// Developer: @yannick-leguennec (GitHub ID)
+
+.header {
+  top: 0;
+  width: 100%;
+  min-height: 54px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: linear-gradient(to right, $header-gradient-background1, $header-gradient-background2);
+  padding: 5px 60px 5px 60px; // Padding horizontal pour le contenu interne
+
+    // Ajustements spécifiques pour les appareils mobiles
+    @media (max-width: $mantine-breakpoint-sm) {
+      flex-direction: row; // Maintient les éléments en ligne horizontalement sur les mobiles
+      justify-content: space-between; // Répartit équitablement les éléments horizontalement avec un espacement autour
+      align-items: center; // Centre les éléments verticalement
+      padding: 5px 30px 5px 30px; // Padding horizontal pour le contenu interne
+    }
+}
+
+
+.links {
+  display: flex; // Utilise Flexbox pour la mise en page des liens
+  justify-content: center; // Centre les liens horizontalement pour les grands écrans
+  align-items: center; // Centre les liens verticalement
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  height: auto;
+  border-radius: var(--mantine-radius-xl);
+  padding: 5px 10px;
+  text-decoration: none;
+  color: $header-font-color;
+  font-size: var(--mantine-font-size-sm);
+  font-family: $text-font;
+  font-weight: 500;
+  
+  &:hover {
+    background-color: lighten($button-gradient-color2, 20%); // Exemple pour remplacer le mixin
+  }
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    margin: 5px 0;
+    padding: 10px 15px;
+  }
+}
+
+.link.active {
+  background-image: linear-gradient(to right, #fea081, #fe7659);
+  color: var(--mantine-color-white);
+}
+
+.overlay {
+  position: fixed;
+  flex-direction: column;
+  top: 54px; // Utilise une valeur directe si la hauteur du header est fixe
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.burger {
+  gap: 10px;
+}

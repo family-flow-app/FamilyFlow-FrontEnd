@@ -1,0 +1,66 @@
+// File Name: MainMember.module.scss
+// Developer: @yannick-leguennec (GitHub ID)
+
+.extraSettings {
+  padding:50px 0;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    padding: 20px 0;
+  };
+}
+
+
+.searchContainer {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.searchBar {
+    margin: 0 auto;
+    width: 450px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: $mantine-breakpoint-sm) {
+      width: 270px;
+    };
+
+    @media (max-width: $mantine-breakpoint-xs) {
+      width: 270px;
+    };
+}
+
+.button {
+
+  width: 110px;
+  margin: 10px;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+  margin: 10px 0;
+};
+
+}
+
+.primeTitle {
+    font-size: 2.5rem;
+    color: $title-color;
+    text-align: center;
+    margin-top: 30px ;
+    margin-bottom: 25px;
+
+    @media (max-width: $mantine-breakpoint-xs) {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    };
+}
+
+.title {
+    font-size: 1.5rem;
+    color: $title-color;
+    text-align: center;
+  }

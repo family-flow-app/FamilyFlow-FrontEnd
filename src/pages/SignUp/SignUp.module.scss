@@ -1,0 +1,16 @@
+// File: SignUp.module.scss
+// Developer: @yannick-leguennec (GitHub ID)
+
+.mediaContainer {
+@media (max-width: $mantine-breakpoint-xs) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 12px
+}
+}
+
+.title {
+  color: $title-color;
+}

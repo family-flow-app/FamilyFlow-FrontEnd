@@ -1,0 +1,60 @@
+// File: 404.module.scss
+// Developer: @yannick-leguennec - Yannick's GitHub ID
+
+.root {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 35px 0;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    padding: 0 20px;
+  }
+  
+}
+
+.inner {
+  position: relative;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding: 50px 0;
+  }
+}
+
+.primeTitle {
+  font-size: 3rem;
+  color: $title-color;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+
+.description {
+  max-width: rem(540px);
+  margin: auto;
+  margin-top: var(--mantine-spacing-md);
+  margin-bottom: calc(var(--mantine-spacing-md) * 1.5);
+  font-size: 2rem;
+  color: $title-color;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+}
+
+.message {
+  text-align: center;
+  margin: 15px 0;
+}
