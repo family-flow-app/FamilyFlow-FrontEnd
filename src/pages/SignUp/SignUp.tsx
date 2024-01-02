@@ -28,7 +28,7 @@ import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { showNotification } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import classes from './SignUp.module.scss';
-import AlertModal from '../../components/modals/AlertModal/AlertModal';
+import AlertModal from '../../components/Modals/AlertModal/AlertModal';
 import useApiErrorHandler from '../../hooks/useApiErrorHandler/useApiErrorHandler';
 import useHandleSuccess from '../../hooks/useHandleSuccess/useHandleSuccess';
 import { useUser } from '../../context/UserInfoContext/UserInfoContext';

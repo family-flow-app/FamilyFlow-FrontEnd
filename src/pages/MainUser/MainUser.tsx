@@ -21,10 +21,10 @@ import useHandleSuccess from '../../hooks/useHandleSuccess/useHandleSuccess';
 import '../../styles/globalStyles.scss';
 import classes from './MainUser.module.scss';
 import '../../styles/buttons.scss';
-import AlertModal from '../../components/modals/AlertModal/AlertModal';
+import AlertModal from '../../components/Modals/AlertModal/AlertModal';
 import FamilyCard from '../../components/FamilyCard/FamilyCard';
 import { Family } from '../../@types/family';
-import FamilyPublicProfileModal from '../../components/modals/FamilyPublicProfilModal/FamilyPublicProfilModal';
+import FamilyPublicProfileModal from '../../components/Modals/FamilyPublicProfilModal/FamilyPublicProfilModal';
 import icon_family from '../../public/img/FF_icon_family.png';
 
 function MainUser() {
