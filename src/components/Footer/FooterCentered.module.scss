@@ -1,0 +1,68 @@
+// Nom du fichier : FooterCentered.module.scss
+// Développeur : @yannick-leguennec (Identifiant GitHub)
+
+// Styles de base du footer, applicables en mode mobile et par défaut
+.footer {
+  bottom: 0; // Positionne le footer en bas de la vue
+  width: 100%; // Assure que le footer s'étend sur toute la largeur de la fenêtre
+  min-height: auto; // Hauteur minimale pour le footer, permettant de s'étendre au contenu
+  display: flex; // Utilise Flexbox pour aligner les éléments à l'intérieur
+  align-items: center; // Centre les éléments verticalement à l'intérieur du footer
+  padding: 20px 60px; // Padding horizontal pour le contenu interne
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding: 15px 0;
+  }
+
+}
+
+// Conteneur interne pour les éléments du footer
+.inner {
+  width: 100%; // Assure que le conteneur interne occupe toute la largeur du footer
+  display: flex; // Utilise Flexbox pour la mise en page des éléments internes
+  justify-content: space-between; // Espacement équitable entre les éléments
+  align-items: center; // Alignement vertical des éléments
+
+  // Ajustements spécifiques pour les appareils mobiles
+  @media (max-width: $mantine-breakpoint-sm) {
+    flex-direction: row; // Maintient les éléments en ligne horizontalement sur les mobiles
+    justify-content: space-around; // Répartit équitablement les éléments horizontalement avec un espacement autour
+    align-items: center; // Centre les éléments verticalement
+  }
+}
+
+// Ensemble des liens dans le footer
+.links {
+  display: flex; // Utilise Flexbox pour la mise en page des liens
+  flex-wrap: wrap; // Permet aux éléments de passer à la ligne suivante si l'espace horizontal est insuffisant
+  justify-content: center; // Centre les liens horizontalement pour les grands écrans
+  align-items: center; // Centre les liens verticalement
+
+  // Ajustements pour les appareils mobiles
+  @media (max-width: $mantine-breakpoint-sm) {
+    flex-direction: column; // Empile les liens verticalement sur les mobiles
+    align-items: center; // Centre les liens horizontalement
+    gap: 5px; // Ajoute un petit espace entre chaque lien pour une meilleure lisibilité
+  }
+}
+
+// Style pour chaque lien individuel dans le footer
+.link {
+  color: $footer-font-color; // Couleur du texte des liens, doit être définie globalement
+  font-family: $text-font; // Police de caractères pour les liens, doit être définie globalement
+  font-size: var(--mantine-font-size-xs); // Taille de police pour les liens
+  text-decoration: none; // Supprime le soulignement par défaut des liens
+
+  // Ajustements de taille de police pour les appareils mobiles
+  @media (max-width: $mantine-breakpoint-sm) {
+    font-size: var(--mantine-font-size-xs); // Réduit la taille de police sur les mobiles pour s'adapter aux petits écrans
+  }
+}
+
+// Style pour les séparateurs entre les liens dans le footer
+.separator {
+  margin: 0 8px; // Espace horizontal autour des séparateurs pour éviter que les liens ne soient trop serrés
+  // Ajoutez d'autres styles si nécessaire
+}
+
+
