@@ -22,7 +22,7 @@ import classes from './Contact.module.scss';
 import '../../styles/buttons.scss';
 import useHandleSuccess from '../../hooks/useHandleSuccess/useHandleSuccess';
 import useApiErrorHandler from '../../hooks/useApiErrorHandler/useApiErrorHandler';
-import AlertModal from '../../components/modals/AlertModal/AlertModal';
+import AlertModal from '../../components/Modals/AlertModal/AlertModal';
 
 function Contact() {
   const [isModalOpen, setModalOpen] = useState(false);
