@@ -1,0 +1,42 @@
+// styles/buttons.scss
+// Developer: @yannick-leguennec - Yannick's GitHub ID
+
+.gradientButton {
+  background-image: linear-gradient(to right, #fea081, #fe7659);
+  color: #fff;
+  border: none;
+
+  &:hover {
+    background-image: linear-gradient(to right, #e57a63, #e26742);
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+    transition: background-image 0.3s ease, box-shadow 0.3s ease;
+  }
+}
+
+.outlineButton {
+  background-color: #fff;
+  border-color: #fea081;
+  color: #fe7659;
+  border-width: 1px;
+  border-style: solid;
+
+  &:hover {
+    background-color: #fea081;
+    color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+.filterButton {
+  background-color: #fff;
+  border-color: #6bd3d4;
+  color: #6bd3d4;
+  border-width: 1px;
+  border-style: solid;
+
+  &:hover {
+    background-color: #6bd3d4;
+    color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
