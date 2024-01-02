@@ -1,0 +1,10 @@
+.responsiveImage {
+    width: auto;  /* Largeur maximale pour s'adapter au conteneur */
+    height: 250px; /* Hauteur automatique pour maintenir le ratio d'aspect */
+  }
+
+  @media (max-width: $mantine-breakpoint-sm) {
+        .responsiveImage {
+          height: 150px; /* Hauteur réduite pour les appareils mobiles */
+        }
+    }
