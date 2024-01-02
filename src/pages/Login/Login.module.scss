@@ -1,0 +1,30 @@
+// File name: Login.module.scss
+// Developer: @yannick-leguennec (GitHub ID)
+
+.mediaContainer {
+width: 50%;
+
+@media (max-width: $mantine-breakpoint-xs) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 12px
+} 
+
+}
+
+
+.title {
+  color: $title-color;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+}
+
+.alert {
+  color: red;
+  margin: 1rem;
+}
