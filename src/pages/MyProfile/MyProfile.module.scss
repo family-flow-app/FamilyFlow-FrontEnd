@@ -1,0 +1,17 @@
+// MyProfile.module.scss
+// Developer: @yannick-leguennec
+
+.mediaContainer {
+    @media (max-width: $mantine-breakpoint-xs) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 20px
+    }
+  }
+
+  .primeTitle {
+    color: $title-color;
+    text-align: center;
+  }

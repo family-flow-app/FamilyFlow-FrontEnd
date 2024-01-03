@@ -8,4 +8,5 @@ export interface UserData {
     password?: string;
     image_url?: string;
     birthday?: Date;
+    created_at: Date;
 }
