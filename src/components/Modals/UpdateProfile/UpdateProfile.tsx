@@ -14,11 +14,14 @@ import {
     rem,
     Flex,
     Title,
+    Textarea,
   } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
 import { useUser } from '../../../context/UserInfoContext/UserInfoContext';
 import { UserData } from '../../../@types/user';
@@ -33,7 +36,7 @@ import classes from './UpdateProfile.module.scss';
 interface UpdateProfileProps {
   opened: boolean;
   close: () => void;
-  userData: UserData;
+  userInfo: UserData;
   setUser: (value: React.SetStateAction<UserData | null>) => void;
 }
 
@@ -49,13 +52,14 @@ interface FormValues {
   birthday: Date | null;
 }
 
-function UpdateProfile({ userData, opened, close, setUser }: UpdateProfileProps) {
+function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps) {
   // États locaux pour la gestion du fichier image, erreurs, et aperçu
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  dayjs.extend(utc);
 
   // Hooks personnalisés pour la gestion des erreurs et des succès
   const handleError = useApiErrorHandler();
@@ -63,10 +67,10 @@ function UpdateProfile({ userData, opened, close, setUser }: UpdateProfileProps)
 
   // Afficher l'image existante comme aperçu si elle existe
   useEffect(() => {
-    if (userData.image_url) {
-      setImagePreview(userData.image_url);
+    if (userInfo.image_url) {
+      setImagePreview(userInfo.image_url);
     }
-  }, [userData.image_url]);
+  }, [userInfo.image_url]);
 
   // Couleur d'entête du modal
   const headerColor = '#6bd3d4';
@@ -77,15 +81,16 @@ function UpdateProfile({ userData, opened, close, setUser }: UpdateProfileProps)
   // Initialisation et validation du formulaire
   const form = useForm<FormValues>({
     initialValues: {
-      username: userData.username,
-      firstname: userData.firstname,
-      lastname: userData.lastname,
-      email: userData.email,
+      username: userInfo.username,
+      firstname: userInfo.firstname,
+      lastname: userInfo.lastname,
+      email: userInfo.email,
       password: '',
       newPassword: '',
       confirmNewPassword: '',
-      description: userData.description || '',
-      birthday: userData.birthday ? new Date(userData.birthday) : null,
+      description: userInfo.description || '',
+      birthday: userInfo.birthday ? userInfo.birthday : null,
+
     },
     validate: { /* Logique de validation pour chaque champ */ },
   });
@@ -93,15 +98,9 @@ function UpdateProfile({ userData, opened, close, setUser }: UpdateProfileProps)
   // Soumission du formulaire
   const handleSubmit = async () => {
     try {
-      // Préparation des données pour la requête API
-      const formData = new FormData();
-      if (imageFile) {
-        formData.append('image', imageFile);
-      }
-      console.log("form data", formData);
       
       // Requête PUT pour la mise à jour du profil
-      const response = await axios.put(`https://family-flow-api.up.railway.app/users/${user.user.userId}`, formData, {
+      const response = await axios.put(`https://family-flow-api.up.railway.app/users/${user.user.userId}`, {...form.values, image_url: imageFile}, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${user.user.token}`,
@@ -119,14 +118,39 @@ function UpdateProfile({ userData, opened, close, setUser }: UpdateProfileProps)
       setAlertMessage('Erreur lors de la mise à jour de votre profil.');
       setIsAlertModalOpen(true);
       handleError(error);
+      console.log(error);
+      
     }
   };
 
   // Gestion de l'upload de fichier
-  const handleFileUpload = (files: File[]) => { /* Logique pour l'upload de fichier */ };
+  const handleFileUpload = (files: File[]) => {
+    if (files.length > 0) {
+      const file = files[0];
+      if (!['image/jpeg', 'image/png'].includes(file.type)) {
+        setFormError('Type de fichier non pris en charge');
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        // 5MB
+        setFormError('La taille du fichier ne doit pas dépasser 5MB');
+        return;
+      }
+
+      setImageFile(file); // Stocker le fichier d'image pour l'envoi
+      const imageUrl = URL.createObjectURL(file); // Créer un URL d'aperçu pour l'affichage
+      setImagePreview(imageUrl); // Mettre à jour l'état pour l'aperçu
+    }
+  };
 
   // Gestion de la suppression de l'image
-  const handleRemoveImage = () => { /* Logique pour la suppression de l'image */ };
+  const handleRemoveImage = () => {
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview); // Révoquer l'URL pour libérer les ressources
+      setImagePreview(null); // Réinitialiser l'aperçu d'image
+    }
+  };
 
   // Structure du composant Modal
   return (
@@ -180,7 +204,7 @@ function UpdateProfile({ userData, opened, close, setUser }: UpdateProfileProps)
                   label="Date de naissance"
                   {...form.getInputProps('birthday')}
                 />
-                <TextInput
+                <Textarea
                   radius="xl"
                   mt="md"
                   label="Description"

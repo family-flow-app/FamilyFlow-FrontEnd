@@ -1,3 +1,4 @@
+
 // ConfirmModal.tsx
 // Developer: @yannick-leguennec
 
@@ -30,7 +31,7 @@ function ConfirmModal({
   const modalHeaderColor = '#6bd3d4';
 
   return (
-    <Modal opened={opened} onClose={onClose} centered size="auto">
+    <Modal.Root opened={opened} onClose={onClose} centered size="auto">
       {/* Modal overlay with blur effect */}
       <Modal.Overlay style={{ backdropFilter: 'blur(10)' }} />
 
@@ -78,7 +79,7 @@ function ConfirmModal({
           </Flex>
         </Modal.Body>
       </Modal.Content>
-    </Modal>
+    </Modal.Root>
   );
 }
 

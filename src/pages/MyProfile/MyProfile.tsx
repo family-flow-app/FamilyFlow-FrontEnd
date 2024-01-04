@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Image, Title, Text, Button, Flex } from '@mantine/core';
 import axios from 'axios';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { useUser } from '../../context/UserInfoContext/UserInfoContext';
 import useApiErrorHandler from '../../hooks/useApiErrorHandler/useApiErrorHandler';
 import useHandleSuccess from '../../hooks/useHandleSuccess/useHandleSuccess';
@@ -27,6 +29,7 @@ function MyProfile() {
   const [familyInfo, setFamilyInfo] = useState<Family[]>([]);
   const [isUpdateProfileOpen, setIsUpdateProfileOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  dayjs.extend(utc);
 
   // Custom hooks for handling API interactions
   const handleError = useApiErrorHandler();
@@ -102,7 +105,7 @@ function MyProfile() {
         </Title>
         <Text mb={20}>@{userInfo?.username}</Text>
         <Title order={3} mt={5} mb={5}>
-          "{userInfo?.description ?? 'Non spécifiée'}"
+          {userInfo?.description ?? 'Non spécifiée'}
         </Title>
         <Text mt={5} mb={5}>
           <strong>Membre depuis le</strong>{' '}
@@ -113,7 +116,7 @@ function MyProfile() {
         <Text mt={5} mb={5}>
           <strong>Anniversaire:</strong>{' '}
           {userInfo?.birthday
-            ? new Date(userInfo?.birthday).toLocaleDateString()
+            ? dayjs.utc(userInfo.birthday).format('DD/MM/YYYY')
             : 'Non spécifiée'}
         </Text>
         <Text mt={5} mb={5}>
@@ -165,7 +168,7 @@ function MyProfile() {
           <UpdateProfile
             opened={isUpdateProfileOpen}
             close={handleCloseUpdateProfile}
-            userData={userInfo}
+            userInfo={userInfo}
             setUser={setUserInfo}
           />
         ) : null}
