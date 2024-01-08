@@ -93,10 +93,10 @@ const FamilyProfile = () => {
       {activeTab === 'informations' && (
         <>
         <Title order={3} mt={5} mb={5}>
-        {familyInfo[0]?.description ?? 'Non spécifiée'}
+        {familyInfo && (familyInfo[0]?.description ?? 'Non spécifiée')}
       </Title>
-      <Text>Existe depuis le: {familyInfo[0]?.created_at ?? 'Non spécifié'}</Text>
-      <Text> Administrateur(s):  </Text>
+      <Text>Existe depuis le: {familyInfo && (familyInfo[0]?.created_at ?? 'Non spécifié')}</Text>
+      <Text> Administrateur(s): </Text>
       </>
         )
       }
