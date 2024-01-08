@@ -18,31 +18,26 @@ function MemberPrivateCard({
 }: MemberCardProps): React.ReactElement<{ member: Member }> {
   return (
     <Card className={classes.card} withBorder>
-      <Container className={`${classes.card_header}`}>
         <Image
           className={`${classes.card_image}`}
           src={member.image_url ? member.image_url : icon}
           alt={`${member.firstname} ${member.lastname}`}
         />
-        <div style={{ marginLeft: '20px' }}>
+         <Container className={`${classes.card_name}`}>
           <Text className={`${classes.card_text}`}>
             {`${member.firstname} ${member.lastname}`}
           </Text>
-        </div>
-      </Container>
-      <Container>
+        </Container>
         <Button
-          className="gradientButton"
+          className={`gradientButton ${classes.card_button}`}
           type="button"
-          w={100}
           m={10}
-          size="responsive"
+          size="auto"
           radius="xl"
           onClick={() => onViewProfile(member.id)}
         >
           Voir profil
         </Button>
-      </Container>
     </Card>
   );
 }

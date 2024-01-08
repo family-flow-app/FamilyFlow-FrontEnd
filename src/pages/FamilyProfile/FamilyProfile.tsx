@@ -6,6 +6,7 @@ import { useUser } from '../../context/UserInfoContext/UserInfoContext';
 import useApiErrorHandler from '@/hooks/useApiErrorHandler/useApiErrorHandler';
 import useHandleSuccess from '@/hooks/useHandleSuccess/useHandleSuccess';
 import MemberPrivateCard from '../../components/MembePrivateCard/MemberPrivateCard';
+import RequestCard from '@/components/RequestCard/RequestCard';
 import { Family } from '../../@types/family';
 import { Member } from '../../@types/member';
 import familyIcon from '../../public/img/FF_icon_family.png'
@@ -20,6 +21,8 @@ const FamilyProfile = () => {
   const [members, setMembers] = useState<Member[]>([]);
   const [invitations, setInvitations] = useState<any[]>([]);
   const [requests, setRequests] = useState<any[]>([]);
+  const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
+
 
   const handleApiError = useApiErrorHandler();
   const handleSuccess = useHandleSuccess();
@@ -66,22 +69,22 @@ const FamilyProfile = () => {
     // Logique pour rediriger vers le profil du membre
   };
 
-  console.log("family info",familyInfo?.image_url, familyInfo?.name, familyInfo);
-
   return (
     <Container className={`container ${classes.mediaContainer}`}>
+      <Flex direction={"column"} align={"center"}>
 {familyInfo && (
-  <Flex direction={"column"} align={"center"}>
+  <>
     <Image
           src={familyInfo[0]?.image_url || familyIcon}
           alt="Profile"
           h={250}
           w={250}
+          mt={40}
           mb={40}
           radius={100}
          /> 
-    <Title className={`${classes.primeTitle}`}>{familyInfo[0]?.name}</Title>
-  </Flex>
+    <Title className={`${classes.primeTitle}`} mb={30}>{familyInfo[0]?.name}</Title>
+    </>
 )}  
       <Group>
         <Button onClick={() => handleTabClick('informations')} w={125}>Informations</Button>
@@ -92,11 +95,11 @@ const FamilyProfile = () => {
       </Group>
       {activeTab === 'informations' && (
         <>
-        <Title order={3} mt={5} mb={5}>
+        <Title order={3} mt={30} mb={5}>
         {familyInfo && (familyInfo[0]?.description ?? 'Non spécifiée')}
       </Title>
-      <Text>Existe depuis le: {familyInfo && (familyInfo[0]?.created_at ?? 'Non spécifié')}</Text>
-      <Text> Administrateur(s): </Text>
+      <Text m={5}>Existe depuis le: {familyInfo && (familyInfo[0]?.created_at ?? 'Non spécifié')}</Text>
+      <Text m={5}> Administrateur(s): </Text>
       </>
         )
       }
@@ -107,7 +110,8 @@ const FamilyProfile = () => {
       )}
       {activeTab === 'requests' && (
         requests.map(request => (
-          <div key={request.id}>{/* Logique pour afficher les requêtes */}</div>
+          console.log(request),
+          <RequestCard key={request.id} userRequestInfo={request} />
         ))
       )}
       {activeTab === 'invitations' && (
@@ -115,6 +119,7 @@ const FamilyProfile = () => {
         <div key={invitation.id}>{/* Logique pour afficher les invitations */}</div>
         ))
       )}
+      </Flex>
     </Container>
   );
 };
