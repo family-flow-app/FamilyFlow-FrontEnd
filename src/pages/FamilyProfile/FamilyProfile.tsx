@@ -15,7 +15,7 @@ import classes from "./FamilyProfile.module.scss"
 
 const FamilyProfile = () => {
   const { user } = useUser();
-  const [activeTab, setActiveTab] = useState<'informations' | 'members' | 'invitations'>('invitations');
+  const [activeTab, setActiveTab] = useState<'informations' | 'members' | 'requests' | 'invitations'>('informations');
   const [familyInfo, setFamilyInfo] = useState<Family | null>(null);
   const [members, setMembers] = useState<Member[]>([]);
   const [invitations, setInvitations] = useState<any[]>([]);
@@ -57,7 +57,7 @@ const FamilyProfile = () => {
 
 
   // Gestion des clics sur les onglets
-  const handleTabClick = (tabName: 'informations' | 'members' | 'invitations') => {
+  const handleTabClick = (tabName: 'informations' | 'members' |'requests'|'invitations') => {
     setActiveTab(tabName);
   };
 
@@ -84,24 +84,36 @@ const FamilyProfile = () => {
   </Flex>
 )}  
       <Group>
-        <Button onClick={() => handleTabClick('informations')}>Informations</Button>
-        <Button onClick={() => handleTabClick('members')}>Membres</Button>
-        <Button onClick={() => handleTabClick('invitations')}>Requêtes et Invitations</Button>
+        <Button onClick={() => handleTabClick('informations')} w={125}>Informations</Button>
+        <Button onClick={() => handleTabClick('members')}w={125}>Membres</Button>
+        <Button onClick={() => handleTabClick('requests')}w={125}>Requêtes</Button>
+        <Button onClick={() => handleTabClick('invitations')}w={125}>Invitations</Button>
+
       </Group>
+      {activeTab === 'informations' && (
+        <>
+        <Title order={3} mt={5} mb={5}>
+        {familyInfo[0]?.description ?? 'Non spécifiée'}
+      </Title>
+      <Text>Existe depuis le: {familyInfo[0]?.created_at ?? 'Non spécifié'}</Text>
+      <Text> Administrateur(s):  </Text>
+      </>
+        )
+      }
       {activeTab === 'members' && (
         members.map(member => (
           <MemberPrivateCard key={member.id} member={member} onViewProfile={handleViewProfile} />
         ))
       )}
-      {activeTab === 'invitations' && (
-        invitations.map(invitation => (
-          <div key={invitation.id}>{/* Logique pour afficher les invitations */}</div>
+      {activeTab === 'requests' && (
+        requests.map(request => (
+          <div key={request.id}>{/* Logique pour afficher les requêtes */}</div>
         ))
       )}
-      {activeTab === 'informations' && (
-        <div>
-          {/* Logique pour afficher les informations de la famille */}
-        </div>
+      {activeTab === 'invitations' && (
+        invitations.map(invitation => (
+        <div key={invitation.id}>{/* Logique pour afficher les invitations */}</div>
+        ))
       )}
     </Container>
   );
