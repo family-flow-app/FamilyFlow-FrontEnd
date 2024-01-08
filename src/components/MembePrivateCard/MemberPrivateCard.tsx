@@ -4,7 +4,7 @@
 import React from 'react';
 import { Image, Text, Card, Button, Container } from '@mantine/core'; // importez les composants nécessaires
 import { Member } from '../../@types/member';
-import classes from './MemberPublicCard.module.scss';
+import classes from './MemberPrivateCard.module.scss';
 import icon from '../../public/img/FF_icone-task.png';
 
 interface MemberCardProps {

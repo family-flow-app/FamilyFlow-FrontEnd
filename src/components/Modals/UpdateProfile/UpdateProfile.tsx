@@ -89,7 +89,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
       newPassword: '',
       confirmNewPassword: '',
       description: userInfo.description || '',
-      birthday: userInfo.birthday ? userInfo.birthday : null,
+      birthday: userInfo.birthday ? dayjs.utc(userInfo.birthday).toDate() : null,
 
     },
     validate: { /* Logique de validation pour chaque champ */ },
@@ -100,7 +100,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
     try {
       
       // Requête PUT pour la mise à jour du profil
-      const response = await axios.put(`https://family-flow-api.up.railway.app/users/${user.user.userId}`, {...form.values, image_url: imageFile}, {
+      const response = await axios.patch(`https://family-flow-api.up.railway.app/users/${user.user.userId}`, {...form.values, image_url: imageFile}, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${user.user.token}`,
