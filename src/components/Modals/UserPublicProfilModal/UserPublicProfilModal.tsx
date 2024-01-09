@@ -1,21 +1,13 @@
 // File Name: UserPublicProfileModal.tsx
 // Developer: @yannick-leguennec (GitHub username)
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useUser } from '@/context/UserInfoContext/UserInfoContext';
 import useApiErrorHandler from '@/hooks/useApiErrorHandler/useApiErrorHandler';
 import useHandleSuccess from '@/hooks/useHandleSuccess/useHandleSuccess';
 import AlertModal from '../AlertModal/AlertModal';
-import {
-  Button,
-  Flex,
-  Image,
-  Modal,
-  Title,
-  Container,
-  Text,
-} from '@mantine/core';
+import { Button, Flex, Image, Modal, Title, Container, Text } from '@mantine/core';
 import { Request } from '../../../@types/request';
 import classes from './User.PublicProfilModal.module.scss';
 import icon from '../../../public/img/FF_icon_family.png';
@@ -31,12 +23,11 @@ function UserPublicProfileModal({
   userRequestInfo,
   modalOpened,
   setModalOpened,
-  onCloseAdditional
+  onCloseAdditional,
 }: UserPublicProfileModalProps) {
-
-  const {user} = useUser();
+  const { user } = useUser();
   const handleApiError = useApiErrorHandler();
-  const handleSuccess = useHandleSuccess();  
+  const handleSuccess = useHandleSuccess();
 
   const [alertModalOpened, setAlertModalOpened] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -54,12 +45,10 @@ function UserPublicProfileModal({
       handleSuccess(response);
       setAlertMessage('Requête acceptée avec succès.');
       setAlertModalOpened(true);
-      
     } catch (error: any) {
       handleApiError(error);
       setAlertMessage("Erreur lors de l'acceptation de la requête.");
       setAlertModalOpened(true);
-      
     }
   };
 
@@ -73,12 +62,10 @@ function UserPublicProfileModal({
       handleSuccess(response);
       setAlertMessage('Requête refusée avec succès.');
       setAlertModalOpened(true);
-      
     } catch (error: any) {
       handleApiError(error);
-      setAlertMessage("Erreur lors du refus de la requête.");
+      setAlertMessage('Erreur lors du refus de la requête.');
       setAlertModalOpened(true);
-      
     }
   };
 
@@ -98,46 +85,52 @@ function UserPublicProfileModal({
         </Modal.Header>
         <Modal.Body>
           <Flex direction="column" justify="center" align="center">
-          <Image
-          className={`${classes.image}`}
-          src={userRequestInfo?.image_url ? userRequestInfo.image_url : icon}
-          alt={`Picture of ${userRequestInfo?.firstname} ${userRequestInfo?.lastname}`} // Assure-toi que request a une propriété senderName ou similaire
-        />
-          <Title className={`${classes.primeTitle}`}>
-            {`${userRequestInfo?.firstname} ${userRequestInfo?.lastname}`}
-          </Title>
-          <Text mb={20}><strong>{userRequestInfo?.email}</strong></Text>
-          <Flex>
-            <Button
-              onClick={handleAccept}
-              className="gradientButton"
-              m={10}
-              size="responsive"
-              radius="xl"
-            >
-              Accepter
-            </Button>
-            <Button
-              onClick={handleReject}
-              className="outlineButton"
-              m={10}
-              size="responsive"
-              radius="xl"
-            >
-              Refuser
-            </Button>
+            <Image
+              className={`${classes.image}`}
+              src={userRequestInfo?.image_url ? userRequestInfo.image_url : icon}
+              alt={`Picture of ${userRequestInfo?.firstname} ${userRequestInfo?.lastname}`} // Assure-toi que request a une propriété senderName ou similaire
+            />
+            <Title className={`${classes.primeTitle}`}>
+              {`${userRequestInfo?.firstname} ${userRequestInfo?.lastname}`}
+            </Title>
+            <Text mb={20}>
+              <strong>{userRequestInfo?.email}</strong>
+            </Text>
+            <Flex>
+              <Button
+                onClick={handleAccept}
+                className="gradientButton"
+                m={10}
+                size="responsive"
+                radius="xl"
+              >
+                Accepter
+              </Button>
+              <Button
+                onClick={handleReject}
+                className="outlineButton"
+                m={10}
+                size="responsive"
+                radius="xl"
+              >
+                Refuser
+              </Button>
             </Flex>
           </Flex>
           <AlertModal
-        opened={alertModalOpened}
-        onClose={() => setAlertModalOpened(false)}
-        additionalOnClose={onCloseAdditional}
-        title="Confirmation"
-        buttonText="Retour"
-        redirectTo="/my-family"
-      >
-        <Text>{alertMessage}</Text>
-      </AlertModal>
+            opened={alertModalOpened}
+            onClose={() => {
+              if (onCloseAdditional) {
+                onCloseAdditional(); // Appelle onCloseAdditional pour rafraîchir les requêtes
+              }
+              setAlertModalOpened(false); // Ferme la AlertModal
+            }}
+            title="Confirmation"
+            buttonText="Retour"
+            redirectTo="/my-family"
+          >
+            <Text>{alertMessage}</Text>
+          </AlertModal>
         </Modal.Body>
       </Modal.Content>
     </Modal.Root>

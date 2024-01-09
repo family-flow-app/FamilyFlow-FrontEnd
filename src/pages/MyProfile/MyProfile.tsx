@@ -110,7 +110,7 @@ function MyProfile() {
         <Text mt={5} mb={5}>
           <strong>Membre depuis le</strong>{' '}
           {userInfo?.created_at
-            ? new Date(userInfo?.created_at).toLocaleDateString()
+            ? dayjs.utc(userInfo.created_at).format('DD/MM/YYYY')
             : 'Non spécifiée'}
         </Text>
         <Text mt={5} mb={5}>

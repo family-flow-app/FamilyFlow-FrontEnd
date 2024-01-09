@@ -1,14 +1,26 @@
 .mediaContainer {
-    @media (max-width: $mantine-breakpoint-xs) {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 50px 20px
-    }
+  @media (max-width: $mantine-breakpoint-xs) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
   }
+}
 
-  .primeTitle {
-    color: $title-color;
-    text-align: center;
-  }
+.primeTitle {
+  color: $title-color;
+  text-align: center;
+}
+
+.activeTabButton {
+  background-color: #6bd3d4;
+  color: #fff;
+}
+
+.separator {
+  position: relative;
+  text-align: center;
+  // margin: 20px 0 30px 0; // Ajustez la marge selon vos besoins
+  border-bottom: 1px solid #267580;
+}
