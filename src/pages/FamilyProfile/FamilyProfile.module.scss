@@ -13,6 +13,11 @@
   text-align: center;
 }
 
+.subtitle {
+  color: $title-color;
+  text-align: center;
+}
+
 .activeTabButton {
   background-color: #6bd3d4;
   color: #fff;
@@ -23,4 +28,43 @@
   text-align: center;
   // margin: 20px 0 30px 0; // Ajustez la marge selon vos besoins
   border-bottom: 1px solid #267580;
+}
+
+.searchContainer {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchBar {
+  margin: 0 auto;
+  width: 350px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 250px;
+  }
+}
+
+.button {
+  width: 110px;
+  margin: 10px;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    margin: 10px 0;
+  }
+}
+
+.primeTitle {
+  color: $title-color;
+  text-align: center;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    font-size: 1.5rem;
+  }
 }

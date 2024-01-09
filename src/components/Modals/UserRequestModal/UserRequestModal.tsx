@@ -9,7 +9,7 @@ import useHandleSuccess from '@/hooks/useHandleSuccess/useHandleSuccess';
 import AlertModal from '../AlertModal/AlertModal';
 import { Button, Flex, Image, Modal, Title, Container, Text } from '@mantine/core';
 import { Request } from '../../../@types/request';
-import classes from './User.PublicProfilModal.module.scss';
+import classes from './UserRequestModal.module.scss';
 import icon from '../../../public/img/FF_icon_family.png';
 
 interface UserPublicProfileModalProps {
@@ -19,7 +19,7 @@ interface UserPublicProfileModalProps {
   onCloseAdditional?: () => void;
 }
 
-function UserPublicProfileModal({
+function UserRequestModal({
   userRequestInfo,
   modalOpened,
   setModalOpened,
@@ -137,4 +137,4 @@ function UserPublicProfileModal({
   );
 }
 
-export default UserPublicProfileModal;
+export default UserRequestModal;

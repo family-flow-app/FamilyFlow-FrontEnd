@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import AlertModal from '../Modals/AlertModal/AlertModal';
-import UserPublicProfileModal from '../Modals/UserPublicProfilModal/UserPublicProfilModal';
+import UserRequestModal from '../Modals/UserRequestModal/UserRequestModal';
 import { Image, Text, Card, Container, ActionIcon } from '@mantine/core';
 import { Request } from '../../@types/request';
 import classes from './RequestCard.module.scss';
@@ -140,7 +140,7 @@ function RequestCard({
       >
         <Text>{alertMessage}</Text>
       </AlertModal>
-      <UserPublicProfileModal
+      <UserRequestModal
         userRequestInfo={userRequestInfo}
         modalOpened={profileModalOpened}
         setModalOpened={setProfileModalOpened}
