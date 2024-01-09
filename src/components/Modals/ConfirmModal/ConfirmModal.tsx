@@ -1,7 +1,5 @@
-
 // ConfirmModal.tsx
 // Developer: @yannick-leguennec
-
 
 import React, { ReactNode } from 'react';
 import { Modal, Button, Title, Flex } from '@mantine/core';

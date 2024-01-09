@@ -20,8 +20,9 @@ import { useUser } from '../../context/UserInfoContext/UserInfoContext';
 import useApiErrorHandler from '@/hooks/useApiErrorHandler/useApiErrorHandler';
 import useHandleSuccess from '@/hooks/useHandleSuccess/useHandleSuccess';
 import MemberPrivateCard from '../../components/MembePrivateCard/MemberPrivateCard';
-import UserCard from '@/components/UserCard/UserCard';
+import UserInvitationCard from '@/components/UserInvitationCard/UserInvitationCard';
 import RequestCard from '@/components/RequestCard/RequestCard';
+import InvitationCard from '@/components/InvitationCard/InvitationCard';
 import { Family } from '../../@types/family';
 import { Member } from '../../@types/member';
 import familyIcon from '../../public/img/FF_icon_family.png';
@@ -46,6 +47,9 @@ const FamilyProfile = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [searchPerformed, setSearchPerformed] = useState(false);
+
+  console.log('invitations', invitations);
 
   const handleApiError = useApiErrorHandler();
   const handleSuccess = useHandleSuccess();
@@ -136,6 +140,7 @@ const FamilyProfile = () => {
   // Fonction pour gérer la barre de recherche dans l'onglet Invitations
   const handleSearch = async () => {
     setLoading(true);
+    setSearchPerformed(true);
     try {
       const response = await axios.get(
         `https://family-flow-api.up.railway.app/users?search=${searchTerm}`,
@@ -156,8 +161,9 @@ const FamilyProfile = () => {
   };
 
   const handleClearSearch = () => {
-    setSearchTerm('');
-    setSearchResults([]);
+    setSearchResults([]); // Réinitialiser les résultats
+    setSearchTerm(''); // Réinitialiser le terme de recherche
+    setSearchPerformed(false); // Indiquer qu'aucune recherche n'est en cours
   };
 
   // Fonction pour ouvrir la modale de confirmation d'invitation
@@ -185,11 +191,32 @@ const FamilyProfile = () => {
       );
       handleSuccess(response);
       console.log('Invitation envoyée avec succès !');
+      // Actualiser la liste des invitations
+      await fetchInvitations();
     } catch (error: any) {
       handleApiError(error);
     } finally {
       setIsInviteConfirmModalOpen(false);
       setSelectedUserIdForInvite(null);
+    }
+  };
+
+  // Fonction pour gérer la suppression d'une invitation
+  const handleDeleteInvitation = async (invitationId: number) => {
+    try {
+      const response = await axios.delete(
+        `https://family-flow-api.up.railway.app/invitations/${invitationId}/families/${user.familyId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      handleSuccess(response);
+      console.log('Invitation supprimée avec succès !');
+      await fetchInvitations();
+    } catch (error: any) {
+      handleApiError(error);
     }
   };
 
@@ -280,7 +307,7 @@ const FamilyProfile = () => {
             </Title>
           </>
         )}
-        <Group className={`${classes.separator}`} pb={20}>
+        <Group className={`${classes.separatorBottom}`} pb={20}>
           <Button
             className={activeTab === 'informations' ? `${classes.activeTabButton}` : 'filterButton'}
             onClick={() => handleTabClick('informations')}
@@ -423,15 +450,24 @@ const FamilyProfile = () => {
             <>
               {searchResults.length > 0 ? (
                 searchResults.map((user) => (
-                  <UserCard key={user.id} user={user} onInvite={openInviteConfirmModal} />
+                  <UserInvitationCard key={user.id} user={user} onInvite={openInviteConfirmModal} />
                 ))
-              ) : (
-                <Text>Aucun résultat trouvé.</Text>
-              )}
+              ) : searchPerformed ? (
+                <Text style={{ color: 'red' }} m={5}>
+                  <strong>Aucun résultat trouvé.</strong>
+                </Text>
+              ) : null}
             </>
+            <Title className={`${classes.subtitle}`} order={3} mt={20} mb={20}>
+              Invitations envoyées
+            </Title>
             <Text mt={20}>{`Nombre d'invitations envoyées: (${invitations.length})`}</Text>
             {invitations.map((invitation) => (
-              <div key={invitation.id}>{/* Logique pour afficher les invitations */}</div>
+              <InvitationCard
+                key={invitation.id}
+                invitation={invitation}
+                onDelete={handleDeleteInvitation}
+              />
             ))}
           </>
         )}
