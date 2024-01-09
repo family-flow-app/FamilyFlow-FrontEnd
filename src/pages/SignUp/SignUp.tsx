@@ -545,11 +545,11 @@ function Signup(props: Partial<DropzoneProps>) {
               >
                 <img
                   src={imagePreview}
-                  alt="Aperçu"
+                  alt="profil picture preview"
                   style={{
-                    maxWidth: '75%', // ou une valeur fixe comme 300px
-                    maxHeight: '75%', // ou une valeur fixe comme 200px
-                    objectFit: 'contain', // Assure que tout l'image est visible
+                    maxWidth: '100%', 
+                    maxHeight: '500px', 
+                    objectFit: 'contain',
                   }}
                 />
               </div>

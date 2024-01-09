@@ -16,7 +16,7 @@ import {
     Title,
     Textarea,
   } from '@mantine/core';
-import { DatePickerInput } from '@mantine/dates';
+import { DatePickerInput, DatesProvider } from '@mantine/dates';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
@@ -89,18 +89,60 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
       newPassword: '',
       confirmNewPassword: '',
       description: userInfo.description || '',
-      birthday: userInfo.birthday ? dayjs.utc(userInfo.birthday).toDate() : null,
-
+      birthday: userInfo.birthday ? new Date(userInfo.birthday) : null,
     },
-    validate: { /* Logique de validation pour chaque champ */ },
+    validate: {
+      username: (value) => {
+        if (!value.trim()) return 'Le pseudo est requis';
+        if (!/^[a-zA-Z0-9]+$/.test(value))
+          return 'Le pseudo ne doit contenir que des lettres et des chiffres';
+        return null;
+      },
+      firstname: (value) => {
+        if (!value.trim()) return 'Le nom est requis';
+        if (!/^[a-zA-Z\u00C0-\u00FF ']+$/.test(value))
+          return 'Le nom ne doit contenir que des lettres, des lettres accentuées et des espaces';
+        return null;
+      },
+      lastname: (value) => {
+        if (!value.trim()) return 'Le prénom est requis';
+        if (!/^[a-zA-Z\u00C0-\u00FF ']+$/.test(value))
+          return 'Le prénom ne doit contenir que des lettres, des lettres accentuées et des espaces';
+        return null;
+      },
+      email: (value) => {
+        if (!value.trim()) return 'Le champ email est requis';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          return 'Email invalide';
+        }
+        return null;
+      },
+      description: (value) => {
+        return value.length <= 500 ? null : 'La description ne doit pas dépasser 500 caractères';
+      },
+    },
   });
 
   // Soumission du formulaire
   const handleSubmit = async () => {
     try {
+      const filteredFormValues = Object.fromEntries(
+        Object.entries(form.values).filter(([key, value]) => value !== "" && value !== null)
+      );
+
+      if (filteredFormValues.birthday) {
+        filteredFormValues.birthday = dayjs(filteredFormValues.birthday).format('YYYY/MM/DD');
+      }
+  
+      const updatedData = {
+        ...filteredFormValues,
+        image_url: imageFile, // Inclus l'image seulement si nécessaire
+      };
+      console.log('updated data', updatedData);
       
       // Requête PUT pour la mise à jour du profil
-      const response = await axios.patch(`https://family-flow-api.up.railway.app/users/${user.user.userId}`, {...form.values, image_url: imageFile}, {
+      const response = await axios.patch(`https://family-flow-api.up.railway.app/users/${user.user.userId}`,updatedData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${user.user.token}`,
@@ -176,6 +218,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                   label="Pseudo"
                   placeholder="pseudo"
                   {...form.getInputProps('username')}
+                  required
                 />
                 <TextInput
                   radius="xl"
@@ -183,6 +226,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                   label="Prénom"
                   placeholder="prénom"
                   {...form.getInputProps('firstname')}
+                  required
                 />
                 <TextInput
                   radius="xl"
@@ -190,6 +234,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                   label="Nom"
                   placeholder="nom"
                   {...form.getInputProps('lastname')}
+                  required
                 />
                 <TextInput
                   radius="xl"
@@ -197,13 +242,16 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                   label="Email"
                   placeholder="email"
                   {...form.getInputProps('email')}
+                  required
                 />
+                <DatesProvider settings={{timezone: 'UTC'}}>
                 <DatePickerInput
                   radius="xl"
                   mt="md"
                   label="Date de naissance"
                   {...form.getInputProps('birthday')}
                 />
+                </DatesProvider>
                 <Textarea
                   radius="xl"
                   mt="md"
@@ -213,90 +261,90 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                 />
                 <InputLabel mt="md">Image de profil</InputLabel>
                 <Dropzone
-                  className="input dropbox"
-                  onDrop={handleFileUpload}
-                  onReject={() => setFormError('Fichier rejeté')}
-                  maxSize={3 * 1024 ** 2}
-                  // todo : Reactivate it when DB ready to handle picture
-                  disabled={!!imagePreview}
-                  // disabled
-                  accept={IMAGE_MIME_TYPE}
-                  mb={20}
+            className="input dropbox"
+            onDrop={handleFileUpload}
+            onReject={() => setFormError('Fichier rejeté')}
+            maxSize={3 * 1024 ** 2}
+            // todo : Reactivate it when DB ready to handle picture
+            disabled={!!imagePreview}
+            // disabled
+            accept={IMAGE_MIME_TYPE}
+            mb={20}
+          >
+            {!imagePreview && ( // Conditionner l'affichage des icônes uniquement si aucun aperçu d'image n'est présent
+              <Group
+                justify="center"
+                gap="xl"
+                mih={220}
+                style={{ pointerEvents: 'none' }}
+              >
+                <Dropzone.Accept>
+                  <IconUpload
+                    style={{
+                      width: rem(52),
+                      height: rem(52),
+                      color: 'var(--mantine-color-blue-6)',
+                    }}
+                    stroke={1.5}
+                  />
+                </Dropzone.Accept>
+                <Dropzone.Reject>
+                  <IconX
+                    style={{
+                      width: rem(52),
+                      height: rem(52),
+                      color: 'var(--mantine-color-red-6)',
+                    }}
+                    stroke={1.5}
+                  />
+                </Dropzone.Reject>
+                <Dropzone.Idle>
+                  <IconPhoto
+                    style={{
+                      width: rem(52),
+                      height: rem(52),
+                      color: 'var(--mantine-color-dimmed)',
+                    }}
+                    stroke={1.5}
+                  />
+                </Dropzone.Idle>
+                <Flex
+                  direction="column"
+                  justify="center"
+                  align="center"
+                  gap={10}
                 >
-                  {!imagePreview && ( // Conditionner l'affichage des icônes uniquement si aucun aperçu d'image n'est présent
-                    <Group
-                      justify="center"
-                      gap="xl"
-                      mih={220}
-                      style={{ pointerEvents: 'none' }}
-                    >
-                      <Dropzone.Accept>
-                        <IconUpload
-                          style={{
-                            width: rem(52),
-                            height: rem(52),
-                            color: 'var(--mantine-color-blue-6)',
-                          }}
-                          stroke={1.5}
-                        />
-                      </Dropzone.Accept>
-                      <Dropzone.Reject>
-                        <IconX
-                          style={{
-                            width: rem(52),
-                            height: rem(52),
-                            color: 'var(--mantine-color-red-6)',
-                          }}
-                          stroke={1.5}
-                        />
-                      </Dropzone.Reject>
-                      <Dropzone.Idle>
-                        <IconPhoto
-                          style={{
-                            width: rem(52),
-                            height: rem(52),
-                            color: 'var(--mantine-color-dimmed)',
-                          }}
-                          stroke={1.5}
-                        />
-                      </Dropzone.Idle>
-                      <Flex
-                        direction="column"
-                        justify="center"
-                        align="center"
-                        gap={10}
-                      >
-                        <Text size="lg" inline>
-                          Télécharger votre photo
-                        </Text>
-                        <Text size="sm" c="dimmed" inline mt={7}>
-                          Seulement les fichiers PNG et JPEG sont autorisés
-                        </Text>
-                      </Flex>
-                    </Group>
-                  )}
-                  {imagePreview && (
-                    <div
-                      style={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        padding: '10px',
-                      }}
-                    >
-                      <img
-                        src={imagePreview}
-                        alt="Aperçu"
-                        style={{
-                          maxWidth: '75%', // ou une valeur fixe comme 300px
-                          maxHeight: '75%', // ou une valeur fixe comme 200px
-                          objectFit: 'contain', // Assure que tout l'image est visible
-                        }}
-                      />
-                    </div>
-                  )}
-                </Dropzone>
+                  <Text size="lg" inline>
+                    Télécharger votre photo
+                  </Text>
+                  <Text size="sm" c="dimmed" inline mt={7}>
+                    Seulement les fichiers PNG et JPEG sont autorisés
+                  </Text>
+                </Flex>
+              </Group>
+            )}
+            {imagePreview && (
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: '10px',
+                }}
+              >
+                <img
+                  src={imagePreview}
+                  alt="profil picture preview"
+                  style={{
+                    maxWidth: '100%', 
+                    maxHeight: '500px', 
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
+            )}
+          </Dropzone>
                 {imagePreview && (
                   <Flex justify="center">
                     <Button
@@ -345,7 +393,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                     type="submit"
                     className="gradientButton update-profile_button-right"
                   >
-                    Valider
+                    Soumettre
                   </Button>
                 </Flex>
               </form>
