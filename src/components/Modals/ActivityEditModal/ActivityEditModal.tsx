@@ -3,16 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-  Modal,
-  TextInput,
-  Select,
-  Textarea,
-  Button,
-  Text,
-  MultiSelect,
-  Flex,
-} from '@mantine/core';
+import { Modal, TextInput, Select, Textarea, Button, Text, MultiSelect, Flex } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import { Activity } from '../../../@types/activity';
@@ -20,7 +11,7 @@ import { Member } from '../../../@types/member';
 import useApiErrorHandler from '../../../hooks/useApiErrorHandler/useApiErrorHandler';
 import useHandleSuccess from '../../../hooks/useHandleSuccess/useHandleSuccess';
 import AlertModal from '../AlertModal/AlertModal';
-import MemberPublicCard from '../../MemberPublicCard/MemberPublicCard';
+import MemberPublicCard from '../../Cards/MemberPublicCard/MemberPublicCard';
 
 interface ActivityEditModalProps {
   isOpen: boolean;
@@ -70,15 +61,12 @@ function ActivityEditModal({
     validate: {
       name: (value) => {
         const defaultValue = value ?? ''; // Fournir une valeur par défaut de chaîne vide
-        if (defaultValue.length > 50)
-          return 'Le nom ne doit pas dépasser 50 caractères';
+        if (defaultValue.length > 50) return 'Le nom ne doit pas dépasser 50 caractères';
         if (defaultValue.length === 0) return 'Le nom est requis';
         return null; // Pas d'erreur
       },
       description: (value = '') =>
-        value.length > 1000
-          ? 'La description ne doit pas dépasser 1000 caractères'
-          : null,
+        value.length > 1000 ? 'La description ne doit pas dépasser 1000 caractères' : null,
       startingTime: (value, values) =>
         value &&
         values.endingTime &&
@@ -112,9 +100,7 @@ function ActivityEditModal({
 
     if (isOpen) {
       fetchFamilyMembers();
-      setSelectedMembers(
-        activityDetails?.assigned_to?.map((member) => member.id) || []
-      );
+      setSelectedMembers(activityDetails?.assigned_to?.map((member) => member.id) || []);
       if (activityDetails) {
         form.setValues({
           id: activityDetails.id,
@@ -129,8 +115,7 @@ function ActivityEditModal({
           categoryId: activityDetails.category_id?.toString() || '',
           family_id: activityDetails.family_id,
           user_id: activityDetails.user_id,
-          assigned_to:
-            activityDetails.assigned_to?.map((member) => member.id) || [],
+          assigned_to: activityDetails.assigned_to?.map((member) => member.id) || [],
         });
       }
     } // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -152,18 +137,13 @@ function ActivityEditModal({
       return;
     }
 
-    const { name, description, categoryId, startingTime, endingTime, id } =
-      form.values;
+    const { name, description, categoryId, startingTime, endingTime, id } = form.values;
     const updatedActivity = {
       name,
       description,
       category_id: Number(categoryId),
-      starting_time:
-        startingTime instanceof Date
-          ? startingTime.toISOString()
-          : startingTime,
-      ending_time:
-        endingTime instanceof Date ? endingTime.toISOString() : endingTime,
+      starting_time: startingTime instanceof Date ? startingTime.toISOString() : startingTime,
+      ending_time: endingTime instanceof Date ? endingTime.toISOString() : endingTime,
       assigned_to: selectedMembers,
     };
 
@@ -187,13 +167,7 @@ function ActivityEditModal({
   // Render the modal and form
   return (
     <>
-      <Modal.Root
-        opened={isOpen}
-        onClose={onClose}
-        centered
-        className="modal"
-        size="auto"
-      >
+      <Modal.Root opened={isOpen} onClose={onClose} centered className="modal" size="auto">
         <Modal.Overlay style={{ backdropFilter: 'blur(10)' }} />
         <Modal.Content>
           <Modal.Header style={{ background: headerColor, color: 'white' }}>
@@ -253,9 +227,7 @@ function ActivityEditModal({
                   label: `${member.firstname} ${member.lastname}`,
                 }))}
                 value={selectedMembers.map((id) => id.toString())}
-                onChange={(selectedValues) =>
-                  setSelectedMembers(selectedValues.map(Number))
-                }
+                onChange={(selectedValues) => setSelectedMembers(selectedValues.map(Number))}
                 checkIconPosition="right"
                 withScrollArea={false}
                 label="Membres participants"

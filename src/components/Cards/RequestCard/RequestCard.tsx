@@ -3,13 +3,13 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import AlertModal from '../Modals/AlertModal/AlertModal';
-import UserRequestModal from '../Modals/UserRequestModal/UserRequestModal';
+import AlertModal from '../../Modals/AlertModal/AlertModal';
+import UserRequestModal from '../../Modals/UserRequestModal/UserRequestModal';
 import { Image, Text, Card, Container, ActionIcon } from '@mantine/core';
-import { Request } from '../../@types/request';
+import { Request } from '../../../@types/request';
 import classes from './RequestCard.module.scss';
-import icon from '../../public/img/FF_icon_member.png';
-import { Member } from '../../@types/member';
+import icon from '../../../public/img/FF_icon_member.png';
+import { Member } from '@/@types/member';
 import { IconUserQuestion, IconCheck, IconX } from '@tabler/icons-react';
 import { useUser } from '@/context/UserInfoContext/UserInfoContext';
 import useApiErrorHandler from '@/hooks/useApiErrorHandler/useApiErrorHandler';

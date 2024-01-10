@@ -22,7 +22,7 @@ import '../../styles/globalStyles.scss';
 import classes from './MainUser.module.scss';
 import '../../styles/buttons.scss';
 import AlertModal from '../../components/Modals/AlertModal/AlertModal';
-import FamilyCard from '../../components/FamilyCard/FamilyCard';
+import FamilyCard from '../../components/Cards/FamilyCard/FamilyCard';
 import { Family } from '../../@types/family';
 import FamilyPublicProfileModal from '../../components/Modals/FamilyPublicProfilModal/FamilyPublicProfilModal';
 import icon_family from '../../public/img/FF_icon_family.png';
@@ -51,9 +51,7 @@ function MainUser() {
     setErrorMessage(null);
     try {
       const response = await axios.get(
-        `https://family-flow-api.up.railway.app/families?name=${encodeURIComponent(
-          searchTerm
-        )}`,
+        `https://family-flow-api.up.railway.app/families?name=${encodeURIComponent(searchTerm)}`,
         {
           headers: {
             Authorization: `Bearer ${user?.token}`,
@@ -111,9 +109,7 @@ function MainUser() {
         }
       );
       handleSuccess(response);
-      setAlertMessage(
-        'Votre demande pour rejoindre la famille a bien été envoyée !'
-      );
+      setAlertMessage('Votre demande pour rejoindre la famille a bien été envoyée !');
       setAlertModalOpened(true);
     } catch (error: any) {
       handleError(error);
@@ -122,11 +118,7 @@ function MainUser() {
 
   // Generate cards for families
   const familyCard = families.map((family) => (
-    <FamilyCard
-      key={family.id}
-      family={family}
-      onViewProfile={handleViewProfile}
-    />
+    <FamilyCard key={family.id} family={family} onViewProfile={handleViewProfile} />
   ));
 
   return (
@@ -144,12 +136,7 @@ function MainUser() {
         <Autocomplete
           className={`${classes.searchBar}`}
           placeholder="Recherchez..."
-          leftSection={
-            <IconSearch
-              style={{ width: rem(16), height: rem(16) }}
-              stroke={1.5}
-            />
-          }
+          leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
           data={[]} // Initialize with real data
           onChange={setSearchTerm}
           value={searchTerm}
@@ -191,9 +178,7 @@ function MainUser() {
       {/* Display error message */}
       {errorMessage && (
         <Flex justify="center" mt={20}>
-          <Text style={{ color: 'red', textAlign: 'center' }}>
-            {errorMessage}
-          </Text>
+          <Text style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</Text>
         </Flex>
       )}{' '}
       {/* Family list */}

@@ -11,6 +11,10 @@
 .primeTitle {
   color: $title-color;
   text-align: center;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    font-size: 1.5rem;
+  }
 }
 
 .subtitle {
@@ -18,23 +22,34 @@
   text-align: center;
 }
 
+.button {
+  width: 125px;
+  margin: 10px;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 110px;
+    font-size: 0.7rem;
+    margin: 0;
+  }
+}
+
 .activeTabButton {
   background-color: #6bd3d4;
   color: #fff;
 }
-
-// .separatorTop {
-//   position: relative;
-//   text-align: center;
-//   // margin: 20px 0 30px 0; // Ajustez la marge selon vos besoins
-//   border-top: 1px solid #267580;
-// }
 
 .separatorBottom {
   position: relative;
   text-align: center;
   // margin: 20px 0 30px 0; // Ajustez la marge selon vos besoins
   border-bottom: 1px solid #267580;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    // justify-content: space-around;
+  }
 }
 
 .searchContainer {
@@ -58,20 +73,14 @@
   }
 }
 
-.button {
-  width: 110px;
-  margin: 10px;
+.image {
+  height: 250px;
+  width: 250px;
+  margin: 40px 0;
+  border-radius: 100%;
 
   @media (max-width: $mantine-breakpoint-xs) {
-    margin: 10px 0;
-  }
-}
-
-.primeTitle {
-  color: $title-color;
-  text-align: center;
-
-  @media (max-width: $mantine-breakpoint-xs) {
-    font-size: 1.5rem;
+    height: 210px;
+    width: 210px;
   }
 }

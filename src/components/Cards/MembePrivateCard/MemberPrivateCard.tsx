@@ -3,9 +3,9 @@
 
 import React from 'react';
 import { Image, Text, Card, Button, Container } from '@mantine/core'; // importez les composants nécessaires
-import { Member } from '../../@types/member';
+import { Member } from '@/@types/member';
 import classes from './MemberPrivateCard.module.scss';
-import icon from '../../public/img/FF_icone-task.png';
+import icon from '../../../public/img/FF_icone-task.png';
 
 interface MemberCardProps {
   member: Member;
@@ -18,26 +18,25 @@ function MemberPrivateCard({
 }: MemberCardProps): React.ReactElement<{ member: Member }> {
   return (
     <Card className={classes.card} withBorder>
-        <Image
-          className={`${classes.card_image}`}
-          src={member.image_url ? member.image_url : icon}
-          alt={`${member.firstname} ${member.lastname}`}
-        />
-         <Container className={`${classes.card_name}`}>
-          <Text className={`${classes.card_text}`}>
-            {`${member.firstname} ${member.lastname}`}
-          </Text>
-        </Container>
-        <Button
-          className={`gradientButton ${classes.card_button}`}
-          type="button"
-          m={10}
-          size="auto"
-          radius="xl"
-          onClick={() => onViewProfile(member.id)}
-        >
-          Voir profil
-        </Button>
+      <Image
+        className={`${classes.card_image}`}
+        src={member.image_url ? member.image_url : icon}
+        alt={`${member.firstname} ${member.lastname}`}
+      />
+       
+      <Container className={`${classes.card_name}`}>
+        <Text className={`${classes.card_text}`}>{`${member.firstname} ${member.lastname}`}</Text>
+      </Container>
+      <Button
+        className={`gradientButton ${classes.card_button}`}
+        type="button"
+        m={10}
+        size="auto"
+        radius="xl"
+        onClick={() => onViewProfile(member.id)}
+      >
+        Voir profil
+      </Button>
     </Card>
   );
 }

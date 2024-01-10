@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { Image, Text, Card, Button, Container } from '@mantine/core';
 import classes from './UserInvitationCard.module.scss';
-import defaultIcon from '../../public/img/FF_icone-task.png';
-import UserInvitationModal from '../Modals/UserInvitationModal/UserInvitationModal';
+import defaultIcon from '../../../public/img/FF_icone-task.png';
+import UserInvitationModal from '../../Modals/UserInvitationModal/UserInvitationModal';
 
 interface UserCardProps {
   user: {

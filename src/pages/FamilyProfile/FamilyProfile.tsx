@@ -19,10 +19,10 @@ import utc from 'dayjs/plugin/utc';
 import { useUser } from '../../context/UserInfoContext/UserInfoContext';
 import useApiErrorHandler from '@/hooks/useApiErrorHandler/useApiErrorHandler';
 import useHandleSuccess from '@/hooks/useHandleSuccess/useHandleSuccess';
-import MemberPrivateCard from '../../components/MembePrivateCard/MemberPrivateCard';
-import UserInvitationCard from '@/components/UserInvitationCard/UserInvitationCard';
-import RequestCard from '@/components/RequestCard/RequestCard';
-import InvitationCard from '@/components/InvitationCard/InvitationCard';
+import MemberPrivateCard from '../../components/Cards/MembePrivateCard/MemberPrivateCard';
+import UserInvitationCard from '@/components/Cards/UserInvitationCard/UserInvitationCard';
+import RequestCard from '@/components/Cards/RequestCard/RequestCard';
+import InvitationCard from '@/components/Cards/InvitationCard/InvitationCard';
 import { Family } from '../../@types/family';
 import { Member } from '../../@types/member';
 import familyIcon from '../../public/img/FF_icon_family.png';
@@ -135,6 +135,12 @@ const FamilyProfile = () => {
     } catch (error: any) {
       handleApiError(error);
     }
+  };
+
+  // Fonction permettant de rafraîchir les invitations
+  const refreshInvitations = async () => {
+    console.log('Rafraîchissement des invitations...');
+    await fetchInvitations();
   };
 
   // Fonction pour gérer la barre de recherche dans l'onglet Invitations
@@ -294,13 +300,9 @@ const FamilyProfile = () => {
         {familyInfo && (
           <>
             <Image
+              className={`${classes.image}`}
               src={familyInfo[0]?.image_url || familyIcon}
               alt="Profile"
-              h={250}
-              w={250}
-              mt={40}
-              mb={40}
-              radius={100}
             />
             <Title className={`${classes.primeTitle}`} mb={30}>
               {familyInfo[0]?.name}
@@ -309,33 +311,37 @@ const FamilyProfile = () => {
         )}
         <Group className={`${classes.separatorBottom}`} pb={20}>
           <Button
-            className={activeTab === 'informations' ? `${classes.activeTabButton}` : 'filterButton'}
+            className={`${
+              activeTab === 'informations' ? classes.activeTabButton : 'filterButton'
+            } ${classes.button}`}
             onClick={() => handleTabClick('informations')}
-            w={125}
             radius="xl"
           >
             Informations
           </Button>
           <Button
-            className={activeTab === 'members' ? `${classes.activeTabButton}` : 'filterButton'}
+            className={`${activeTab === 'members' ? classes.activeTabButton : 'filterButton'} ${
+              classes.button
+            }`}
             onClick={() => handleTabClick('members')}
-            w={125}
             radius="xl"
           >
             Membres
           </Button>
           <Button
-            className={activeTab === 'requests' ? `${classes.activeTabButton}` : 'filterButton'}
+            className={`${activeTab === 'requests' ? classes.activeTabButton : 'filterButton'} ${
+              classes.button
+            }`}
             onClick={() => handleTabClick('requests')}
-            w={125}
             radius="xl"
           >
             Requêtes
           </Button>
           <Button
-            className={activeTab === 'invitations' ? `${classes.activeTabButton}` : 'filterButton'}
+            className={`${activeTab === 'invitations' ? classes.activeTabButton : 'filterButton'} ${
+              classes.button
+            }`}
             onClick={() => handleTabClick('invitations')}
-            w={125}
             radius="xl"
           >
             Invitations
@@ -467,6 +473,7 @@ const FamilyProfile = () => {
                 key={invitation.id}
                 invitation={invitation}
                 onDelete={handleDeleteInvitation}
+                refreshInvitations={refreshInvitations}
               />
             ))}
           </>

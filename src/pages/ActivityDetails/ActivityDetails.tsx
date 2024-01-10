@@ -16,7 +16,7 @@ import ActivityEditModal from '../../components/Modals/ActivityEditModal/Activit
 import '../../styles/globalStyles.scss';
 import classes from './ActivityDetails.module.scss';
 import '../../styles/buttons.scss';
-import MemberPublicCard from '../../components/MemberPublicCard/MemberPublicCard';
+import MemberPublicCard from '../../components/Cards/MemberPublicCard/MemberPublicCard';
 
 function ActivityDetails() {
   // States
@@ -33,8 +33,7 @@ function ActivityDetails() {
   const handleError = useApiErrorHandler();
   const handleSuccess = useHandleSuccess();
   const navigate = useNavigate();
-  const isUserAuthorized =
-    user.role === 'admin' || user.userId === activityDetails?.user_id;
+  const isUserAuthorized = user.role === 'admin' || user.userId === activityDetails?.user_id;
 
   // Function to format date and time
   const formatDateTime = (date: Date | null) => {
@@ -118,9 +117,7 @@ function ActivityDetails() {
       {/* Activity Details */}
       {activityDetails && (
         <Container>
-          <Title className={`${classes.primeTitle}`}>
-            {activityDetails.name}
-          </Title>
+          <Title className={`${classes.primeTitle}`}>{activityDetails.name}</Title>
           <Container className={`${classes.infos}`}>
             <Text>
               <strong>Type d&apos;activité: </strong>{' '}
@@ -132,17 +129,13 @@ function ActivityDetails() {
               <strong>Description:</strong> {activityDetails.description}
             </Text>
             <Text>
-              <strong className={`${classes.strong}`}>
-                Date et heure de début:{' '}
-              </strong>{' '}
+              <strong className={`${classes.strong}`}>Date et heure de début: </strong>{' '}
               {activityDetails.starting_time
                 ? formatDateTime(activityDetails.starting_time)
                 : 'No date provided'}
             </Text>
             <Text>
-              <strong className={`${classes.strong}`}>
-                Date et heure de fin:{' '}
-              </strong>{' '}
+              <strong className={`${classes.strong}`}>Date et heure de fin: </strong>{' '}
               {formatDateTime(activityDetails.ending_time)}
             </Text>
           </Container>

@@ -2,29 +2,20 @@
 // Developer: @yannick-leguennec (GitHub ID)
 
 import React from 'react';
-import {
-  Button,
-  Text,
-  Badge,
-  Group,
-  Card,
-  useMantineTheme,
-  Image,
-  Title,
-} from '@mantine/core';
+import { Button, Text, Badge, Group, Card, useMantineTheme, Image, Title } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
-import { Activity } from '../../@types/activity'; // Check the path to ensure it's correct
-import '../../styles/buttons.scss';
-import classes from './ActivityRow.module.scss';
-import iconTask from '../../public/img/FF_icone-task.png';
-import iconEvent from '../../public/img/FF_icon.event.png';
+import { Activity } from '../../../@types/activity'; // Check the path to ensure it's correct
+import '../../../styles/buttons.scss';
+import classes from './ActivityCard.module.scss';
+import iconTask from '../../../public/img/FF_icone-task.png';
+import iconEvent from '../../../public/img/FF_icon.event.png';
 
-interface ActivityRowProps {
+interface ActivityCardProps {
   activity: Activity;
 }
 
 // This component renders a row for an activity, showing key details and a button to view more
-function ActivityRow({ activity }: ActivityRowProps) {
+function ActivityCard({ activity }: ActivityCardProps) {
   const navigate = useNavigate();
   const theme = useMantineTheme();
 
@@ -66,19 +57,13 @@ function ActivityRow({ activity }: ActivityRowProps) {
   return (
     <Card withBorder key={activity.id} className={`${classes.card}`}>
       <Image
-        src={
-          activity.category_id !== null
-            ? categoryIcons[activity.category_id]
-            : iconTask
-        }
+        src={activity.category_id !== null ? categoryIcons[activity.category_id] : iconTask}
         alt={activity.category_id === 1 ? 'Tâche' : 'Événement'}
         className={`${classes.card_image}`}
       />
       <Group className={`${classes.card_infos}`}>
         <Badge color={categoryColor} variant="light" w={110}>
-          {activity.category_id !== null
-            ? categoryLabels[activity.category_id]
-            : ''}
+          {activity.category_id !== null ? categoryLabels[activity.category_id] : ''}
         </Badge>
         <Title className={`${classes.card_titre}`}>
           {activity.name && activity.name.length > 25
@@ -104,4 +89,4 @@ function ActivityRow({ activity }: ActivityRowProps) {
   );
 }
 
-export default ActivityRow;
+export default ActivityCard;

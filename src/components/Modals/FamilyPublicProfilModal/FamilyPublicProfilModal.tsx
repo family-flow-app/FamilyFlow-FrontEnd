@@ -2,18 +2,10 @@
 // Developer: @yannick-leguennec (GitHub username)
 
 import React from 'react';
-import {
-  Button,
-  Flex,
-  Image,
-  Modal,
-  Title,
-  Container,
-  Text,
-} from '@mantine/core';
+import { Button, Flex, Image, Modal, Title, Container, Text } from '@mantine/core';
 import { Family } from '../../../@types/family';
 import { Member } from '../../../@types/member';
-import MemberPublicCard from '../../MemberPublicCard/MemberPublicCard';
+import MemberPublicCard from '../../Cards/MemberPublicCard/MemberPublicCard';
 import classes from './FamilyPublicProfilModal.module.scss';
 import icon from '../../../public/img/FF_icon_family.png';
 

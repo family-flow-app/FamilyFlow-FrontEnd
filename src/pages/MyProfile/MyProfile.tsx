@@ -13,7 +13,7 @@ import useHandleSuccess from '../../hooks/useHandleSuccess/useHandleSuccess';
 import useLogout from '../../hooks/useLogout/useLogout';
 import { Family } from '../../@types/family';
 import { UserData } from '../../@types/user';
-import FamilyCard from '../../components/FamilyCard/FamilyCard';
+import FamilyCard from '../../components/Cards/FamilyCard/FamilyCard';
 import iconMember from '../../public/img/FF_icon_member.png';
 import ConfirmModal from '../../components/Modals/ConfirmModal/ConfirmModal';
 import UpdateProfile from '../../components/Modals/UpdateProfile/UpdateProfile';
@@ -75,7 +75,7 @@ function MyProfile() {
         `https://family-flow-api.up.railway.app/families/${user.familyId}/members/${user.userId}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
-      console.log("Profile deleted");
+      console.log('Profile deleted');
       logout();
     } catch (error: any) {
       handleError(error);
@@ -115,9 +115,7 @@ function MyProfile() {
         </Text>
         <Text mt={5} mb={5}>
           <strong>Anniversaire:</strong>{' '}
-          {userInfo?.birthday
-            ? dayjs.utc(userInfo.birthday).format('DD/MM/YYYY')
-            : 'Non spécifiée'}
+          {userInfo?.birthday ? dayjs.utc(userInfo.birthday).format('DD/MM/YYYY') : 'Non spécifiée'}
         </Text>
         <Text mt={5} mb={5}>
           <strong>Contact:</strong> {userInfo?.email}
@@ -177,4 +175,4 @@ function MyProfile() {
   );
 }
 
-  export default MyProfile;
+export default MyProfile;

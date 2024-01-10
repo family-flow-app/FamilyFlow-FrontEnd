@@ -4,8 +4,8 @@
 import React from 'react';
 import { Card, Flex, Image, Text, Button, Container } from '@mantine/core'; // importez les composants nécessaires
 import classes from './FamilyCard.module.scss';
-import { Family } from '../../@types/family';
-import icon from '../../public/img/FF_icon_family.png';
+import { Family } from '@/@types/family';
+import icon from '../../../public/img/FF_icon_family.png';
 
 interface FamilyCardProps {
   family: Family;

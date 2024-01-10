@@ -36,10 +36,8 @@ function ConfirmModal({
       {/* Modal content */}
       <Modal.Content>
         {/* Modal header with custom background color */}
-        <Modal.Header style={{ background: modalHeaderColor }}>
-          <Title order={2} className={classes.primeTitle}>
-            {title}
-          </Title>
+        <Modal.Header style={{ background: modalHeaderColor, color: 'white' }}>
+          <Modal.Title fw={700}>{title}</Modal.Title>
           <Modal.CloseButton style={{ color: 'white' }} />
         </Modal.Header>
 
