@@ -1,11 +1,13 @@
-import "./CreateActivity.module.scss";
+import { Container, Title } from '@mantine/core';
+import '../../styles/globalStyles.scss';
+import './CreateActivity.module.scss';
 
 const CreateActivity = () => {
-    return(
-    <div>
-        <h1>Create Activity</h1>
-    </div>
-    );
-}
+  return (
+    <Container className="container">
+      <Title className="title">Créer une activité</Title>
+    </Container>
+  );
+};
 
 export default CreateActivity;

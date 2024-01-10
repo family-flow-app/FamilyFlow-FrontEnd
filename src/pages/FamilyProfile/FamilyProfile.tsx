@@ -363,11 +363,23 @@ const FamilyProfile = () => {
                   : 'Non spécifiée')}
             </Text>
             <Text m={5}> Administrateur(s): </Text>
-            <Button className="outlineButton" mb={30} onClick={openConfirmModal} radius="xl" m={5}>
+            <Button
+              className="outlineButton"
+              mt={20}
+              mb={30}
+              onClick={openConfirmModal}
+              radius="xl"
+              m={5}
+            >
               Quitter famille
             </Button>
             {user.role === 'admin' && (
-              <Button className="deleteButton" onClick={() => setIsDeleteModalOpen(true)}>
+              <Button
+                className="deleteButton"
+                onClick={() => setIsDeleteModalOpen(true)}
+                radius="xl"
+                mb={30}
+              >
                 Supprimer famille
               </Button>
             )}
@@ -494,6 +506,14 @@ const FamilyProfile = () => {
         onCancel={() => setIsInviteConfirmModalOpen(false)}
         title="Inviter un utilisateur"
         message="Es-tu sûr de vouloir inviter cet utilisateur à rejoindre ta famille ?"
+      />
+      <ConfirmModal
+        opened={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={deleteFamily}
+        onCancel={() => setIsDeleteModalOpen(false)}
+        title="Supprimer la famille"
+        message="Es-tu sûr de vouloir supprimer la famille ? Cette action est irréversible."
       />
     </Container>
   );
