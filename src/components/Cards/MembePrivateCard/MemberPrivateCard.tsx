@@ -1,7 +1,8 @@
-// File Name: MemberCard.tsx
+// File Name: MemberPrivateCard.tsx
 // Developer: @yannick-leguennec (GitHub username)
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Image, Text, Card, Button, Container } from '@mantine/core'; // importez les composants nécessaires
 import { Member } from '@/@types/member';
 import classes from './MemberPrivateCard.module.scss';
@@ -16,6 +17,7 @@ function MemberPrivateCard({
   member,
   onViewProfile,
 }: MemberCardProps): React.ReactElement<{ member: Member }> {
+  const navigate = useNavigate();
   return (
     <Card className={classes.card} withBorder>
       <Image

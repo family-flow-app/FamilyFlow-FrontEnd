@@ -284,8 +284,7 @@ const FamilyProfile = () => {
   };
 
   const handleViewProfile = (id: number) => {
-    console.log('Redirection vers le profil du membre', id);
-    // Logique pour rediriger vers le profil du membre
+    navigate(`/members/${id}`);
   };
 
   // Fonction pour gérer l'ouverture de la modal Confirm
