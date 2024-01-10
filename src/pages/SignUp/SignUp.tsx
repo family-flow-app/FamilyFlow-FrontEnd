@@ -116,8 +116,7 @@ function Signup(props: Partial<DropzoneProps>) {
       },
       password: (value) => {
         if (!value.trim()) return 'Le mot de passe est requis';
-        if (value.length < 8)
-          return 'Le mot de passe doit contenir au moins 8 caractères';
+        if (value.length < 8) return 'Le mot de passe doit contenir au moins 8 caractères';
         if (!/[A-Z]/.test(value))
           return 'Le mot de passe doit contenir au moins une lettre majuscule';
         if (!/[a-z]/.test(value))
@@ -128,8 +127,7 @@ function Signup(props: Partial<DropzoneProps>) {
       },
       confirmPassword: (value, values) => {
         if (!value.trim()) return 'La confirmation du mot de passe est requise';
-        if (value !== values.password)
-          return 'Les mots de passe ne correspondent pas';
+        if (value !== values.password) return 'Les mots de passe ne correspondent pas';
         return null;
       },
       description: (value) => {
@@ -146,11 +144,7 @@ function Signup(props: Partial<DropzoneProps>) {
   // useEffect for handling form errors and notifications related to password confirmation
   useEffect(() => {
     // Display a notification if the password and the password confirmation do not match
-    if (
-      form.values.password &&
-      form.values.confirmPassword &&
-      !form.errors.confirmPassword
-    ) {
+    if (form.values.password && form.values.confirmPassword && !form.errors.confirmPassword) {
       setFormError(null);
     }
     // Display a notification if an error is present in the form
@@ -181,14 +175,7 @@ function Signup(props: Partial<DropzoneProps>) {
 
   // Logic for handling steps in the form
   const fieldsByStep: FieldsByStepType = {
-    0: [
-      'username',
-      'firstname',
-      'lastname',
-      'email',
-      'password',
-      'confirmPassword',
-    ],
+    0: ['username', 'firstname', 'lastname', 'email', 'password', 'confirmPassword'],
     // Ajoute d'autres étapes si nécessaire
   };
 
@@ -208,9 +195,7 @@ function Signup(props: Partial<DropzoneProps>) {
       }
 
       const errors = form.validate();
-      const hasErrors = currentStepFields.some(
-        (field) => !!errors[field as keyof typeof errors]
-      );
+      const hasErrors = currentStepFields.some((field) => !!errors[field as keyof typeof errors]);
 
       if (!hasErrors) {
         setErrorMessage(null); // Réinitialiser le message d'erreur
@@ -281,9 +266,7 @@ function Signup(props: Partial<DropzoneProps>) {
         handleSuccess(response);
         setModalOpen(true);
       } else {
-        throw new Error(
-          `La requête a échoué avec le statut : ${response.status}`
-        );
+        throw new Error(`La requête a échoué avec le statut : ${response.status}`);
       }
     } catch (error: any) {
       if (
@@ -348,10 +331,7 @@ function Signup(props: Partial<DropzoneProps>) {
         buttonText="Se connecter"
         redirectTo="/login"
       >
-        <Text>
-          Votre compte a été créé avec succès. Vous pouvez maintenant vous
-          connecter.
-        </Text>
+        <Text>Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.</Text>
       </AlertModal>
       <Flex direction="column" justify="center" align="center" gap={10}>
         <Title order={isMobile ? 3 : 1} className={`${classes.title}`} mt={50}>
@@ -419,9 +399,7 @@ function Signup(props: Partial<DropzoneProps>) {
             mb={20}
             required
           />
-          <Flex justify="center">
-            {errorMessage && <Text color="red">{errorMessage}</Text>}
-          </Flex>
+          <Flex justify="center">{errorMessage && <Text color="red">{errorMessage}</Text>}</Flex>
           <Flex justify="center">
             <Button
               className="outlineButton"
@@ -482,12 +460,7 @@ function Signup(props: Partial<DropzoneProps>) {
             mb={20}
           >
             {!imagePreview && ( // Conditionner l'affichage des icônes uniquement si aucun aperçu d'image n'est présent
-              <Group
-                justify="center"
-                gap="xl"
-                mih={220}
-                style={{ pointerEvents: 'none' }}
-              >
+              <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
                 <Dropzone.Accept>
                   <IconUpload
                     style={{
@@ -518,12 +491,7 @@ function Signup(props: Partial<DropzoneProps>) {
                     stroke={1.5}
                   />
                 </Dropzone.Idle>
-                <Flex
-                  direction="column"
-                  justify="center"
-                  align="center"
-                  gap={10}
-                >
+                <Flex direction="column" justify="center" align="center" gap={10}>
                   <Text size="lg" inline>
                     Télécharger votre photo
                   </Text>
@@ -547,8 +515,8 @@ function Signup(props: Partial<DropzoneProps>) {
                   src={imagePreview}
                   alt="profil picture preview"
                   style={{
-                    maxWidth: '100%', 
-                    maxHeight: '500px', 
+                    maxWidth: '500px',
+                    maxHeight: '500px',
                     objectFit: 'contain',
                   }}
                 />

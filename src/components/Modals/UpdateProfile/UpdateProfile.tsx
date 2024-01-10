@@ -3,19 +3,19 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-    Box,
-    Button,
-    Group,
-    InputLabel,
-    Modal,
-    PasswordInput,
-    Text,
-    TextInput,
-    rem,
-    Flex,
-    Title,
-    Textarea,
-  } from '@mantine/core';
+  Box,
+  Button,
+  Group,
+  InputLabel,
+  Modal,
+  PasswordInput,
+  Text,
+  TextInput,
+  rem,
+  Flex,
+  Title,
+  Textarea,
+} from '@mantine/core';
 import { DatePickerInput, DatesProvider } from '@mantine/dates';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
@@ -128,26 +128,30 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
   const handleSubmit = async () => {
     try {
       const filteredFormValues = Object.fromEntries(
-        Object.entries(form.values).filter(([key, value]) => value !== "" && value !== null)
+        Object.entries(form.values).filter(([key, value]) => value !== '' && value !== null)
       );
 
       if (filteredFormValues.birthday) {
         filteredFormValues.birthday = dayjs(filteredFormValues.birthday).format('YYYY/MM/DD');
       }
-  
+
       const updatedData = {
         ...filteredFormValues,
         image_url: imageFile, // Inclus l'image seulement si nécessaire
       };
       console.log('updated data', updatedData);
-      
+
       // Requête PUT pour la mise à jour du profil
-      const response = await axios.patch(`https://family-flow-api.up.railway.app/users/${user.user.userId}`,updatedData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${user.user.token}`,
-        },
-      });
+      const response = await axios.patch(
+        `https://family-flow-api.up.railway.app/users/${user.user.userId}`,
+        updatedData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${user.user.token}`,
+          },
+        }
+      );
 
       // Mise à jour de l'état et affichage des informations du l'utilisateur
       setUser(response.data);
@@ -161,7 +165,6 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
       setIsAlertModalOpen(true);
       handleError(error);
       console.log(error);
-      
     }
   };
 
@@ -197,13 +200,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
   // Structure du composant Modal
   return (
     <>
-    <Modal.Root
-        opened={opened}
-        onClose={close}
-        centered
-        className="modal"
-        size="auto"
-      >
+      <Modal.Root opened={opened} onClose={close} centered className="modal" size="auto">
         <Modal.Overlay style={{ backdropFilter: 'blur(10)' }} />
         <Modal.Content>
           <Modal.Header style={{ background: headerColor, color: 'white' }}>
@@ -244,13 +241,13 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                   {...form.getInputProps('email')}
                   required
                 />
-                <DatesProvider settings={{timezone: 'UTC'}}>
-                <DatePickerInput
-                  radius="xl"
-                  mt="md"
-                  label="Date de naissance"
-                  {...form.getInputProps('birthday')}
-                />
+                <DatesProvider settings={{ timezone: 'UTC' }}>
+                  <DatePickerInput
+                    radius="xl"
+                    mt="md"
+                    label="Date de naissance"
+                    {...form.getInputProps('birthday')}
+                  />
                 </DatesProvider>
                 <Textarea
                   radius="xl"
@@ -261,90 +258,80 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                 />
                 <InputLabel mt="md">Image de profil</InputLabel>
                 <Dropzone
-            className="input dropbox"
-            onDrop={handleFileUpload}
-            onReject={() => setFormError('Fichier rejeté')}
-            maxSize={3 * 1024 ** 2}
-            // todo : Reactivate it when DB ready to handle picture
-            disabled={!!imagePreview}
-            // disabled
-            accept={IMAGE_MIME_TYPE}
-            mb={20}
-          >
-            {!imagePreview && ( // Conditionner l'affichage des icônes uniquement si aucun aperçu d'image n'est présent
-              <Group
-                justify="center"
-                gap="xl"
-                mih={220}
-                style={{ pointerEvents: 'none' }}
-              >
-                <Dropzone.Accept>
-                  <IconUpload
-                    style={{
-                      width: rem(52),
-                      height: rem(52),
-                      color: 'var(--mantine-color-blue-6)',
-                    }}
-                    stroke={1.5}
-                  />
-                </Dropzone.Accept>
-                <Dropzone.Reject>
-                  <IconX
-                    style={{
-                      width: rem(52),
-                      height: rem(52),
-                      color: 'var(--mantine-color-red-6)',
-                    }}
-                    stroke={1.5}
-                  />
-                </Dropzone.Reject>
-                <Dropzone.Idle>
-                  <IconPhoto
-                    style={{
-                      width: rem(52),
-                      height: rem(52),
-                      color: 'var(--mantine-color-dimmed)',
-                    }}
-                    stroke={1.5}
-                  />
-                </Dropzone.Idle>
-                <Flex
-                  direction="column"
-                  justify="center"
-                  align="center"
-                  gap={10}
+                  className="input dropbox"
+                  onDrop={handleFileUpload}
+                  onReject={() => setFormError('Fichier rejeté')}
+                  maxSize={3 * 1024 ** 2}
+                  // todo : Reactivate it when DB ready to handle picture
+                  disabled={!!imagePreview}
+                  // disabled
+                  accept={IMAGE_MIME_TYPE}
+                  mb={20}
                 >
-                  <Text size="lg" inline>
-                    Télécharger votre photo
-                  </Text>
-                  <Text size="sm" c="dimmed" inline mt={7}>
-                    Seulement les fichiers PNG et JPEG sont autorisés
-                  </Text>
-                </Flex>
-              </Group>
-            )}
-            {imagePreview && (
-              <div
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '10px',
-                }}
-              >
-                <img
-                  src={imagePreview}
-                  alt="profil picture preview"
-                  style={{
-                    maxWidth: '100%', 
-                    maxHeight: '500px', 
-                    objectFit: 'contain',
-                  }}
-                />
-              </div>
-            )}
-          </Dropzone>
+                  {!imagePreview && ( // Conditionner l'affichage des icônes uniquement si aucun aperçu d'image n'est présent
+                    <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
+                      <Dropzone.Accept>
+                        <IconUpload
+                          style={{
+                            width: rem(52),
+                            height: rem(52),
+                            color: 'var(--mantine-color-blue-6)',
+                          }}
+                          stroke={1.5}
+                        />
+                      </Dropzone.Accept>
+                      <Dropzone.Reject>
+                        <IconX
+                          style={{
+                            width: rem(52),
+                            height: rem(52),
+                            color: 'var(--mantine-color-red-6)',
+                          }}
+                          stroke={1.5}
+                        />
+                      </Dropzone.Reject>
+                      <Dropzone.Idle>
+                        <IconPhoto
+                          style={{
+                            width: rem(52),
+                            height: rem(52),
+                            color: 'var(--mantine-color-dimmed)',
+                          }}
+                          stroke={1.5}
+                        />
+                      </Dropzone.Idle>
+                      <Flex direction="column" justify="center" align="center" gap={10}>
+                        <Text size="lg" inline>
+                          Télécharger votre photo
+                        </Text>
+                        <Text size="sm" c="dimmed" inline mt={7}>
+                          Seulement les fichiers PNG et JPEG sont autorisés
+                        </Text>
+                      </Flex>
+                    </Group>
+                  )}
+                  {imagePreview && (
+                    <div
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '10px',
+                      }}
+                    >
+                      <img
+                        src={imagePreview}
+                        alt="profil picture preview"
+                        style={{
+                          maxWidth: '500px',
+                          maxHeight: '500px',
+                          objectFit: 'contain',
+                        }}
+                      />
+                    </div>
+                  )}
+                </Dropzone>
                 {imagePreview && (
                   <Flex justify="center">
                     <Button
@@ -411,7 +398,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
         <Text>{alertMessage}</Text>
       </AlertModal>
     </>
-      );
-    }
-    
-    export default UpdateProfile;
+  );
+}
+
+export default UpdateProfile;

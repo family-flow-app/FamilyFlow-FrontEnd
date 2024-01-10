@@ -35,6 +35,10 @@ const CreateFamily = () => {
   const [alertModalOpened, setAlertModalOpened] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
+  const [roleAndFamily, setRoleAndFamily] = useState({
+    role: '',
+    familyId: 0,
+  });
 
   const { user, setUser } = useUser();
   const handleError = useApiErrorHandler();
@@ -127,20 +131,13 @@ const CreateFamily = () => {
         }
       );
 
-      // Gérer la réponse positive
       const { role, family } = response.data;
-      localStorage.setItem('role', role);
-      localStorage.setItem('family_id', family.id);
-      setUser({
-        ...user,
-        familyId: family.id,
-        role: role,
-      });
-      //   handleSuccess(response);
+      setAlertMessage('Votre famille a bien été créée.');
+      setIsSuccess(true);
+      setRoleAndFamily({ role, familyId: family.id }); // Stockez temporairement les données pour une utilisation ultérieure
+      setAlertModalOpened(true);
+      handleSuccess(response);
       console.log('Famille créée avec succès');
-      //   setIsSuccess(true);
-      //   setAlertMessage('Votre famille a bien été créée.');
-      //   setAlertModalOpened(true);
     } catch (error: any) {
       handleError(error);
       setIsSuccess(false);
@@ -149,9 +146,19 @@ const CreateFamily = () => {
     }
   };
 
-  useEffect(() => {
-    console.log('isSuccess changed:', isSuccess);
-  }, [isSuccess]);
+  const handleModalClose = () => {
+    if (isSuccess) {
+      localStorage.setItem('role', roleAndFamily.role);
+      localStorage.setItem('family_id', roleAndFamily.familyId);
+      setUser({
+        ...user,
+        familyId: roleAndFamily.familyId,
+        role: roleAndFamily.role,
+      });
+      navigate('/main'); // Redirigez selon les besoins
+    }
+    setAlertModalOpened(false);
+  };
 
   return (
     <Container className={`${classes.mediaContainer}`}>
@@ -183,7 +190,7 @@ const CreateFamily = () => {
         Photo de la famille
       </Text>
       <Dropzone
-        className="input dropbox"
+        className={`${classes.dropzone}`}
         onDrop={handleFileUpload}
         onReject={() => setFormError('Fichier rejeté')}
         maxSize={3 * 1024 ** 2}
@@ -249,7 +256,7 @@ const CreateFamily = () => {
               src={imagePreview}
               alt="profil picture preview"
               style={{
-                maxWidth: '100%',
+                maxWidth: '500px',
                 maxHeight: '500px',
                 objectFit: 'contain',
               }}
@@ -301,10 +308,10 @@ const CreateFamily = () => {
       </Flex>
       <AlertModal
         opened={alertModalOpened}
-        onClose={() => setAlertModalOpened(false)}
+        onClose={handleModalClose}
         title="Confirmation"
-        buttonText={isSuccess ? 'Continuer' : 'Retour'}
-        redirectTo={isSuccess ? '/main' : '/create-family'}
+        buttonText="Continuer"
+        redirectTo="/main" // Vous pouvez garder ou enlever cette prop selon vos besoins
       >
         {alertMessage}
       </AlertModal>
