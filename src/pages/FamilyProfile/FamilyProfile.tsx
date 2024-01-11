@@ -435,7 +435,6 @@ const FamilyProfile = () => {
             {familyInfo && familyInfo.length > 0 && (
               <UpdateFamilyProfileModal
                 familyInfos={familyInfo[0]}
-                members={members}
                 opened={isUpdateFamilyProfileModalOpen}
                 onClose={() => setIsUpdateFamilyProfileModalOpen(false)}
                 onFamilyInfoUpdate={fetchFamilyInfo}

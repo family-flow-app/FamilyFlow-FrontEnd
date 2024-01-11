@@ -23,7 +23,7 @@ import useHandleSuccess from '@/hooks/useHandleSuccess/useHandleSuccess';
 import { useUser } from '@/context/UserInfoContext/UserInfoContext';
 import { useForm } from '@mantine/form';
 import { Family } from '@/@types/family';
-import { Member } from '@/@types/member';
+import { UserData } from '@/@types/user';
 
 interface UpdateFamilyProfileModalProps {
   opened: boolean;
@@ -36,6 +36,13 @@ interface formValues {
   name: string;
   description: string;
   admin?: number[];
+}
+
+interface Member {
+  id: number;
+  firstname: string;
+  lastname: string;
+  role: string;
 }
 
 const UpdateFamilyProfileModal = ({
@@ -51,8 +58,8 @@ const UpdateFamilyProfileModal = ({
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isAlertModalOpened, setIsAlertModalOpened] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  const [selectedAdmin, setSelectedAdmin] = useState<number[]>([]);
-  const [members, setMembers] = useState<number[]>([]);
+  const [members, setMembers] = useState<Member[]>([]); // Stocke tous les membres
+  const [selectedAdmin, setSelectedAdmin] = useState<number[]>([]); // Stocke les ID des admins sélectionnés
   const navigate = useNavigate();
   const { user, setUser } = useUser();
   const handleError = useApiErrorHandler();
@@ -65,7 +72,8 @@ const UpdateFamilyProfileModal = ({
     initialValues: {
       name: familyInfos.name,
       description: familyInfos?.description || 'Dites-en plus sur votre famille',
-      admin: [],
+      //   TODO TO ACTIVATE WHEN API IS READY
+      //   admin: [],
     },
 
     validate: {
@@ -86,35 +94,30 @@ const UpdateFamilyProfileModal = ({
     },
   });
 
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const response = await axios.get(
-          `https://family-flow-api.up.railway.app/families/${user.familyId}/users`,
-          {
-            headers: { Authorization: `Bearer ${user.token}` },
-          }
-        );
-        const membersData = response.data.map((member: Member) => ({
-          value: member.id.toString(),
-          label: `${member.firstname} ${member.lastname}`,
-        }));
-        setMembers(membersData);
+  //   TODO TO ACTIVATE WHEN API IS READY
+  //   useEffect(() => {
+  //     const fetchMembers = async () => {
+  //       try {
+  //         const response = await axios.get(
+  //           `https://family-flow-api.up.railway.app/families/${user.familyId}/users`,
+  //           {
+  //             headers: { Authorization: `Bearer ${user.token}` },
+  //           }
+  //         );
+  //         setMembers(response.data);
 
-        // Pré-sélection des administrateurs
-        const adminIds = response.data
-          .filter((member: Member) => member.role === 'admin')
-          .map((admin: Member) => admin.id.toString());
-        setSelectedAdmin(adminIds);
-      } catch (error: any) {
-        handleError(error);
-      }
-    };
+  //         // Pré-sélection des administrateurs
+  //         const adminIds = response.data
+  //           .filter((member: Member) => member.role === 'admin')
+  //           .map((admin: Member) => admin.id);
+  //         setSelectedAdmin(adminIds);
+  //       } catch (error: any) {
+  //         handleError(error);
+  //       }
+  //     };
 
-    fetchMembers();
-  }, [user.familyId, user.token]);
-
-  console.log('Members', members);
+  //     fetchMembers();
+  //   }, [user.familyId, user.token]);
 
   // Afficher l'image existante comme aperçu si elle existe
   useEffect(() => {
@@ -153,9 +156,14 @@ const UpdateFamilyProfileModal = ({
   };
 
   const handleSubmit = async () => {
-    if (form.validate().hasErrors) {
-      return;
-    }
+    setFormError(null);
+
+    // TODO TO ACTIVATE WHEN API IS READY
+    // Vérifie si aucun administrateur n'est sélectionné
+    // if (selectedAdmin.length === 0) {
+    //   setFormError('* Au moins un administrateur est requis');
+    //   return;
+    // }
 
     try {
       const formData = new FormData();
@@ -164,6 +172,9 @@ const UpdateFamilyProfileModal = ({
       if (imageFile) {
         formData.append('image_url', imageFile);
       }
+
+      //   TODO TO ACTIVATE WHEN API IS READY
+      //   formData.append('admin', selectedAdmin.toString());
 
       const response = await axios.put(
         `https://family-flow-api.up.railway.app/families/${user.familyId}`,
@@ -206,20 +217,15 @@ const UpdateFamilyProfileModal = ({
                   placeholder="pseudo"
                   {...form.getInputProps('name')}
                   required
+                  mb={15}
                 />
-                <Textarea
-                  radius="xl"
-                  mt="md"
-                  label="Description"
-                  placeholder="Description"
-                  {...form.getInputProps('description')}
-                />
-                <MultiSelect
+                {/* To ACTIVATE WHEN API READY */}
+                {/* <MultiSelect
                   data={members.map((member) => ({
-                    value: member.id.toString(),
+                    value: member.id?.toString(),
                     label: `${member.firstname} ${member.lastname}`,
                   }))}
-                  value={members.map((id) => id.toString())}
+                  value={selectedAdmin.map(String)}
                   onChange={(selectedValues) => setSelectedAdmin(selectedValues.map(Number))}
                   checkIconPosition="right"
                   withScrollArea={false}
@@ -229,6 +235,17 @@ const UpdateFamilyProfileModal = ({
                   radius="xl"
                   mb={15}
                 />
+                <Text style={{ color: 'red' }} size="sm">
+                  {formError}
+                </Text> */}
+                <Textarea
+                  radius="xl"
+                  mt="md"
+                  label="Description"
+                  placeholder="Description"
+                  {...form.getInputProps('description')}
+                />
+
                 <InputLabel mt="md">Photo de famille</InputLabel>
                 <Dropzone
                   className="input dropbox"
