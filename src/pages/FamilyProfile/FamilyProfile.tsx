@@ -13,6 +13,7 @@ import {
   rem,
 } from '@mantine/core';
 import ConfirmModal from '@/components/Modals/ConfirmModal/ConfirmModal';
+import AlertModal from '@/components/Modals/AlertModal/AlertModal';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -48,6 +49,12 @@ const FamilyProfile = () => {
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searchPerformed, setSearchPerformed] = useState(false);
+  const [isMemberExpulsionConfirmModalOpen, setMemberExpulsionConfirmModalOpen] = useState(false);
+  const [isMemberExpulsionAlertModalOpen, setMemberExpulsionAlertModalOpen] = useState(false);
+  const [expulsionAlertMessage, setExpulsionAlertMessage] = useState('');
+  const [selectedMemberIdForExpulsion, setSelectedMemberIdForExpulsion] = useState<number | null>(
+    null
+  );
 
   console.log('invitations', invitations);
 
@@ -98,6 +105,32 @@ const FamilyProfile = () => {
     } catch (error: any) {
       handleApiError(error);
     }
+  };
+
+  // Fonction pour confirmer l'expulsion d'un membre
+  const handleOpenExpulsionConfirmModal = (memberId: number) => {
+    setSelectedMemberIdForExpulsion(memberId);
+    setMemberExpulsionConfirmModalOpen(true);
+  };
+
+  // Fonction pour expulser un membre
+  const handleConfirmMemberExpulsion = async () => {
+    if (!selectedMemberIdForExpulsion) return;
+
+    try {
+      await axios.delete(
+        `https://family-flow-api.up.railway.app/families/${user.familyId}/members/${selectedMemberIdForExpulsion}`,
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+      setExpulsionAlertMessage('Membre expulsé avec succès.');
+      setMemberExpulsionAlertModalOpen(true);
+      // Actualiser la liste des membres
+      await fetchMembers();
+    } catch (error) {
+      setExpulsionAlertMessage("Erreur lors de l'expulsion du membre.");
+      setMemberExpulsionAlertModalOpen(true);
+    }
+    setMemberExpulsionConfirmModalOpen(false);
   };
 
   // Fonction pour charger les requêtes
@@ -395,8 +428,26 @@ const FamilyProfile = () => {
                 key={member.id}
                 member={member}
                 onViewProfile={handleViewProfile}
+                onExpelMember={handleOpenExpulsionConfirmModal}
               />
             ))}
+            <ConfirmModal
+              opened={isMemberExpulsionConfirmModalOpen}
+              onClose={() => setMemberExpulsionConfirmModalOpen(false)}
+              onConfirm={handleConfirmMemberExpulsion}
+              onCancel={() => setMemberExpulsionConfirmModalOpen(false)}
+              title="Expulser le membre"
+              message="Es-tu sûr de vouloir expulser ce membre ?"
+            />
+            <AlertModal
+              opened={isMemberExpulsionAlertModalOpen}
+              onClose={() => setMemberExpulsionAlertModalOpen(false)}
+              title="Alerte"
+              buttonText="OK"
+              redirectTo="/my-family"
+            >
+              {expulsionAlertMessage}
+            </AlertModal>
           </>
         )}
         {activeTab === 'requests' && (
