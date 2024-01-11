@@ -14,6 +14,7 @@ import {
 } from '@mantine/core';
 import ConfirmModal from '@/components/Modals/ConfirmModal/ConfirmModal';
 import AlertModal from '@/components/Modals/AlertModal/AlertModal';
+import UpdateFamilyProfileModal from '@/components/Modals/UpdateFamilyProfileModal/UpdateFamilyProfileModal';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -43,6 +44,7 @@ const FamilyProfile = () => {
   const [requests, setRequests] = useState<any[]>([]);
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isUpdateFamilyProfileModalOpen, setIsUpdateFamilyProfileModalOpen] = useState(false);
   const [isInviteConfirmModalOpen, setIsInviteConfirmModalOpen] = useState(false);
   const [selectedUserIdForInvite, setSelectedUserIdForInvite] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -55,8 +57,6 @@ const FamilyProfile = () => {
   const [selectedMemberIdForExpulsion, setSelectedMemberIdForExpulsion] = useState<number | null>(
     null
   );
-
-  console.log('invitations', invitations);
 
   const handleApiError = useApiErrorHandler();
   const handleSuccess = useHandleSuccess();
@@ -90,6 +90,20 @@ const FamilyProfile = () => {
       fetchRequests();
     }
   }, [activeTab]);
+
+  const fetchFamilyInfo = async () => {
+    try {
+      const familyInfoResponse = await axios.get(
+        `https://family-flow-api.up.railway.app/families/${user.familyId}`,
+        {
+          headers: { Authorization: `Bearer ${user.token}` },
+        }
+      );
+      setFamilyInfo(handleSuccess(familyInfoResponse));
+    } catch (error: any) {
+      handleApiError(error);
+    }
+  };
 
   // Fonction pour charger les membres
   const fetchMembers = async () => {
@@ -395,25 +409,37 @@ const FamilyProfile = () => {
                   : 'Non spécifiée')}
             </Text>
             <Text m={5}> Administrateur(s): </Text>
-            <Button
-              className="outlineButton"
-              mt={20}
-              mb={30}
-              onClick={openConfirmModal}
-              radius="xl"
-              m={5}
-            >
-              Quitter famille
-            </Button>
-            {user.role === 'admin' && (
+            <Group className={`${classes.buttonGroup}`}>
               <Button
-                className="deleteButton"
-                onClick={() => setIsDeleteModalOpen(true)}
+                className="gradientButton"
+                w={160}
+                onClick={() => setIsUpdateFamilyProfileModalOpen(true)}
                 radius="xl"
-                mb={30}
               >
-                Supprimer famille
+                Modifier famille
               </Button>
+              <Button className="outlineButton" w={160} onClick={openConfirmModal} radius="xl">
+                Quitter famille
+              </Button>
+              {user.role === 'admin' && (
+                <Button
+                  className="deleteButton"
+                  onClick={() => setIsDeleteModalOpen(true)}
+                  radius="xl"
+                  w={160}
+                >
+                  Supprimer famille
+                </Button>
+              )}
+            </Group>
+            {familyInfo && familyInfo.length > 0 && (
+              <UpdateFamilyProfileModal
+                familyInfos={familyInfo[0]}
+                members={members}
+                opened={isUpdateFamilyProfileModalOpen}
+                onClose={() => setIsUpdateFamilyProfileModalOpen(false)}
+                onFamilyInfoUpdate={fetchFamilyInfo}
+              />
             )}
           </>
         )}
