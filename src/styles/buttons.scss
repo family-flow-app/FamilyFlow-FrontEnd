@@ -27,6 +27,16 @@
   }
 }
 
+.deleteButton {
+  background-color: red;
+  color: #fff;
+
+  &:hover {
+    background-color: darkred;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+}
+
 .filterButton {
   background-color: #fff;
   border-color: #6bd3d4;

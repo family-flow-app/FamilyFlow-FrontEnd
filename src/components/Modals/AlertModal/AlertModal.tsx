@@ -11,6 +11,7 @@ import classes from './AlertModal.module.scss';
 interface CustomModalProps {
   opened: boolean; // Boolean to control the visibility of the modal
   onClose: () => void; // Function to call when closing the modal
+  additionalOnClose?: () => void; // Additional function to call when closing the modal
   title: string; // Title of the modal
   buttonText: string; // Text for the button inside the modal
   redirectTo: string; // URL to redirect to when the button is clicked
@@ -21,6 +22,7 @@ interface CustomModalProps {
 function AlertModal({
   opened,
   onClose,
+  additionalOnClose,
   title,
   buttonText,
   redirectTo,
@@ -34,8 +36,11 @@ function AlertModal({
 
   // Handler for the button click event
   const handleRedirect = () => {
-    onClose(); // Close the modal
-    navigate(redirectTo); // Navigate to the specified URL
+    if (additionalOnClose) {
+      additionalOnClose(); // Appelle additionalOnClose si elle est fournie
+    }
+    onClose(); // Ferme la modal
+    navigate(redirectTo); // Redirige l'utilisateur
   };
 
   return (

@@ -13,16 +13,15 @@ Developer: @yannick-leguennec - Yannick's GitHub ID -->
 - To integrate the responsive settings for the pages, you must integrate in the componant.module.scss file the `.mediaContainer` class as given below:
 
 ```scss
- .mediaContainer {
-    @media (max-width: $mantine-breakpoint-xs) {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 50px 20px
-    }
+.mediaContainer {
+  @media (max-width: $mantine-breakpoint-xs) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
   }
-
+}
 ```
 
 - You then must impport your scss file into your component => `import classes from ./yourcomponant.module.scss`.
@@ -42,15 +41,9 @@ Developer: @yannick-leguennec - Yannick's GitHub ID -->
 - Example => `<Button w={100} m={10} size="responsive" radius="xl">Test</Button>`
 
 ```tsx
-    <Button
-      type="submit"
-      radius="xl"
-      m={10}
-      w={100}
-      className="your class"
-    >
-      Your button name
-    </Button>
+<Button type="submit" radius="xl" m={10} w={100} className="your class">
+  Your button name
+</Button>
 ```
 
 -**All the customs buttons** can be found into the `buttons.scss` file inside the `styles` folder.
@@ -62,18 +55,18 @@ Developer: @yannick-leguennec - Yannick's GitHub ID -->
 ## Modal Style
 
 ```tsx
-    <Modal.Root opened={opened} onClose={onClose} centered size="auto">
-      <Modal.Overlay style={{ backdropFilter: 'blur(10)' }} />
-      <Modal.Content>
-         <Modal.Header style={{ background: headerColor, color: 'white' }}>
-          <Modal.Title fw={700}>Your Title</Modal.Title>
-          <Modal.CloseButton style={{ color: 'white' }} />
-        </Modal.Header>
-        <Modal.Body>
-          Your body
-        </Modal.Body>
-      </Modal.Content>
-    </Modal.Root>
+const headerColor = '#6bd3d4';
+
+<Modal.Root opened={opened} onClose={onClose} centered size="auto">
+  <Modal.Overlay style={{ backdropFilter: 'blur(10)' }} />
+  <Modal.Content>
+    <Modal.Header style={{ background: headerColor, color: 'white' }}>
+      <Modal.Title fw={700}>Your Title</Modal.Title>
+      <Modal.CloseButton style={{ color: 'white' }} />
+    </Modal.Header>
+    <Modal.Body>Your body</Modal.Body>
+  </Modal.Content>
+</Modal.Root>;
 ```
 
 ## Primary Title
@@ -114,10 +107,9 @@ Developer: @yannick-leguennec - Yannick's GitHub ID -->
 - All the graphic material employed inside the app can be found inside the `public/img` folder.
 - The icon representaing the `task` category for the activities is named `FF_iconed-task.png`.
 - The icon representing the `event` category for the activities is named `FF_icon.event.png`.
-- The icon representing a `family`  is named `FF_icon_family.png`.
-- The icon representing a `member`  is named `FF_icon_member.png`.
+- The icon representing a `family` is named `FF_icon_family.png`.
+- The icon representing a `member` is named `FF_icon_member.png`.
 
 ## Special Thanks
 
 - A special thanks to **Violette Design** for its special contribution for the creation of our visual identity => [https://www.violettedesign.ca/](https://www.violettedesign.ca/).
-  

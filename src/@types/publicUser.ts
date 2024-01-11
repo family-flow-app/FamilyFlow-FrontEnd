@@ -1,6 +1,6 @@
 export interface PublicUser {
     // Définition des champs pour un membre
-    id: number;
+    user_id: number;
     username: string;
     firstname: string;
     lastname: string;

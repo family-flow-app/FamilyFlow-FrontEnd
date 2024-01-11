@@ -3,20 +3,20 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-    Box,
-    Button,
-    Group,
-    InputLabel,
-    Modal,
-    PasswordInput,
-    Text,
-    TextInput,
-    rem,
-    Flex,
-    Title,
-    Textarea,
-  } from '@mantine/core';
-import { DatePickerInput } from '@mantine/dates';
+  Box,
+  Button,
+  Group,
+  InputLabel,
+  Modal,
+  PasswordInput,
+  Text,
+  TextInput,
+  rem,
+  Flex,
+  Title,
+  Textarea,
+} from '@mantine/core';
+import { DatePickerInput, DatesProvider } from '@mantine/dates';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
@@ -89,23 +89,69 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
       newPassword: '',
       confirmNewPassword: '',
       description: userInfo.description || '',
-      birthday: userInfo.birthday ? dayjs.utc(userInfo.birthday).toDate() : null,
-
+      birthday: userInfo.birthday ? new Date(userInfo.birthday) : null,
     },
-    validate: { /* Logique de validation pour chaque champ */ },
+    validate: {
+      username: (value) => {
+        if (!value.trim()) return 'Le pseudo est requis';
+        if (!/^[a-zA-Z0-9]+$/.test(value))
+          return 'Le pseudo ne doit contenir que des lettres et des chiffres';
+        return null;
+      },
+      firstname: (value) => {
+        if (!value.trim()) return 'Le nom est requis';
+        if (!/^[a-zA-Z\u00C0-\u00FF ']+$/.test(value))
+          return 'Le nom ne doit contenir que des lettres, des lettres accentuées et des espaces';
+        return null;
+      },
+      lastname: (value) => {
+        if (!value.trim()) return 'Le prénom est requis';
+        if (!/^[a-zA-Z\u00C0-\u00FF ']+$/.test(value))
+          return 'Le prénom ne doit contenir que des lettres, des lettres accentuées et des espaces';
+        return null;
+      },
+      email: (value) => {
+        if (!value.trim()) return 'Le champ email est requis';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          return 'Email invalide';
+        }
+        return null;
+      },
+      description: (value) => {
+        return value.length <= 500 ? null : 'La description ne doit pas dépasser 500 caractères';
+      },
+    },
   });
 
   // Soumission du formulaire
   const handleSubmit = async () => {
     try {
-      
+      const filteredFormValues = Object.fromEntries(
+        Object.entries(form.values).filter(([key, value]) => value !== '' && value !== null)
+      );
+
+      if (filteredFormValues.birthday) {
+        filteredFormValues.birthday = dayjs(filteredFormValues.birthday).format('YYYY/MM/DD');
+      }
+
+      const updatedData = {
+        ...filteredFormValues,
+        image_url: imageFile, // Inclus l'image seulement si nécessaire
+      };
+      console.log('updated data', updatedData);
+
       // Requête PUT pour la mise à jour du profil
-      const response = await axios.patch(`https://family-flow-api.up.railway.app/users/${user.user.userId}`, {...form.values, image_url: imageFile}, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${user.user.token}`,
-        },
-      });
+      const response = await axios.patch(
+        `https://family-flow-api.up.railway.app/users/${user.user.userId}`,
+        updatedData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${user.user.token}`,
+          },
+        }
+      );
 
       // Mise à jour de l'état et affichage des informations du l'utilisateur
       setUser(response.data);
@@ -119,7 +165,6 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
       setIsAlertModalOpen(true);
       handleError(error);
       console.log(error);
-      
     }
   };
 
@@ -155,13 +200,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
   // Structure du composant Modal
   return (
     <>
-    <Modal.Root
-        opened={opened}
-        onClose={close}
-        centered
-        className="modal"
-        size="auto"
-      >
+      <Modal.Root opened={opened} onClose={close} centered className="modal" size="auto">
         <Modal.Overlay style={{ backdropFilter: 'blur(10)' }} />
         <Modal.Content>
           <Modal.Header style={{ background: headerColor, color: 'white' }}>
@@ -176,6 +215,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                   label="Pseudo"
                   placeholder="pseudo"
                   {...form.getInputProps('username')}
+                  required
                 />
                 <TextInput
                   radius="xl"
@@ -183,6 +223,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                   label="Prénom"
                   placeholder="prénom"
                   {...form.getInputProps('firstname')}
+                  required
                 />
                 <TextInput
                   radius="xl"
@@ -190,6 +231,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                   label="Nom"
                   placeholder="nom"
                   {...form.getInputProps('lastname')}
+                  required
                 />
                 <TextInput
                   radius="xl"
@@ -197,13 +239,16 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                   label="Email"
                   placeholder="email"
                   {...form.getInputProps('email')}
+                  required
                 />
-                <DatePickerInput
-                  radius="xl"
-                  mt="md"
-                  label="Date de naissance"
-                  {...form.getInputProps('birthday')}
-                />
+                <DatesProvider settings={{ timezone: 'UTC' }}>
+                  <DatePickerInput
+                    radius="xl"
+                    mt="md"
+                    label="Date de naissance"
+                    {...form.getInputProps('birthday')}
+                  />
+                </DatesProvider>
                 <Textarea
                   radius="xl"
                   mt="md"
@@ -224,12 +269,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                   mb={20}
                 >
                   {!imagePreview && ( // Conditionner l'affichage des icônes uniquement si aucun aperçu d'image n'est présent
-                    <Group
-                      justify="center"
-                      gap="xl"
-                      mih={220}
-                      style={{ pointerEvents: 'none' }}
-                    >
+                    <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
                       <Dropzone.Accept>
                         <IconUpload
                           style={{
@@ -260,12 +300,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                           stroke={1.5}
                         />
                       </Dropzone.Idle>
-                      <Flex
-                        direction="column"
-                        justify="center"
-                        align="center"
-                        gap={10}
-                      >
+                      <Flex direction="column" justify="center" align="center" gap={10}>
                         <Text size="lg" inline>
                           Télécharger votre photo
                         </Text>
@@ -287,11 +322,11 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                     >
                       <img
                         src={imagePreview}
-                        alt="Aperçu"
+                        alt="profil picture preview"
                         style={{
-                          maxWidth: '75%', // ou une valeur fixe comme 300px
-                          maxHeight: '75%', // ou une valeur fixe comme 200px
-                          objectFit: 'contain', // Assure que tout l'image est visible
+                          maxWidth: '500px',
+                          maxHeight: '500px',
+                          objectFit: 'contain',
                         }}
                       />
                     </div>
@@ -345,7 +380,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                     type="submit"
                     className="gradientButton update-profile_button-right"
                   >
-                    Valider
+                    Soumettre
                   </Button>
                 </Flex>
               </form>
@@ -363,7 +398,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
         <Text>{alertMessage}</Text>
       </AlertModal>
     </>
-      );
-    }
-    
-    export default UpdateProfile;
+  );
+}
+
+export default UpdateProfile;

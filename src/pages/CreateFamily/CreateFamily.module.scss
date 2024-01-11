@@ -1,0 +1,27 @@
+.mediaContainer {
+  @media (max-width: $mantine-breakpoint-xs) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+  }
+}
+
+.primeTitle {
+  color: $title-color;
+  text-align: center;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    font-size: 1.5rem;
+  }
+}
+
+.subtitle {
+  color: $title-color;
+  text-align: center;
+}
+
+.dropzone {
+  border-radius: 25px;
+}
