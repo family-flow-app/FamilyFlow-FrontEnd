@@ -101,11 +101,11 @@ function ActivityDetails() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setAlertMessage('Activity successfully deleted.');
+      setAlertMessage('Activité supprimée avec succès.');
       setAlertModalOpened(true);
       handleSuccess(response);
     } catch (error: any) {
-      setAlertMessage('Error deleting the activity.');
+      setAlertMessage("Erreur lors de la suppression de l'activité.");
       setAlertModalOpened(true);
       handleError(error);
     }
@@ -142,17 +142,14 @@ function ActivityDetails() {
         </Container>
       )}
       {/* List of Participants */}
-      {(activityDetails?.assigned_to?.length ?? 0) > 0 ? (
+      {activityDetails && (
         <Container>
           <Title className={`${classes.title}`}>Participants</Title>
           {activityDetails?.assigned_to?.map((member: Member) => (
             <MemberPublicCard key={member.id} member={member} />
           ))}
         </Container>
-      ) : (
-        <Text>No assigned participants</Text>
       )}
-
       {/* Edit and Delete Buttons (if authorized) */}
       {isUserAuthorized && (
         <Container className={`${classes.containerButtons}`}>
@@ -189,7 +186,7 @@ function ActivityDetails() {
         opened={alertModalOpened}
         onClose={() => setAlertModalOpened(false)}
         title="Confirmation"
-        buttonText="Return"
+        buttonText=""
         redirectTo="/main"
       >
         <Text>{alertMessage}</Text>
