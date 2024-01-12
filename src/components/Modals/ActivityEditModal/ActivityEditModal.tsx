@@ -34,8 +34,11 @@ function ActivityEditModal({
   // State management for family members and selected members
   const [familyMembers, setFamilyMembers] = useState<Member[]>([]);
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [formError, setFormError] = useState('');
   const [alertModalOpened, setAlertModalOpened] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
 
   // Hook for handling API errors and success
   const handleError = useApiErrorHandler();
@@ -117,6 +120,7 @@ function ActivityEditModal({
           user_id: activityDetails.user_id,
           assigned_to: activityDetails.assigned_to?.map((member) => member.id) || [],
         });
+        setSelectedCategory(activityDetails.category_id?.toString() || '');
       }
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, familyId, token, activityDetails]);
@@ -129,11 +133,20 @@ function ActivityEditModal({
     }
   }, [form.values.startingTime, form]);
 
+  // Fonction pour gérer le changement de la valeur du Select
+  const handleCategoryChange = (value: string | null) => {
+    if (value) {
+      setSelectedCategory(value);
+    }
+  };
+
   // Function to handle form submission and save changes
   const handleSaveChanges = async () => {
-    const formValidation = await form.validate();
-    if (formValidation.hasErrors) {
-      console.log('Erreurs de validation du formulaire', formValidation.errors);
+    if (selectedCategory === '') {
+      setFormError('* Vous devez sélectionner une catégorie pour cette activité.');
+      return;
+    } else if (selectedMembers.length === 0) {
+      setFormError('* Vous devez sélectionner au moins un membre pour cette activité.');
       return;
     }
 
@@ -141,7 +154,7 @@ function ActivityEditModal({
     const updatedActivity = {
       name,
       description,
-      category_id: Number(categoryId),
+      category_id: selectedCategory,
       starting_time: startingTime instanceof Date ? startingTime.toISOString() : startingTime,
       ending_time: endingTime instanceof Date ? endingTime.toISOString() : endingTime,
       assigned_to: selectedMembers,
@@ -154,10 +167,12 @@ function ActivityEditModal({
         { headers: { Authorization: `Bearer ${token}` } }
       );
       onSave(response.data);
+      setIsSuccess(true);
       setAlertMessage('Activité mise à jour avec succès.');
       setAlertModalOpened(true);
       handleSuccess(response);
     } catch (error: any) {
+      setIsSuccess(false);
       setAlertMessage("Erreur lors de la modification de l'activité.");
       setAlertModalOpened(true);
       handleError(error);
@@ -189,17 +204,17 @@ function ActivityEditModal({
               <Textarea
                 {...form.getInputProps('description')}
                 label="Description"
-                withAsterisk
                 radius="xl"
                 mb={15}
               />
               <Select
                 label="Catégorie"
-                {...form.getInputProps('categoryId')}
                 data={[
                   { value: '1', label: 'Tâche' },
                   { value: '2', label: 'Événement' },
                 ]}
+                value={selectedCategory}
+                onChange={handleCategoryChange}
                 withAsterisk
                 required
                 radius="xl"
@@ -243,6 +258,13 @@ function ActivityEditModal({
                     <MemberPublicCard key={member.id} member={member} />
                   ))}
               </Flex>
+              {formError && (
+                <Flex justify="center" align="center">
+                  <Text size="sm" style={{ color: 'red' }}>
+                    {formError}
+                  </Text>
+                </Flex>
+              )}
               <Flex justify="center" align="center">
                 <Button
                   type="submit"
@@ -264,7 +286,7 @@ function ActivityEditModal({
         opened={alertModalOpened}
         onClose={() => setAlertModalOpened(false)}
         title="Confirmation"
-        buttonText="Retour"
+        buttonText={isSuccess ? 'Continuer' : 'Retour'}
         redirectTo="/main"
       >
         <Text>{alertMessage}</Text>
