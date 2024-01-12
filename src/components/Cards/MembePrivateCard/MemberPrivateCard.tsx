@@ -23,6 +23,10 @@ function MemberPrivateCard({
 }: MemberCardProps): React.ReactElement<{ member: Member }> {
   const navigate = useNavigate();
   const { user } = useUser();
+
+  // Vérifie si l'utilisateur actuel est un admin et n'est pas le membre actuel
+  const isAdminUser = user.role === 'admin' && user.userId !== member.id;
+
   return (
     <Card className={classes.card} withBorder>
       <Image
@@ -34,19 +38,18 @@ function MemberPrivateCard({
       <Container className={`${classes.card_name}`}>
         <Text className={`${classes.card_text}`}>{`${member.firstname} ${member.lastname}`}</Text>
       </Container>
-      {user.userId === member.id ||
-        (member.id !== user.userId && (
-          <ActionIcon
-            color="red"
-            type="button"
-            size="xl"
-            m={5}
-            radius="xl"
-            onClick={() => onExpelMember(member.id)}
-          >
-            <IconX />
-          </ActionIcon>
-        ))}
+      {isAdminUser && (
+        <ActionIcon
+          color="red"
+          type="button"
+          size="xl"
+          m={5}
+          radius="xl"
+          onClick={() => onExpelMember(member.id)}
+        >
+          <IconX />
+        </ActionIcon>
+      )}
       {member.id !== user.userId && (
         <ActionIcon
           className={`gradientButton ${classes.card_button}`}
