@@ -57,7 +57,7 @@ function ActivityDetails() {
 
       try {
         const response = await axios.get<Activity>(
-          `https://family-flow-api.up.railway.app/families/${familyId}/activities/${activityId}`,
+          `${import.meta.env.VITE_BASE_API_URL}/families/${familyId}/activities/${activityId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -97,7 +97,7 @@ function ActivityDetails() {
   const handleDeleteActivity = async () => {
     try {
       const response = await axios.delete(
-        `https://family-flow-api.up.railway.app/families/${familyId}/activities/${activityId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${familyId}/activities/${activityId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

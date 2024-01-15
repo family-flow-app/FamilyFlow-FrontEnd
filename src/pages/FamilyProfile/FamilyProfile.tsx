@@ -67,7 +67,7 @@ const FamilyProfile = () => {
     const fetchFamilyInfo = async () => {
       try {
         const familyInfoResponse = await axios.get(
-          `https://family-flow-api.up.railway.app/families/${user.familyId}`,
+          `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}`,
           {
             headers: { Authorization: `Bearer ${user.token}` },
           }
@@ -94,7 +94,7 @@ const FamilyProfile = () => {
   const fetchFamilyInfo = async () => {
     try {
       const familyInfoResponse = await axios.get(
-        `https://family-flow-api.up.railway.app/families/${user.familyId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}`,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
@@ -109,7 +109,7 @@ const FamilyProfile = () => {
   const fetchMembers = async () => {
     try {
       const membersResponse = await axios.get(
-        `https://family-flow-api.up.railway.app/families/${user.familyId}/users`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/users`,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
@@ -133,7 +133,7 @@ const FamilyProfile = () => {
 
     try {
       await axios.delete(
-        `https://family-flow-api.up.railway.app/families/${user.familyId}/members/${selectedMemberIdForExpulsion}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/members/${selectedMemberIdForExpulsion}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       setExpulsionAlertMessage('Membre expulsé avec succès.');
@@ -151,7 +151,7 @@ const FamilyProfile = () => {
   const fetchRequests = async () => {
     try {
       const requestsResponse = await axios.get(
-        `https://family-flow-api.up.railway.app/requests/families/${user.familyId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/requests/families/${user.familyId}`,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
@@ -172,7 +172,7 @@ const FamilyProfile = () => {
   const fetchInvitations = async () => {
     try {
       const invitationsResponse = await axios.get(
-        `https://family-flow-api.up.railway.app/invitations/${user.familyId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/invitations/${user.familyId}`,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
@@ -196,7 +196,7 @@ const FamilyProfile = () => {
     setSearchPerformed(true);
     try {
       const response = await axios.get(
-        `https://family-flow-api.up.railway.app/users?search=${searchTerm}`,
+        `${import.meta.env.VITE_BASE_API_URL}/users?search=${searchTerm}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -231,7 +231,7 @@ const FamilyProfile = () => {
 
     try {
       const response = await axios.post(
-        'https://family-flow-api.up.railway.app/invitations',
+        `${import.meta.env.VITE_BASE_API_URL}/invitations`,
         {
           to_user_id: selectedUserIdForInvite,
           family_id: user.familyId,
@@ -258,7 +258,7 @@ const FamilyProfile = () => {
   const handleDeleteInvitation = async (invitationId: number) => {
     try {
       const response = await axios.delete(
-        `https://family-flow-api.up.railway.app/invitations/${invitationId}/families/${user.familyId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/invitations/${invitationId}/families/${user.familyId}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -278,7 +278,7 @@ const FamilyProfile = () => {
     closeConfirmModal();
     try {
       const response = await axios.delete(
-        `https://family-flow-api.up.railway.app/families/${user.familyId}/members/${user.userId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/members/${user.userId}`,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
@@ -303,7 +303,7 @@ const FamilyProfile = () => {
   const deleteFamily = async () => {
     try {
       const response = await axios.delete(
-        `https://family-flow-api.up.railway.app/families/${user.familyId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}`,
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }

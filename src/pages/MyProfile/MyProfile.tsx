@@ -42,14 +42,14 @@ function MyProfile() {
     const fetchUserData = async () => {
       try {
         const userResponse = await axios.get(
-          `https://family-flow-api.up.railway.app/users/${user.userId}`,
+          `${import.meta.env.VITE_BASE_API_URL}/users/${user.userId}`,
           { headers: { Authorization: `Bearer ${user.token}` } }
         );
         setUserInfo(handleSuccess(userResponse));
 
         if (user.familyId) {
           const familyResponse = await axios.get(
-            `https://family-flow-api.up.railway.app/families/${user.familyId}`,
+            `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}`,
             { headers: { Authorization: `Bearer ${user.token}` } }
           );
           setFamilyInfo(handleSuccess(familyResponse));
@@ -72,7 +72,7 @@ function MyProfile() {
   const handleConfirmDelete = async () => {
     try {
       await axios.delete(
-        `https://family-flow-api.up.railway.app/families/${user.familyId}/members/${user.userId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/members/${user.userId}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       console.log('Profile deleted');

@@ -40,7 +40,7 @@ function UserInvitationModal({
   const handleConfirmInvitation = async () => {
     try {
       const response = await axios.post(
-        'https://family-flow-api.up.railway.app/invitations',
+        `${import.meta.env.VITE_BASE_API_URL}/invitations`,
         {
           to_user_id: userInfos.id,
           family_id: user.familyId,

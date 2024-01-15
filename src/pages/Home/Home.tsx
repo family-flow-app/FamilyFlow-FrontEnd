@@ -15,6 +15,7 @@ function Home() {
       className={` ${classes.home} ${classes.gradientBackground} ${classes.mediaContainer}`}
       size="responsive"
     >
+      {import.meta.env.VITE_BASE_API_URL}
       <Image
         src={logo}
         className={`${classes.responsiveImage}`}

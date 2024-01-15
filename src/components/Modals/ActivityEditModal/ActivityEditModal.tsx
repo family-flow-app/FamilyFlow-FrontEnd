@@ -91,7 +91,7 @@ function ActivityEditModal({
     const fetchFamilyMembers = async () => {
       try {
         const response = await axios.get<Member[]>(
-          `https://family-flow-api.up.railway.app/families/${familyId}/users`,
+          `${import.meta.env.VITE_BASE_API_URL}/families/${familyId}/users`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setFamilyMembers(response.data);
@@ -162,7 +162,7 @@ function ActivityEditModal({
 
     try {
       const response = await axios.put<Activity>(
-        `https://family-flow-api.up.railway.app/families/${familyId}/activities/${id}`,
+        `${import.meta.env.VITE_BASE_URL_API}/families/${familyId}/activities/${id}`,
         updatedActivity,
         { headers: { Authorization: `Bearer ${token}` } }
       );

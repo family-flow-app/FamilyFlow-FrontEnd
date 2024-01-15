@@ -66,7 +66,7 @@ function Contact() {
     try {
       console.log('Values submitted:', values);
       const response = await axios.post(
-        'https://family-flow-api.up.railway.app/send-email',
+        `${import.meta.env.VITE_BASE_API_URL}/send-email`,
         values,
         {
           headers: {

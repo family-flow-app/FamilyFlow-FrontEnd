@@ -85,7 +85,7 @@ function CreateActivity() {
     const fetchFamilyMembers = async () => {
       try {
         const response = await axios.get<Member[]>(
-          `https://family-flow-api.up.railway.app/families/${user.familyId}/users`,
+          `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/users`,
           { headers: { Authorization: `Bearer ${user.token}` } }
         );
         setFamilyMembers(response.data);

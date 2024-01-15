@@ -51,7 +51,7 @@ function MainUser() {
     setErrorMessage(null);
     try {
       const response = await axios.get(
-        `https://family-flow-api.up.railway.app/families?name=${encodeURIComponent(searchTerm)}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families?name=${encodeURIComponent(searchTerm)}`,
         {
           headers: {
             Authorization: `Bearer ${user?.token}`,
@@ -98,7 +98,7 @@ function MainUser() {
     if (!familyId) return;
     try {
       const response = await axios.post(
-        `https://family-flow-api.up.railway.app/requests`,
+        `${import.meta.env.VITE_BASE_API_URL}/requests`,
         {
           family_id: familyId,
         },

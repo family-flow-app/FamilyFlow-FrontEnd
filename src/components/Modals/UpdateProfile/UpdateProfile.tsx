@@ -143,7 +143,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
 
       // Requête PUT pour la mise à jour du profil
       const response = await axios.patch(
-        `https://family-flow-api.up.railway.app/users/${user.user.userId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/users/${user.user.userId}`,
         updatedData,
         {
           headers: {

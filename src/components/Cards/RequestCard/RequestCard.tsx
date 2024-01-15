@@ -38,7 +38,7 @@ function RequestCard({
   const handleAccept = async () => {
     try {
       const response = await axios.post(
-        `https://family-flow-api.up.railway.app/families/${user.familyId}/users`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/users`,
         { user_id: userRequestInfo.user_id },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
@@ -56,7 +56,7 @@ function RequestCard({
   const handleReject = async () => {
     try {
       const response = await axios.delete(
-        `https://family-flow-api.up.railway.app/families/${user.familyId}/users/${userRequestInfo.id}`,
+        `${import.meta.env.VITE_BASE_URL_API}/families/${user.familyId}/users/${userRequestInfo.id}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       handleSuccess(response);

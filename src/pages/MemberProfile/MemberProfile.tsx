@@ -41,7 +41,7 @@ function MemberProfile() {
     const fetchMemberData = async () => {
       try {
         const response = await axios.get(
-          `https://family-flow-api.up.railway.app/families/${user.familyId}/users/${id}`,
+          `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/users/${id}`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,
@@ -52,7 +52,7 @@ function MemberProfile() {
 
         if (user.familyId) {
           const familyResponse = await axios.get(
-            `https://family-flow-api.up.railway.app/families/${user.familyId}`,
+            `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}`,
             { headers: { Authorization: `Bearer ${user.token}` } }
           );
           setFamilyInfo(handleSuccess(familyResponse));
@@ -85,7 +85,7 @@ function MemberProfile() {
 
     try {
       await axios.delete(
-        `https://family-flow-api.up.railway.app/families/${user.familyId}/members/${memberInfo.id}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/members/${memberInfo.id}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       setAlertMessage('Membre expulsé avec succès.');

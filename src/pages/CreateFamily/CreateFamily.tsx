@@ -121,7 +121,7 @@ const CreateFamily = () => {
 
       // Envoyer la requête POST
       const response = await axios.post(
-        'https://family-flow-api.up.railway.app/families',
+        `${import.meta.env.VITE_BASE_API_URL}/families`,
         formData,
         {
           headers: {

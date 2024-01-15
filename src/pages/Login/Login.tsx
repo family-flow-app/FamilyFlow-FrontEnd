@@ -73,9 +73,10 @@ function Login() {
 
   // Async function to handle form submission
   const handleSubmit = async (values: LoginFormValues) => {
+    console.log(values)
     try {
       const response = await axios.post(
-        'https://family-flow-api.up.railway.app/login',
+        `${import.meta.env.VITE_BASE_API_URL}/login`,
         JSON.stringify(values),
         {
           headers: {

@@ -91,7 +91,7 @@ To use AlertModal in your component:
 
     try {
       const response = await axios.put<Activity>(
-        `https://family-flow-api.up.railway.app/families/${familyId}/activities/${id}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${familyId}/activities/${id}`,
         updatedActivity,
         { headers: { Authorization: `Bearer ${token}` } }
       );

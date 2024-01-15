@@ -99,7 +99,7 @@ const UpdateFamilyProfileModal = ({
   //     const fetchMembers = async () => {
   //       try {
   //         const response = await axios.get(
-  //           `https://family-flow-api.up.railway.app/families/${user.familyId}/users`,
+  //           `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/users`,
   //           {
   //             headers: { Authorization: `Bearer ${user.token}` },
   //           }
@@ -177,7 +177,7 @@ const UpdateFamilyProfileModal = ({
       //   formData.append('admin', selectedAdmin.toString());
 
       const response = await axios.put(
-        `https://family-flow-api.up.railway.app/families/${user.familyId}`,
+        `${import.meta.env.VITE_BASE_URL_API}/families/${user.familyId}`,
         formData,
         {
           headers: {

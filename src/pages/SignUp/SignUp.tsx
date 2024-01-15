@@ -213,6 +213,7 @@ function Signup(props: Partial<DropzoneProps>) {
 
   // Function to handle form submission
   const handleSubmit = async () => {
+    
     if (!form.values.terms) {
       setTermsError('* Vous devez accepter les termes et conditions');
       return;
@@ -250,8 +251,7 @@ function Signup(props: Partial<DropzoneProps>) {
 
     try {
       const response = await axios.post(
-        'https://family-flow-api.up.railway.app/signup',
-        // 'https://family-flow.onrender.com/signup',
+        `${import.meta.env.VITE_BASE_API_URL}/signup`,
         formData, // Envoi des données en utilisant FormData
         {
           headers: {

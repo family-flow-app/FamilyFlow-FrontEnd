@@ -46,7 +46,7 @@ function MainMember() {
     const fetchActivities = async () => {
       try {
         const response = await axios.get<Activity[]>(
-          `https://family-flow-api.up.railway.app/families/${familyId}/activities`,
+          `${import.meta.env.VITE_BASE_API_URL}/families/${familyId}/activities`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
