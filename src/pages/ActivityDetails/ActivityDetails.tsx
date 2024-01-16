@@ -146,7 +146,7 @@ function ActivityDetails() {
         <Container>
           <Title className={`${classes.title}`}>Participants</Title>
           {activityDetails?.assigned_to?.map((member: Member) => (
-            <MemberPublicCard key={member.id} member={member} />
+            <MemberPublicCard key={member.id} member={member} activity_id={activityId} />
           ))}
         </Container>
       )}

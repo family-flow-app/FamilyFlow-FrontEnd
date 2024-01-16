@@ -177,7 +177,7 @@ const UpdateFamilyProfileModal = ({
       //   formData.append('admin', selectedAdmin.toString());
 
       const response = await axios.put(
-        `${import.meta.env.VITE_BASE_URL_API}/families/${user.familyId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}`,
         formData,
         {
           headers: {
