@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Text, Card, Group, Button, Container, Title } from '@mantine/core';
+import { Text, Card, Group, Button, Container, Title, Flex } from '@mantine/core';
 import dayjs from 'dayjs';
 import { Activity } from '../../@types/activity';
 import { useUser } from '../../context/UserInfoContext/UserInfoContext';
@@ -24,6 +24,9 @@ function ActivityDetails() {
   const [activityDetails, setActivityDetails] = useState<Activity | null>(null);
   const [alertModalOpened, setAlertModalOpened] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [alertModalLeaveActivityOpened, setAlertModalLeaveActivityOpened] = useState(false);
+  const [alertMessageLeaveActivity, setAlertMessageLeaveActivity] = useState('');
+  const [responseTrue, setResponseTrue] = useState(false);
 
   // Custom Hooks
   const { id } = useParams<{ id: string }>();
@@ -68,6 +71,8 @@ function ActivityDetails() {
         }
 
         setActivityDetails(response.data);
+        console.log('activity', response.data);
+
         handleSuccess(response);
       } catch (error: any) {
         handleError(error);
@@ -91,6 +96,33 @@ function ActivityDetails() {
   const handleSaveActivity = (updatedActivity: Activity) => {
     setActivityDetails(updatedActivity);
     setEditModalOpen(false);
+  };
+
+  // Function to leave an activity
+  const handleLeaveActivity = async () => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_BASE_API_URL}/activities/${activityDetails?.id}/user/${
+          user.userId
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      setResponseTrue(true);
+      setAlertMessageLeaveActivity("Vous avez quitté l'activité avec succès.");
+      setAlertModalLeaveActivityOpened(true);
+      handleSuccess(response.data);
+      console.log(response);
+    } catch (error: any) {
+      setResponseTrue(false);
+      setAlertMessageLeaveActivity("Erreur lors de la suppression de l'activité.");
+      setAlertModalLeaveActivityOpened(true);
+      handleError(error);
+      console.log(error);
+    }
   };
 
   // Function to delete the activity
@@ -172,6 +204,22 @@ function ActivityDetails() {
           </Button>
         </Container>
       )}
+      {!isUserAuthorized && activityDetails?.category_id === 2 && (
+        <>
+          <Flex justify="center" align="center">
+            <Button
+              onClick={handleLeaveActivity}
+              w={150}
+              mt={10}
+              type="submit"
+              radius="xl"
+              className={` outlineButton`}
+            >
+              Quitter l&apos;activité
+            </Button>
+          </Flex>
+        </>
+      )}
       {familyId != null && (
         <ActivityEditModal
           isOpen={isEditModalOpen}
@@ -190,6 +238,15 @@ function ActivityDetails() {
         redirectTo="/main"
       >
         <Text>{alertMessage}</Text>
+      </AlertModal>
+      <AlertModal
+        opened={alertModalLeaveActivityOpened}
+        onClose={() => setAlertModalLeaveActivityOpened(false)}
+        title={responseTrue ? 'Confirmation' : 'Erreur'}
+        buttonText={responseTrue ? 'Continuer' : 'Retour'}
+        redirectTo={responseTrue ? '/main' : ''}
+      >
+        <Text>{alertMessageLeaveActivity}</Text>
       </AlertModal>
     </Container>
   );
