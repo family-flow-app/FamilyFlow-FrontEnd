@@ -15,12 +15,7 @@ function Home() {
       className={` ${classes.home} ${classes.gradientBackground} ${classes.mediaContainer}`}
       size="responsive"
     >
-      {import.meta.env.VITE_BASE_API_URL}
-      <Image
-        src={logo}
-        className={`${classes.responsiveImage}`}
-        fit="contain"
-      />
+      <Image src={logo} className={`${classes.responsiveImage}`} fit="contain" />
       <Title order={2} style={{ color: 'white' }} mb={10}>
         Connecte ta famille
       </Title>

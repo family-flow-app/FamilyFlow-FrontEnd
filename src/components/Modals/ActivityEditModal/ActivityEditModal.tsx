@@ -142,6 +142,8 @@ function ActivityEditModal({
 
   // Function to handle form submission and save changes
   const handleSaveChanges = async () => {
+    console.log('handleSaveChanges 1');
+
     if (selectedCategory === '') {
       setFormError('* Vous devez sélectionner une catégorie pour cette activité.');
       return;
@@ -149,6 +151,8 @@ function ActivityEditModal({
       setFormError('* Vous devez sélectionner au moins un membre pour cette activité.');
       return;
     }
+
+    console.log('handleSaveChanges 2');
 
     const { name, description, categoryId, startingTime, endingTime, id } = form.values;
     const updatedActivity = {
@@ -159,17 +163,25 @@ function ActivityEditModal({
       ending_time: endingTime instanceof Date ? endingTime.toISOString() : endingTime,
       assigned_to: selectedMembers,
     };
+    console.log('handleSaveChanges 3');
 
     try {
       const response = await axios.put<Activity>(
-        `${import.meta.env.VITE_BASE_URL_API}/families/${familyId}/activities/${id}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${familyId}/activities/${id}`,
         updatedActivity,
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      console.log('handleSaveChanges 4');
+
       onSave(response.data);
+      console.log('handleSaveChanges 5');
+
       setIsSuccess(true);
       setAlertMessage('Activité mise à jour avec succès.');
+      console.log('handleSaveChanges 6');
+
       setAlertModalOpened(true);
+      console.log('handleSaveChanges 7');
       handleSuccess(response);
     } catch (error: any) {
       setIsSuccess(false);

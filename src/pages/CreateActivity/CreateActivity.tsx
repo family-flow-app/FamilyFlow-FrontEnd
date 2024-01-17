@@ -144,7 +144,7 @@ function CreateActivity() {
 
     try {
       const response = await axios.post<Activity>(
-        `https://family-flow-api.up.railway.app/families/${user.familyId}/activities`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/activities`,
         activityInfos,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
@@ -231,7 +231,7 @@ function CreateActivity() {
           {familyMembers
             .filter((member) => selectedMembers.includes(member.id))
             .map((member) => (
-              <MemberPublicCard key={member.id} member={member} />
+              <MemberPublicCard key={member.id} member={member} activity_id={null}/>
             ))}
         </Flex>
         <Flex justify="center" align="center">
