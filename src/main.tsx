@@ -19,6 +19,7 @@ import PageLoader from './components/Loader/PageLoader';
 import AppLoader from './components/Loader/AppLoader';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import UserStatusUpdater from './components/UserStatusUpdater/UserStatusUpdater';
 
 const Home = React.lazy(() => import('./pages/Home/Home'));
 const Login = React.lazy(() => import('./pages/Login/Login'));
@@ -57,6 +58,7 @@ function App() {
 
   return (
     <Router>
+      <UserStatusUpdater />
       <ScrollToTop />
       {isUserAuthorized && <HeaderSimple />}
       <Routes>
