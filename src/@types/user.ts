@@ -6,7 +6,7 @@ export interface UserData {
   description?: string;
   email: string;
   password?: string;
-  image_url?: string;
+  image_url?: string | null;
   birthday?: Date;
   role: string;
   created_at: Date;

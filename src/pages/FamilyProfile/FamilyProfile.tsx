@@ -27,6 +27,7 @@ import RequestCard from '@/components/Cards/RequestCard/RequestCard';
 import InvitationCard from '@/components/Cards/InvitationCard/InvitationCard';
 import { Family } from '../../@types/family';
 import { Member } from '../../@types/member';
+import { UserData } from '@/@types/user';
 import familyIcon from '../../public/img/FF_icon_family.png';
 import { IconSearch } from '@tabler/icons-react';
 import '../../styles/globalStyles.scss';
@@ -49,7 +50,7 @@ const FamilyProfile = () => {
   const [selectedUserIdForInvite, setSelectedUserIdForInvite] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<UserData[]>([]);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [isMemberExpulsionConfirmModalOpen, setMemberExpulsionConfirmModalOpen] = useState(false);
   const [isMemberExpulsionAlertModalOpen, setMemberExpulsionAlertModalOpen] = useState(false);
@@ -133,7 +134,9 @@ const FamilyProfile = () => {
 
     try {
       await axios.delete(
-        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/members/${selectedMemberIdForExpulsion}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${
+          user.familyId
+        }/members/${selectedMemberIdForExpulsion}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       setExpulsionAlertMessage('Membre expulsé avec succès.');
@@ -258,7 +261,9 @@ const FamilyProfile = () => {
   const handleDeleteInvitation = async (invitationId: number) => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_BASE_API_URL}/invitations/${invitationId}/families/${user.familyId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/invitations/${invitationId}/families/${
+          user.familyId
+        }`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -432,7 +437,7 @@ const FamilyProfile = () => {
                 </Button>
               )}
             </Group>
-            {familyInfo && familyInfo.length > 0 && (
+            {familyInfo && familyInfo.lenght > 0 && (
               <UpdateFamilyProfileModal
                 familyInfos={familyInfo[0]}
                 opened={isUpdateFamilyProfileModalOpen}

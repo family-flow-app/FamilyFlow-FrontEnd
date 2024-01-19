@@ -84,7 +84,7 @@ function InvitationInfosModal({
                 size="auto"
                 radius="xl"
                 m={20}
-                onClick={setIsConfirmModalOpen}
+                onClick={() => setIsConfirmModalOpen}
               >
                 Supprimer
               </Button>

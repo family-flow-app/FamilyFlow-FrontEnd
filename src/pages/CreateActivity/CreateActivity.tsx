@@ -231,7 +231,8 @@ function CreateActivity() {
           {familyMembers
             .filter((member) => selectedMembers.includes(member.id))
             .map((member) => (
-              <MemberPublicCard key={member.id} member={member} activity_id={null}/>
+              // <MemberPublicCard key={member.id} member={member} activity_id={null}/>
+              <MemberPublicCard key={member.id} member={member} />
             ))}
         </Flex>
         <Flex justify="center" align="center">

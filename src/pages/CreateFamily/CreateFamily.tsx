@@ -120,16 +120,12 @@ const CreateFamily = () => {
       }
 
       // Envoyer la requête POST
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_API_URL}/families`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const response = await axios.post(`${import.meta.env.VITE_BASE_API_URL}/families`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
       const { role, family } = response.data;
       setAlertMessage('Votre famille a bien été créée.');
@@ -149,7 +145,7 @@ const CreateFamily = () => {
   const handleModalClose = () => {
     if (isSuccess) {
       localStorage.setItem('role', roleAndFamily.role);
-      localStorage.setItem('family_id', roleAndFamily.familyId);
+      localStorage.setItem('family_id', roleAndFamily.familyId.toString());
       setUser({
         ...user,
         familyId: roleAndFamily.familyId,

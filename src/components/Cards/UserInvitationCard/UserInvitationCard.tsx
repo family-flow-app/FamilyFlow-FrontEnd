@@ -4,14 +4,10 @@ import { Image, Text, Card, Button, Container } from '@mantine/core';
 import classes from './UserInvitationCard.module.scss';
 import defaultIcon from '../../../public/img/FF_icone-task.png';
 import UserInvitationModal from '../../Modals/UserInvitationModal/UserInvitationModal';
+import { UserData } from '@/@types/user';
 
 interface UserCardProps {
-  user: {
-    id: number;
-    firstname: string;
-    lastname: string;
-    image_url: string | null;
-  };
+  user: UserData;
   onInvite: (id: number) => void;
 }
 

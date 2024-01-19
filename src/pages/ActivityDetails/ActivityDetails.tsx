@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Text, Card, Group, Button, Container, Title, Flex } from '@mantine/core';
+import { Text, Button, Container, Title, Flex } from '@mantine/core';
 import dayjs from 'dayjs';
 import { Activity } from '../../@types/activity';
 import { useUser } from '../../context/UserInfoContext/UserInfoContext';
@@ -178,7 +178,8 @@ function ActivityDetails() {
         <Container>
           <Title className={`${classes.title}`}>Participants</Title>
           {activityDetails?.assigned_to?.map((member: Member) => (
-            <MemberPublicCard key={member.id} member={member} activity_id={activityId} />
+            // <MemberPublicCard key={member.id} member={member} activity_id={activityId} />
+            <MemberPublicCard key={member.id} member={member} />
           ))}
         </Container>
       )}

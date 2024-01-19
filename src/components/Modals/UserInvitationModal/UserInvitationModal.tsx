@@ -8,18 +8,12 @@ import useApiErrorHandler from '@/hooks/useApiErrorHandler/useApiErrorHandler';
 import useHandleSuccess from '@/hooks/useHandleSuccess/useHandleSuccess';
 import icon from '../../../public/img/FF_icon_member.png';
 import classes from './UserInvitationModal.module.scss';
+import { UserData } from '@/@types/user';
 
 interface UserInvitationModalProps {
   opened: boolean;
   onClose: () => void;
-  userInfos: {
-    id: number;
-    firstname: string;
-    lastname: string;
-    image_url: string | null;
-    email?: string | null;
-    birthday?: string | null;
-  };
+  userInfos: UserData;
 }
 
 function UserInvitationModal({

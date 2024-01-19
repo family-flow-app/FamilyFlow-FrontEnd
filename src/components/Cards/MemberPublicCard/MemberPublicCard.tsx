@@ -9,9 +9,13 @@ import icon from '../../../public/img/FF_icon_member.png';
 
 interface MemberCardProps {
   member: Member;
+  activity_id?: number;
 }
 
-function MemberPublicCard({ member }: MemberCardProps): React.ReactElement<{ member: Member }> {
+function MemberPublicCard({
+  member,
+  activity_id,
+}: MemberCardProps): React.ReactElement<{ member: Member }> {
   return (
     <Card className={classes.card} withBorder>
       <Flex justify="space-around" align="center">
