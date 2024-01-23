@@ -33,7 +33,7 @@ function UserStatusUpdater() {
       const fetchUserData = async () => {
         try {
           const response = await axios.get(
-            `https://family-flow-api.up.railway.app/users/${user.userId}/update`
+            `${import.meta.env.VITE_BASE_API_URL}/users/${user.userId}/update`
           );
           console.log('User Status', response.data);
 
