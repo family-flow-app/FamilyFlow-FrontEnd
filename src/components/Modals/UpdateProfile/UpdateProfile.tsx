@@ -132,7 +132,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
       );
 
       if (filteredFormValues.birthday) {
-        filteredFormValues.birthday = dayjs(filteredFormValues.birthday).format('YYYY/MM/DD');
+        filteredFormValues.birthday = dayjs.utc(filteredFormValues.birthday).format('YYYY/MM/DD');
       }
 
       const updatedData = {
@@ -141,7 +141,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
       };
       console.log('updated data', updatedData);
 
-      // Requête PUT pour la mise à jour du profil
+      // Requête PATCH pour la mise à jour du profil
       const response = await axios.patch(
         `${import.meta.env.VITE_BASE_API_URL}/users/${user.user.userId}`,
         updatedData,
