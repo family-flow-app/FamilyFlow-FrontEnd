@@ -252,8 +252,8 @@ const CreateFamily = () => {
               src={imagePreview}
               alt="profil picture preview"
               style={{
-                maxWidth: '500px',
-                maxHeight: '500px',
+                maxWidth: '250px',
+                maxHeight: '250px',
                 objectFit: 'contain',
               }}
             />

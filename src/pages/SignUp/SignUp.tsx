@@ -213,7 +213,6 @@ function Signup(props: Partial<DropzoneProps>) {
 
   // Function to handle form submission
   const handleSubmit = async () => {
-    
     if (!form.values.terms) {
       setTermsError('* Vous devez accepter les termes et conditions');
       return;
@@ -515,8 +514,8 @@ function Signup(props: Partial<DropzoneProps>) {
                   src={imagePreview}
                   alt="profil picture preview"
                   style={{
-                    maxWidth: '500px',
-                    maxHeight: '500px',
+                    maxWidth: '250px',
+                    maxHeight: '250px',
                     objectFit: 'contain',
                   }}
                 />
