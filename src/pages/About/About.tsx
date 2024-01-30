@@ -36,10 +36,9 @@ function AboutPage() {
       </Title>
       {/* Description text for the Family Flow app */}
       <Text>
-        Family Flow est une application conçue pour simplifier la vie des
-        familles modernes. Notre objectif est de fournir un outil intuitif et
-        convivial pour gérer les activités familiales et renforcer la
-        communication entre les membres de la famille.
+        Family Flow est une application conçue pour simplifier la vie des familles modernes. Notre
+        objectif est de fournir un outil intuitif et convivial pour gérer les activités familiales
+        et renforcer la communication entre les membres de la famille.
       </Text>
       {/* Subtitle for the Vision section */}
       <Title order={2} mt={30} mb={10} className={`${classes.title}`}>
@@ -47,10 +46,9 @@ function AboutPage() {
       </Title>
       {/* Description of the company's vision */}
       <Text>
-        Nous croyons en une approche collaborative pour la gestion des tâches
-        ménagères et des activités familiales. Family Flow est plus qu&apos;une
-        simple application ; c&apos;est un partenaire au quotidien pour
-        connecter et harmoniser les routines de chaque famille.
+        Nous croyons en une approche collaborative pour la gestion des tâches ménagères et des
+        activités familiales. Family Flow est plus qu&apos;une simple application ; c&apos;est un
+        partenaire au quotidien pour connecter et harmoniser les routines de chaque famille.
       </Text>
       {/* Subtitle for the Team section */}
       <Title order={2} mt={30} mb={10} className={`${classes.title}`}>
@@ -58,10 +56,9 @@ function AboutPage() {
       </Title>
       {/* Description of the team behind Family Flow */}
       <Text>
-        L&apos;équipe derrière Family Flow est composée de développeurs
-        passionnés, de designers créatifs, et de spécialistes en communication
-        familiale. Nous combinons expertise technique et compréhension des
-        dynamiques familiales pour offrir une expérience utilisateur
+        L&apos;équipe derrière Family Flow est composée de développeurs passionnés, de designers
+        créatifs, et de spécialistes en communication familiale. Nous combinons expertise technique
+        et compréhension des dynamiques familiales pour offrir une expérience utilisateur
         exceptionnelle.
       </Text>
       {/* Subtitle for Community Engagement section */}
@@ -70,10 +67,9 @@ function AboutPage() {
       </Title>
       {/* Invitation for user community engagement */}
       <Text>
-        Nous sommes toujours à l&apos;écoute de nos utilisateurs pour améliorer
-        Family Flow. N&apos;hésitez pas à nous contacter pour partager vos
-        suggestions ou vos histoires. Rejoignez notre communauté et contribuez à
-        façonner l&apos;avenir de la gestion familiale !
+        Nous sommes toujours à l&apos;écoute de nos utilisateurs pour améliorer Family Flow.
+        N&apos;hésitez pas à nous contacter pour partager vos suggestions ou vos histoires.
+        Rejoignez notre communauté et contribuez à façonner l&apos;avenir de la gestion familiale !
       </Text>
       <Flex justify="center" mt={20}>
         <Button

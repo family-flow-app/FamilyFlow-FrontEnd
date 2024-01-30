@@ -39,8 +39,8 @@ function TermsPage() {
         Introduction
       </Title>
       <Text>
-        Bienvenue sur Family Flow. En utilisant notre site web et nos services,
-        vous acceptez les présentes conditions. Veuillez les lire attentivement.
+        Bienvenue sur Family Flow. En utilisant notre site web et nos services, vous acceptez les
+        présentes conditions. Veuillez les lire attentivement.
       </Text>
 
       {/* Service usage guidelines section */}
@@ -48,8 +48,8 @@ function TermsPage() {
         Utilisation du Service
       </Title>
       <Text>
-        Description de la manière dont les utilisateurs peuvent ou ne peuvent
-        pas utiliser votre service.
+        Description de la manière dont les utilisateurs peuvent ou ne peuvent pas utiliser votre
+        service.
       </Text>
       {/* Placeholder for additional sections */}
       {/* Continuer à ajouter d'autres sections selon les besoins, comme la confidentialité, les droits d'auteur, etc. */}
@@ -59,17 +59,15 @@ function TermsPage() {
         Modifications des Conditions
       </Title>
       <Text>
-        Nous pouvons modifier les conditions à tout moment en publiant une
-        version révisée sur ce site.
+        Nous pouvons modifier les conditions à tout moment en publiant une version révisée sur ce
+        site.
       </Text>
 
       {/* Contact information section */}
       <Title order={2} mt={30} mb={10} className={`${classes.title}`}>
         Contact
       </Title>
-      <Text>
-        Si vous avez des questions sur ces conditions, veuillez nous contacter.
-      </Text>
+      <Text>Si vous avez des questions sur ces conditions, veuillez nous contacter.</Text>
       <Flex justify="center" mt={20}>
         <Button
           className="outlineButton"

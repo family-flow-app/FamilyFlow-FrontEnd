@@ -97,34 +97,24 @@ function MainMember() {
   const getFilteredActivities = () => {
     switch (filter) {
       case 'moi':
-        return activities.filter(
-          (activity) => activity.user_id === user.userId
-        );
+        return activities.filter((activity) => activity.user_id === user.userId);
       case 'famille':
         return activities.filter(
           (activity) =>
             activity.family_id === user.familyId &&
-            !activity.assigned_to?.some(
-              (assignedUser) => assignedUser.id === user.userId
-            )
+            !activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId)
         );
       case 'evenement':
         return activities.filter(
-          (activity) =>
-            activity.user_id === user.userId && activity.category_id === 2
+          (activity) => activity.user_id === user.userId && activity.category_id === 2
         );
       case 'tache':
         return activities.filter(
-          (activity) =>
-            activity.user_id === user.userId && activity.category_id === 1
+          (activity) => activity.user_id === user.userId && activity.category_id === 1
         );
       case 'semaine': {
         const today = new Date();
-        const oneWeekLater = new Date(
-          today.getFullYear(),
-          today.getMonth(),
-          today.getDate() + 7
-        );
+        const oneWeekLater = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 
         return activities.filter((activity) => {
           const startDate = new Date(activity.starting_time ?? '');
@@ -141,9 +131,7 @@ function MainMember() {
   const handleSearch = () => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     const filtered = activities.filter((activity) => {
-      const nameMatch = activity.name
-        ?.toLowerCase()
-        .includes(lowerCaseSearchTerm);
+      const nameMatch = activity.name?.toLowerCase().includes(lowerCaseSearchTerm);
       const activityDate = dayjs(activity.starting_time).format('DD/MM/YYYY');
       const dateMatch = activityDate.includes(searchTerm);
 
@@ -173,12 +161,7 @@ function MainMember() {
         <Autocomplete
           className={`${classes.searchBar}`}
           placeholder="Recherche ton activité..."
-          leftSection={
-            <IconSearch
-              style={{ width: rem(16), height: rem(16) }}
-              stroke={1.5}
-            />
-          }
+          leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
           value={searchTerm}
           onChange={setSearchTerm}
           radius="xl"
@@ -211,8 +194,8 @@ function MainMember() {
       {/* No Search Results Message */}
       {!hasSearchResults && (
         <div>
-          Aucune activité trouvée pour &quot;{searchTerm}&quot;. Veuillez
-          essayer une autre recherche.
+          Aucune activité trouvée pour &quot;{searchTerm}&quot;. Veuillez essayer une autre
+          recherche.
         </div>
       )}
 
@@ -223,11 +206,7 @@ function MainMember() {
       <Flex justify="center" align="center">
         <Menu shadow="md" width={200}>
           <Menu.Target>
-            <Button
-              className={`filterButton ${classes.button}`}
-              size="responsive"
-              radius="xl"
-            >
+            <Button className={`filterButton ${classes.button}`} size="responsive" radius="xl">
               Filtres
             </Button>
           </Menu.Target>
@@ -239,13 +218,7 @@ function MainMember() {
                   checked={selectedFilter === option.value}
                   onChange={() =>
                     handleCheckboxChange(
-                      option.value as
-                        | 'all'
-                        | 'moi'
-                        | 'famille'
-                        | 'semaine'
-                        | 'evenement'
-                        | 'tache'
+                      option.value as 'all' | 'moi' | 'famille' | 'semaine' | 'evenement' | 'tache'
                     )
                   }
                   label={option.label}

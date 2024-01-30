@@ -65,15 +65,11 @@ function Contact() {
   }) => {
     try {
       console.log('Values submitted:', values);
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_API_URL}/send-email`,
-        values,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await axios.post(`${import.meta.env.VITE_BASE_API_URL}/send-email`, values, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       // Gérer la réponse positive ici, par exemple afficher un message de succès
       handleSuccess(response.data);
       setModalOpen(true);
@@ -93,8 +89,8 @@ function Contact() {
         redirectTo={redirectTo}
       >
         <Text className={`${classes.textModal}`}>
-          Nous vous remercions pour votre message et nous vous répondrons dans
-          les plus brefs délais.
+          Nous vous remercions pour votre message et nous vous répondrons dans les plus brefs
+          délais.
         </Text>
       </AlertModal>
       {/* Form submission handling */}

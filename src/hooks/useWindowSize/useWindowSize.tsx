@@ -15,12 +15,12 @@ export function useWindowSize() {
     }
 
     window.addEventListener('resize', handleResize);
-    
+
     handleResize();
 
     // Nettoyer l'écouteur d'événement lors du démontage du composant
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  
+
   return windowSize;
 }

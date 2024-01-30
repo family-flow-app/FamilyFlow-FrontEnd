@@ -4,4 +4,3 @@ export interface Category {
   label: string;
   // Ajoute d'autres champs nécessaires
 }
-  

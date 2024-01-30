@@ -23,11 +23,7 @@ function AppLoader() {
     <div style={loaderStyle}>
       {/* Loader animation */}
 
-      <Image
-        src={logo}
-        className={`${classes.responsiveImage}`}
-        fit="contain"
-      />
+      <Image src={logo} className={`${classes.responsiveImage}`} fit="contain" />
 
       {/* Loader animation */}
       <Loader color="cyan" />

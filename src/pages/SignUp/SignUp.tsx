@@ -223,27 +223,24 @@ function Signup(props: Partial<DropzoneProps>) {
 
     const formData = new FormData();
 
-    // Ajouter toutes les données du formulaire à formData, sauf 'terms'
+    // Ajoute toutes les données du formulaire à formData, sauf 'terms'
     Object.entries(form.values).forEach(([key, value]) => {
       if (key !== 'terms') {
         if (key === 'birthday' && value) {
-          // Formater et ajouter la date de naissance si elle n'est pas vide
+          // Formate et ajoute la date de naissance si le champ n'est pas vide
           const formattedDate = dayjs(value).format('YYYY-MM-DD');
           formData.append(key, formattedDate);
-        } else if (key === 'description' && value === '') {
-          // Si le champ 'description' est vide, choisir de ne pas l'ajouter ou d'ajouter une chaîne vide
-          // formData.append(key, '');
         } else if (value) {
-          // Ajouter les autres champs s'ils ne sont pas vides
+          // Ajoute les champs obligatoires
           formData.append(key, value);
         }
       }
     });
-
+    // Ajoute l'image si présente
     if (imageFile) {
-      formData.append('image_url', imageFile); // Ajouter l'image si présente
+      formData.append('image_url', imageFile);
     }
-
+    // Vérifie le contenu de formData
     for (const [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
@@ -251,16 +248,13 @@ function Signup(props: Partial<DropzoneProps>) {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_API_URL}/signup`,
-        formData, // Envoi des données en utilisant FormData
+        formData, // Données envoyées à l'API
         {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         }
       );
-
-      console.log("Réponse de l'API :", response.data);
-
       if (response.status === 201) {
         handleSuccess(response);
         setModalOpen(true);
@@ -296,9 +290,9 @@ function Signup(props: Partial<DropzoneProps>) {
         return;
       }
 
-      setImageFile(file); // Stocker le fichier d'image pour l'envoi
-      const imageUrl = URL.createObjectURL(file); // Créer un URL d'aperçu pour l'affichage
-      setImagePreview(imageUrl); // Mettre à jour l'état pour l'aperçu
+      setImageFile(file); // Stocke le fichier d'image pour l'envoi
+      const imageUrl = URL.createObjectURL(file); // Crée une URL pour afficher l'aperçu
+      setImagePreview(imageUrl); // Met à jour l'état pour l'aperçu
     }
   };
 
@@ -451,9 +445,7 @@ function Signup(props: Partial<DropzoneProps>) {
             onDrop={handleFileUpload}
             onReject={() => setFormError('Fichier rejeté')}
             maxSize={3 * 1024 ** 2}
-            // todo : Reactivate it when DB ready to handle picture
             disabled={!!imagePreview}
-            // disabled
             accept={IMAGE_MIME_TYPE}
             {...props}
             mb={20}
@@ -495,7 +487,7 @@ function Signup(props: Partial<DropzoneProps>) {
                     Télécharger votre photo
                   </Text>
                   <Text size="sm" c="dimmed" inline mt={7}>
-                    Seulement les fichiers PNG et JPEG sont autorisés
+                    Seul les fichiers PNG et JPEG sont autorisés
                   </Text>
                 </Flex>
               </Group>
@@ -515,7 +507,7 @@ function Signup(props: Partial<DropzoneProps>) {
                   alt="profil picture preview"
                   style={{
                     maxWidth: '250px',
-                    maxHeight: '250px',
+                    maxHeight: '0px',
                     objectFit: 'contain',
                   }}
                 />

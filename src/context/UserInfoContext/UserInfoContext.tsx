@@ -1,15 +1,9 @@
 // File: UserInfoContext.tsx
 // Developer: @yannick-leguennec (GitHub)
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useMemo,
-  useEffect,
-} from 'react';
+import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
 
-// User interface for type safety
+// User type
 interface User {
   userId: number | null;
   familyId: number | null;
@@ -18,22 +12,23 @@ interface User {
   token: string;
 }
 
-// User context properties interface
+// UserContext properties
 interface UserContextProps {
   user: User;
   setUser: (user: User) => void;
 }
 
-// Provider properties interface
+// UserProvider properties
 interface UserProviderProps {
   children: React.ReactNode;
 }
 
+// UserContext creation
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
-// UserProvider component to manage user state
+// UserProvider component manages the user state and provides it to its children
 function UserProvider({ children }: UserProviderProps) {
-  // Initial user state from localStorage with explicit radix for parseInt
+  // Recover user data from localStorage
   const initialUserState = {
     userId: parseInt(localStorage.getItem('user_id') ?? '0', 10),
     familyId: localStorage.getItem('family_id')
@@ -43,16 +38,14 @@ function UserProvider({ children }: UserProviderProps) {
     firstName: localStorage.getItem('firstName') ?? null,
     token: localStorage.getItem('token') ?? '',
   };
-
+  // set user state with the values recovered from localStorage
   const [user, setUser] = useState<User>(initialUserState);
   console.log('Valeurs initiales du localStorage', initialUserState);
 
-  // Effect to update localStorage on user state change
+  // Update the localStorage if the user state change
   useEffect(() => {
-    console.log(
-      "Mise à jour des informations de l'utilisateur dans context :",
-      user
-    );
+    console.log('Valeurs du localStorage après mise à jour', user);
+
     localStorage.setItem('user_id', user.userId?.toString() ?? '0');
     if (user.familyId !== null) {
       localStorage.setItem('family_id', user.familyId.toString());
@@ -62,12 +55,10 @@ function UserProvider({ children }: UserProviderProps) {
     localStorage.setItem('token', user.token);
   }, [user]);
 
-  // Memoized context value to optimize performance
+  // Context values, updated only when user state change
   const contextValue = useMemo(() => ({ user, setUser }), [user]);
 
-  return (
-    <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
-  );
+  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 }
 
 // Custom hook for accessing user context
