@@ -22,10 +22,9 @@ function ServerOverload() {
         <div className={classes.content}>
           <Title className={classes.title}>Victime de notre succès!</Title>
           <Text size="lg" ta="center" className={classes.description}>
-            Vous êtes tellement nombreux à nous avoir rejoint que nos serveurs
-            sont surchargés. Nous travaillons d&apos;arrache-pied pour vous
-            permettre de profiter de notre service au plus vite. Merci de votre
-            patience.
+            Vous êtes tellement nombreux à nous avoir rejoint que nos serveurs sont surchargés. Nous
+            travaillons d&apos;arrache-pied pour vous permettre de profiter de notre service au plus
+            vite. Merci de votre patience.
           </Text>
           <Group justify="center">
             <Button

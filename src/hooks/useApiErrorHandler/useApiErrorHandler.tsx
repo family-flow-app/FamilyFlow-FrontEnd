@@ -26,11 +26,7 @@ function useApiErrorHandler() {
     (error: AxiosError<CustomAxiosErrorResponse>) => {
       if (error.response) {
         const { status, data } = error.response;
-        console.log(
-          `API Error - Status: ${status}, Message: ${
-            data.message || 'Unknown error'
-          }`
-        );
+        console.log(`API Error - Status: ${status}, Message: ${data.message || 'Unknown error'}`);
 
         // Redirects based on the status code
         switch (status) {

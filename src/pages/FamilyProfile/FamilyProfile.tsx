@@ -345,6 +345,8 @@ const FamilyProfile = () => {
   // Fonction pour gérer la fermeture de la modal Confirm
   const closeConfirmModal = () => setConfirmModalOpen(false);
 
+  console.log('family info', familyInfo);
+
   return (
     <Container className={`container ${classes.mediaContainer}`}>
       <Flex direction={'column'} align={'center'}>
@@ -437,7 +439,7 @@ const FamilyProfile = () => {
                 </Button>
               )}
             </Group>
-            {familyInfo && familyInfo.lenght > 0 && (
+            {familyInfo && (
               <UpdateFamilyProfileModal
                 familyInfos={familyInfo[0]}
                 opened={isUpdateFamilyProfileModalOpen}

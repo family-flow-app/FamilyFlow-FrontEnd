@@ -56,7 +56,9 @@ function UserRequestModal({
   const handleReject = async () => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/users/${userRequestInfo?.id}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${
+          user.familyId
+        }/users/${userRequestInfo?.id}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       handleSuccess(response);
