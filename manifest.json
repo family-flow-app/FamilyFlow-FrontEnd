@@ -1,0 +1,11 @@
+{
+  "name": "Family Flow",
+  "short_name": "Family Flow",
+  "description": "Family Flow is a web application that helps families to organize their daily activities and to keep track of their expenses.",
+  "lang": "fr-FR",
+  "icons": [],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
