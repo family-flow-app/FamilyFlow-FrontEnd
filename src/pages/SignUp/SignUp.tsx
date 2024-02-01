@@ -350,8 +350,8 @@ function Signup(props: Partial<DropzoneProps>) {
             placeholder="Ton nom"
             label="Nom"
             className="input"
-            {...form.getInputProps('firstname')}
-            onBlur={() => handleBlur('firstname')}
+            {...form.getInputProps('lastname')}
+            onBlur={() => handleBlur('lastname')}
             radius="xl"
             required
           />
@@ -359,8 +359,8 @@ function Signup(props: Partial<DropzoneProps>) {
             placeholder="Ton prénom"
             label="Prénom"
             className="input"
-            {...form.getInputProps('lastname')}
-            onBlur={() => handleBlur('lastname')}
+            {...form.getInputProps('firstname')}
+            onBlur={() => handleBlur('firstname')}
             radius="xl"
             required
           />
