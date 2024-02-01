@@ -73,7 +73,10 @@ const FamilyProfile = () => {
             headers: { Authorization: `Bearer ${user.token}` },
           }
         );
-        setFamilyInfo(handleSuccess(familyInfoResponse));
+        console.log('family info TONTON', familyInfoResponse.data);
+
+        setFamilyInfo(familyInfoResponse.data);
+        handleSuccess(familyInfoResponse);
       } catch (error: any) {
         handleApiError(error);
       }
@@ -345,7 +348,7 @@ const FamilyProfile = () => {
   // Fonction pour gérer la fermeture de la modal Confirm
   const closeConfirmModal = () => setConfirmModalOpen(false);
 
-  console.log('family info', familyInfo);
+  console.log('familyInfo REAL', familyInfo);
 
   return (
     <Container className={`container ${classes.mediaContainer}`}>
@@ -354,11 +357,11 @@ const FamilyProfile = () => {
           <>
             <Image
               className={`${classes.image}`}
-              src={familyInfo[0]?.image_url || familyIcon}
+              src={familyInfo?.image_url || familyIcon}
               alt="Profile"
             />
             <Title className={`${classes.primeTitle}`} mb={30}>
-              {familyInfo[0]?.name}
+              {familyInfo?.name}
             </Title>
           </>
         )}
@@ -406,13 +409,13 @@ const FamilyProfile = () => {
               Informations
             </Title>
             <Title order={3} mt={30} mb={5}>
-              {familyInfo && (familyInfo[0]?.description ?? 'Non spécifiée')}
+              {familyInfo && (familyInfo?.description ?? 'Non spécifiée')}
             </Title>
             <Text m={5}>
               Existe depuis le:{' '}
               {familyInfo &&
-                (familyInfo[0]?.created_at
-                  ? dayjs.utc(familyInfo[0].created_at).format('DD/MM/YYYY')
+                (familyInfo?.created_at
+                  ? dayjs.utc(familyInfo.created_at).format('DD/MM/YYYY')
                   : 'Non spécifiée')}
             </Text>
             <Text m={5}> Administrateur(s): </Text>
@@ -441,7 +444,7 @@ const FamilyProfile = () => {
             </Group>
             {familyInfo && (
               <UpdateFamilyProfileModal
-                familyInfos={familyInfo[0]}
+                familyInfos={familyInfo}
                 opened={isUpdateFamilyProfileModalOpen}
                 onClose={() => setIsUpdateFamilyProfileModalOpen(false)}
                 onFamilyInfoUpdate={fetchFamilyInfo}
