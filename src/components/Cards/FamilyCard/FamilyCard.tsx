@@ -13,6 +13,8 @@ interface FamilyCardProps {
 }
 
 function FamilyCard({ family, onViewProfile }: FamilyCardProps) {
+  console.log('family CARD', family);
+
   return (
     <Card className={`${classes.card}`} withBorder>
       <Image

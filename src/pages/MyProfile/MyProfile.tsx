@@ -26,7 +26,7 @@ function MyProfile() {
   // State management for user and family information
   const { user } = useUser();
   const [userInfo, setUserInfo] = useState<UserData | null>(null);
-  const [familyInfo, setFamilyInfo] = useState<Family[]>([]);
+  const [familyInfo, setFamilyInfo] = useState<Family | null>(null);
   const [isUpdateProfileOpen, setIsUpdateProfileOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   dayjs.extend(utc);
@@ -52,7 +52,9 @@ function MyProfile() {
             `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}`,
             { headers: { Authorization: `Bearer ${user.token}` } }
           );
-          setFamilyInfo(handleSuccess(familyResponse));
+
+          setFamilyInfo(familyResponse.data);
+          handleSuccess(familyResponse);
         }
       } catch (error: any) {
         handleError(error);
@@ -83,11 +85,6 @@ function MyProfile() {
       handleCloseDeleteModal();
     }
   };
-
-  // Renders family cards
-  const familyCards = familyInfo.map((family: Family) => (
-    <FamilyCard key={family.id} family={family} onViewProfile={handleViewProfile} />
-  ));
 
   return (
     <Container className={`container ${classes.mediaContainer}`}>
@@ -126,7 +123,11 @@ function MyProfile() {
           </Text>
         )}
         {/* Affichage du composant FamilyCard si user.familyId n'est pas null */}
-        {user.familyId && familyInfo.length > 0 && familyCards}
+        {/* {user.familyId && familyInfo ? ( */}
+        {user.familyId && familyInfo && (
+          <FamilyCard key={familyInfo.id} family={familyInfo} onViewProfile={handleViewProfile} />
+        )}
+        {/* ) : null} */}
         <Flex justify="center">
           <Button
             className="gradientButton"
