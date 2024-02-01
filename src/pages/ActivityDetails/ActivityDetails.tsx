@@ -235,7 +235,7 @@ function ActivityDetails() {
         opened={alertModalOpened}
         onClose={() => setAlertModalOpened(false)}
         title="Confirmation"
-        buttonText=""
+        buttonText="Continuer"
         redirectTo="/main"
       >
         <Text>{alertMessage}</Text>

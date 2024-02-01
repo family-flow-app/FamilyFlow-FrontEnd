@@ -164,6 +164,7 @@ function ActivityEditModal({
       assigned_to: selectedMembers,
     };
     console.log('handleSaveChanges 3');
+    console.log('updatedActivity', updatedActivity);
 
     try {
       const response = await axios.put<Activity>(
@@ -184,6 +185,8 @@ function ActivityEditModal({
       console.log('handleSaveChanges 7');
       handleSuccess(response);
     } catch (error: any) {
+      console.log('reponse', error);
+
       setIsSuccess(false);
       setAlertMessage("Erreur lors de la modification de l'activité.");
       setAlertModalOpened(true);
