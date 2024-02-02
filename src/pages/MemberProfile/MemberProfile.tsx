@@ -29,7 +29,7 @@ function MemberProfile() {
   dayjs.extend(utc);
 
   const [memberInfo, setMemberInfo] = useState<UserData | null>(null);
-  const [familyInfo, setFamilyInfo] = useState<Family[]>([]);
+  const [familyInfo, setFamilyInfo] = useState<Family | null>(null);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -55,7 +55,10 @@ function MemberProfile() {
             `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}`,
             { headers: { Authorization: `Bearer ${user.token}` } }
           );
-          setFamilyInfo(handleSuccess(familyResponse));
+          console.log('familyResponse', familyResponse.data);
+
+          setFamilyInfo(familyResponse.data);
+          handleSuccess(familyResponse);
         }
       } catch (error) {
         console.error(error);
@@ -68,10 +71,10 @@ function MemberProfile() {
 
   const handleViewProfile = () => navigate(`/my-family`);
 
-  // Renders family cards
-  const familyCards = familyInfo.map((family: Family) => (
-    <FamilyCard key={family.id} family={family} onViewProfile={handleViewProfile} />
-  ));
+  //! Renders family cards when multiple families are present
+  // const familyCards = familyInfo.map((family: Family) => (
+  //   <FamilyCard key={family.id} family={family} onViewProfile={handleViewProfile} />
+  // ));
 
   // Fonction pour confirmer la suppression
   const confirmRemoveMember = async () => {
@@ -144,7 +147,9 @@ function MemberProfile() {
           </Text>
         )}
         {/* Affichage du composant FamilyCard si user.familyId n'est pas null */}
-        {user.familyId && familyInfo.length > 0 && familyCards}
+        {user.familyId && familyInfo && (
+          <FamilyCard family={familyInfo} onViewProfile={handleViewProfile} />
+        )}
         <Button
           className="outlineButton"
           w={100}
