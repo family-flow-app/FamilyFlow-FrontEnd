@@ -117,18 +117,16 @@ function InvitationUserCard({
           type="button"
           className={`${classes.card_icon}`}
           m={5}
-          radius="xl"
           onClick={handleReject}
         >
           <IconX />
         </ActionIcon>
         <ActionIcon
           type="button"
-          className={`gradientButton ${classes.card_button}`}
+          className={`gradientButton ${classes.card_icon}`}
           mt={5}
           mb={5}
           ml={5}
-          radius="xl"
           onClick={openUserModal}
         >
           <IconUserQuestion />
@@ -159,6 +157,6 @@ function InvitationUserCard({
 export default InvitationUserCard;
 
 /* Manual of integration of the component in the application
-1) Import the component in the file where you want to use it: import RequestCard from './RequestCard/RequestCard';
+1) Import the component in the file where you want to use it: importInvitationUserCard from './InvitationUserCard/RequestCard';
 2) Use the component in the render function: <RequestCard key={request.id} user={request} onViewDetails={handleViewDetails} />
 */

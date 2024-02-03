@@ -37,7 +37,9 @@
   }
 
   &_icon {
-    size: xl;
+    height: 45px;
+    width: 45px;
+    border-radius: 100%;
   }
 
   @media (max-width: $mantine-breakpoint-xs) {
@@ -79,8 +81,8 @@
     }
 
     &_icon {
-      size: xs;
-      padding: 2px;
+      height: 25px;
+      width: 25px;
     }
   }
 }
