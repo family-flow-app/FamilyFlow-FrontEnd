@@ -3,24 +3,26 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { useUser } from '@/context/UserInfoContext/UserInfoContext';
 import useApiErrorHandler from '@/hooks/useApiErrorHandler/useApiErrorHandler';
 import useHandleSuccess from '@/hooks/useHandleSuccess/useHandleSuccess';
 import AlertModal from '../AlertModal/AlertModal';
 import { Button, Flex, Image, Modal, Title, Container, Text } from '@mantine/core';
-import { Request } from '../../../@types/request';
-import classes from './UserRequestModal.module.scss';
+import classes from './InvitationModal.module.scss';
 import icon from '../../../public/img/FF_icon_family.png';
+import { InvitationUser } from '@/@types/invitationUSer';
 
 interface UserPublicProfileModalProps {
-  userRequestInfo: Request | null;
+  invitation: InvitationUser;
   modalOpened: boolean;
   setModalOpened: (opened: boolean) => void;
   onCloseAdditional?: () => void;
 }
 
 function UserRequestModal({
-  userRequestInfo,
+  invitation,
   modalOpened,
   setModalOpened,
   onCloseAdditional,
@@ -28,6 +30,7 @@ function UserRequestModal({
   const { user } = useUser();
   const handleApiError = useApiErrorHandler();
   const handleSuccess = useHandleSuccess();
+  dayjs.extend(utc);
 
   const [alertModalOpened, setAlertModalOpened] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -38,16 +41,16 @@ function UserRequestModal({
   const handleAccept = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/users`,
-        { user_id: userRequestInfo?.user_id },
+        `${import.meta.env.VITE_BASE_API_URL}/invitations/${invitation.id}`,
+        { to_user_id: user.userId, family_id: invitation.family_id },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       handleSuccess(response);
-      setAlertMessage('Requête acceptée avec succès.');
+      setAlertMessage('Invitation acceptée avec succès.');
       setAlertModalOpened(true);
     } catch (error: any) {
       handleApiError(error);
-      setAlertMessage("Erreur lors de l'acceptation de la requête.");
+      setAlertMessage("Erreur lors de l'acceptation de l'invitation.");
       setAlertModalOpened(true);
     }
   };
@@ -56,17 +59,15 @@ function UserRequestModal({
   const handleReject = async () => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_BASE_API_URL}/families/${
-          user.familyId
-        }/users/${userRequestInfo?.id}`,
+        `${import.meta.env.VITE_BASE_API_URL}/invitations/${invitation.id}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       handleSuccess(response);
-      setAlertMessage('Requête refusée avec succès.');
+      setAlertMessage('Invitation refusée avec succès.');
       setAlertModalOpened(true);
     } catch (error: any) {
       handleApiError(error);
-      setAlertMessage('Erreur lors du refus de la requête.');
+      setAlertMessage("Erreur lors du refus de l'invitation");
       setAlertModalOpened(true);
     }
   };
@@ -82,21 +83,39 @@ function UserRequestModal({
       <Modal.Overlay style={{ backdropFilter: 'blur(10)' }} />
       <Modal.Content>
         <Modal.Header style={{ background: headerColor, color: 'white' }}>
-          <Modal.Title fw={700}>Profil Utilisateur</Modal.Title>
+          <Modal.Title fw={700}>Invitation Détails</Modal.Title>
           <Modal.CloseButton style={{ color: 'white' }} />
         </Modal.Header>
         <Modal.Body>
           <Flex direction="column" justify="center" align="center">
+            <Title order={2} className={`${classes.title}`} mt={20}>
+              Rejoignez la famille :
+            </Title>
             <Image
               className={`${classes.image}`}
-              src={userRequestInfo?.image_url ? userRequestInfo.image_url : icon}
-              alt={`Picture of ${userRequestInfo?.firstname} ${userRequestInfo?.lastname}`} // Assure-toi que request a une propriété senderName ou similaire
+              src={invitation?.image_url ? invitation.image_url : icon}
+              alt={`Picture of ${invitation?.name}`} // Assure-toi que request a une propriété senderName ou similaire
             />
-            <Title className={`${classes.primeTitle}`}>
-              {`${userRequestInfo?.firstname} ${userRequestInfo?.lastname}`}
-            </Title>
+            <Title className={`${classes.primeTitle}`}>{`${invitation?.name}`}</Title>
             <Text mb={20}>
-              <strong>{userRequestInfo?.email}</strong>
+              <strong>{invitation?.description}</strong>
+            </Text>
+            <Title order={2} className={`${classes.title}`} mt={20}>
+              Envoyée par :
+            </Title>
+            <Image
+              className={`${classes.image}`}
+              src={invitation?.from_user_id.image_url ? invitation.from_user_id.image_url : icon}
+              alt={`Picture of ${invitation?.from_user_id.firstname}`} // Assure-toi que request a une propriété senderName ou similaire
+            />
+            <Title
+              className={`${classes.primeTitle}`}
+            >{`${invitation?.from_user_id.firstname} ${invitation?.from_user_id.lastname}`}</Title>
+            <Title order={2} className={`${classes.title}`} mt={20}>
+              Envoyée le :
+            </Title>
+            <Text mt={10} mb={20}>
+              <strong>{dayjs.utc(invitation?.created_at).format('DD/MM/YYYY')}</strong>
             </Text>
             <Flex>
               <Button
@@ -129,7 +148,7 @@ function UserRequestModal({
             }}
             title="Confirmation"
             buttonText="Retour"
-            redirectTo="/my-family"
+            redirectTo="/main"
           >
             <Text>{alertMessage}</Text>
           </AlertModal>

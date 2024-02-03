@@ -1,0 +1,37 @@
+// File Name: InvitationModal.module.scss
+// Developer: @yannick-leguennec (GitHub username)
+
+.primeTitle {
+  color: $title-color;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.title {
+  color: $title-color;
+  text-align: center;
+}
+
+.subtitle {
+  color: $subtitle-color;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.image {
+  height: 150px;
+  width: 150px;
+  border-radius: 100%;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: $mantine-breakpoint-xs) {
+  .image {
+    height: 80px;
+    width: 80px;
+    border-radius: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+}

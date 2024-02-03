@@ -2,16 +2,36 @@
 // Developer: @yannick-leguennec
 
 .mediaContainer {
-    @media (max-width: $mantine-breakpoint-xs) {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 50px 20px
-    }
+  @media (max-width: $mantine-breakpoint-xs) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
   }
+}
 
-  .primeTitle {
-    color: $title-color;
-    text-align: center;
+.primeTitle {
+  color: $title-color;
+  text-align: center;
+}
+
+.buttonGroup {
+  @media (max-width: $mantine-breakpoint-xs) {
+    display: flex;
+    flex-direction: column;
   }
+}
+
+.image {
+  height: 250px;
+  width: 250px;
+  margin-bottom: 40px;
+  border-radius: 100%;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    height: 180px;
+    width: 180px;
+    margin-bottom: 20px;
+  }
+}
