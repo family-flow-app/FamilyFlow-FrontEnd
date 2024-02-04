@@ -103,7 +103,7 @@ function MyProfile() {
   const handleConfirmDelete = async () => {
     try {
       await axios.delete(
-        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/members/${user.userId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/users/${user.userId}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       console.log('Profile deleted');
