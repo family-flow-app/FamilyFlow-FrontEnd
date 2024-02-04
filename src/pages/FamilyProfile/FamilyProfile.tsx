@@ -73,7 +73,6 @@ const FamilyProfile = () => {
             headers: { Authorization: `Bearer ${user.token}` },
           }
         );
-        console.log('family info TONTON', familyInfoResponse.data);
 
         setFamilyInfo(familyInfoResponse.data);
         handleSuccess(familyInfoResponse);

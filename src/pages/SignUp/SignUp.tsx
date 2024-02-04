@@ -507,7 +507,7 @@ function Signup(props: Partial<DropzoneProps>) {
                   alt="profil picture preview"
                   style={{
                     maxWidth: '250px',
-                    maxHeight: '0px',
+                    maxHeight: '250px',
                     objectFit: 'contain',
                   }}
                 />

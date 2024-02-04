@@ -13,7 +13,9 @@ import useHandleSuccess from '../../hooks/useHandleSuccess/useHandleSuccess';
 import useLogout from '../../hooks/useLogout/useLogout';
 import { Family } from '../../@types/family';
 import { UserData } from '../../@types/user';
+import { InvitationUser } from '@/@types/invitationUSer';
 import FamilyCard from '../../components/Cards/FamilyCard/FamilyCard';
+import InvitationUserCard from '@/components/Cards/InvitationUserCard/InvitationUserCard';
 import iconMember from '../../public/img/FF_icon_member.png';
 import ConfirmModal from '../../components/Modals/ConfirmModal/ConfirmModal';
 import UpdateProfile from '../../components/Modals/UpdateProfile/UpdateProfile';
@@ -27,6 +29,7 @@ function MyProfile() {
   const { user } = useUser();
   const [userInfo, setUserInfo] = useState<UserData | null>(null);
   const [familyInfo, setFamilyInfo] = useState<Family | null>(null);
+  const [invitations, setInvitations] = useState<InvitationUser[]>([]);
   const [isUpdateProfileOpen, setIsUpdateProfileOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   dayjs.extend(utc);
@@ -47,6 +50,15 @@ function MyProfile() {
         );
         setUserInfo(handleSuccess(userResponse));
 
+        const fetchInvitations = await axios.get(
+          `${import.meta.env.VITE_BASE_API_URL}/invitations/users/${user.userId}`,
+          { headers: { Authorization: `Bearer ${user.token}` } }
+        );
+
+        console.log('invitation', fetchInvitations.data);
+
+        setInvitations(fetchInvitations.data);
+
         if (user.familyId) {
           const familyResponse = await axios.get(
             `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}`,
@@ -63,6 +75,23 @@ function MyProfile() {
     fetchUserData();
   }, [user.userId, user.familyId, user.token, handleError, handleSuccess]);
 
+  const fetchInvitations = async () => {
+    try {
+      const fetchInvitations = await axios.get(
+        `${import.meta.env.VITE_BASE_API_URL}/invitations/users/${user.userId}`,
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+
+      console.log('updated invitation', fetchInvitations.data);
+
+      setInvitations(fetchInvitations.data);
+
+      handleSuccess(fetchInvitations);
+    } catch (error: any) {
+      handleError(error);
+    }
+  };
+
   // Navigation handlers
   const handleViewProfile = () => navigate(`/my-family`);
   const handleOpenUpdateProfile = () => setIsUpdateProfileOpen(true);
@@ -74,7 +103,7 @@ function MyProfile() {
   const handleConfirmDelete = async () => {
     try {
       await axios.delete(
-        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/members/${user.userId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/users/${user.userId}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       console.log('Profile deleted');
@@ -86,16 +115,18 @@ function MyProfile() {
     }
   };
 
+  // Fonction permettant de rafraîchir les requêtes
+  const refreshInvitations = async () => {
+    await fetchInvitations();
+  };
+
   return (
     <Container className={`container ${classes.mediaContainer}`}>
       <Flex direction="column" align="center" justify="center">
         <Image
           src={userInfo?.image_url || iconMember}
           alt="Profile"
-          h={250}
-          w={250}
-          mb={40}
-          radius={100}
+          className={`${classes.image}`}
         />
         <Title order={1} className={`${classes.primeTitle}`}>
           {userInfo?.firstname} {userInfo?.lastname}
@@ -123,12 +154,30 @@ function MyProfile() {
           </Text>
         )}
         {/* Affichage du composant FamilyCard si user.familyId n'est pas null */}
-        {/* {user.familyId && familyInfo ? ( */}
         {user.familyId && familyInfo && (
           <FamilyCard key={familyInfo.id} family={familyInfo} onViewProfile={handleViewProfile} />
         )}
-        {/* ) : null} */}
-        <Flex justify="center">
+        {/* Affiche les invitations de l'utilisateur s'il en a reçu */}
+        <Text mt={5} mb={5}>
+          <strong>
+            Invitations reçues
+            {invitations && invitations.length > 0 ? ` (${invitations.length})` : ''} :
+          </strong>
+        </Text>
+        {invitations.length > 0 ? (
+          invitations.map((invitation) => (
+            <InvitationUserCard
+              key={invitation.id}
+              invitation={invitation}
+              onRefreshInvitation={refreshInvitations}
+            />
+          ))
+        ) : (
+          <Text mt={5} mb={5}>
+            Aucune invitation reçue.
+          </Text>
+        )}
+        <Flex justify="center" className={`${classes.buttonGroup}`}>
           <Button
             className="gradientButton"
             w={150}
