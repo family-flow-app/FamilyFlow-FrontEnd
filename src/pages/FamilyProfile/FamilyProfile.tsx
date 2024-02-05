@@ -404,12 +404,10 @@ const FamilyProfile = () => {
         </Group>
         {activeTab === 'informations' && (
           <>
-            <Title className={`${classes.subtitle}`} order={2} mt={30} mb={5}>
-              Informations
-            </Title>
-            <Title order={3} mt={30} mb={5}>
+            <h1 className={`title`}>Informations</h1>
+            <h2 className={`subtitle`}>
               {familyInfo && (familyInfo?.description ?? 'Non spécifiée')}
-            </Title>
+            </h2>
             <Text m={5}>
               Existe depuis le:{' '}
               {familyInfo &&
@@ -453,9 +451,7 @@ const FamilyProfile = () => {
         )}
         {activeTab === 'members' && (
           <>
-            <Title className={`${classes.subtitle}`} order={2} mt={30} mb={5}>
-              Liste des Membres
-            </Title>
+            <h1 className={`title`}>Liste des Membres</h1>
             <Text mt={20}>{`Nombre de membres: (${members.length})`}</Text>
             {members.map((member) => (
               <MemberPrivateCard
@@ -486,9 +482,7 @@ const FamilyProfile = () => {
         )}
         {activeTab === 'requests' && (
           <>
-            <Title className={`${classes.subtitle}`} order={2} mt={30} mb={5}>
-              Requêtes
-            </Title>
+            <h1 className={`title`}>Requêtes</h1>
             {requests.map(
               (request) => (
                 console.log(request),
@@ -506,13 +500,9 @@ const FamilyProfile = () => {
 
         {activeTab === 'invitations' && (
           <>
-            <Title className={`${classes.subtitle}`} order={2} mt={30} mb={5}>
-              Invitations
-            </Title>
-            <Title className={`${classes.subtitle}`} order={3} mt={10} mb={20}>
-              Recherche un nouveau membre
-            </Title>
-            <Group className={`${classes.searchContainer}`}>
+            <h1 className={`title`}>Invitations</h1>
+            <h2 className={`subtitle`}>Recherche un nouveau membre</h2>
+            <Group className={`${classes.searchContainer}`} mt={20}>
               <Autocomplete
                 className={`${classes.searchBar}`}
                 placeholder="Recherchez..."
@@ -529,7 +519,7 @@ const FamilyProfile = () => {
                   }
                 }}
               />
-              <Group>
+              <Group mb={20}>
                 <Button
                   className={`gradientButton ${classes.button}`}
                   onClick={handleSearch}
@@ -560,9 +550,7 @@ const FamilyProfile = () => {
                 </Text>
               ) : null}
             </>
-            <Title className={`${classes.subtitle}`} order={3} mt={20} mb={20}>
-              Invitations envoyées
-            </Title>
+            <h2 className={`subtitle`}>Invitations envoyées</h2>
             <Text mt={20}>{`Nombre d'invitations envoyées: (${invitations.length})`}</Text>
             {invitations.map((invitation) => (
               <InvitationCard

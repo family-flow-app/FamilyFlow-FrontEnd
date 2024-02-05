@@ -123,18 +123,12 @@ function MyProfile() {
   return (
     <Container className={`container ${classes.mediaContainer}`}>
       <Flex direction="column" align="center" justify="center">
-        <Image
-          src={userInfo?.image_url || iconMember}
-          alt="Profile"
-          className={`${classes.image}`}
-        />
-        <Title order={1} className={`${classes.primeTitle}`}>
+        <img src={userInfo?.image_url || iconMember} alt="Profile" className={`image`} />
+        <h1 className={`title`}>
           {userInfo?.firstname} {userInfo?.lastname}
-        </Title>
+        </h1>
         <Text mb={20}>@{userInfo?.username}</Text>
-        <Title order={3} mt={5} mb={5}>
-          {userInfo?.description ?? 'Non spécifiée'}
-        </Title>
+        <h2 className={`subtitle`}>{userInfo?.description ?? 'Non spécifiée'}</h2>
         <Text mt={5} mb={5}>
           <strong>Membre depuis le</strong>{' '}
           {userInfo?.created_at

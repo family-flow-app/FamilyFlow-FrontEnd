@@ -149,7 +149,7 @@ function ActivityDetails() {
       {/* Activity Details */}
       {activityDetails && (
         <Container>
-          <Title className={`${classes.primeTitle}`}>{activityDetails.name}</Title>
+          <h1 className={`title`}>{activityDetails.name}</h1>
           <Container className={`${classes.infos}`}>
             <Text>
               <strong>Type d&apos;activité: </strong>{' '}
@@ -158,7 +158,8 @@ function ActivityDetails() {
                 : 'Unknown Category'}
             </Text>
             <Text>
-              <strong>Description:</strong> {activityDetails.description}
+              <strong>Description:</strong>{' '}
+              {activityDetails?.description ? activityDetails.description : 'aucune description'}
             </Text>
             <Text>
               <strong className={`${classes.strong}`}>Date et heure de début: </strong>{' '}
@@ -176,7 +177,7 @@ function ActivityDetails() {
       {/* List of Participants */}
       {activityDetails && (
         <Container>
-          <Title className={`${classes.title}`}>Participants</Title>
+          <h2 className={`subtitle`}>Participants</h2>
           {activityDetails?.assigned_to?.map((member: Member) => (
             // <MemberPublicCard key={member.id} member={member} activity_id={activityId} />
             <MemberPublicCard key={member.id} member={member} />

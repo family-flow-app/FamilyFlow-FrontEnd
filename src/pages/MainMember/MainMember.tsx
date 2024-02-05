@@ -154,9 +154,9 @@ function MainMember() {
   return (
     <Container className={`container ${classes.extraSettings}`}>
       {/* Activity Search Section */}
-      <Title mb={25} className={`${classes.primeTitle}`}>
+      <h1 mb={25} className={`title`}>
         Trouve ton activité :
-      </Title>
+      </h1>
       <Group className={`${classes.searchContainer}`}>
         <Autocomplete
           className={`${classes.searchBar}`}
@@ -200,9 +200,7 @@ function MainMember() {
       )}
 
       {/* Displaying Activities */}
-      <Title mb={25} className={`${classes.primeTitle}`}>
-        Mes Activités
-      </Title>
+      <h2 className={`subtitle`}>Mes Activités</h2>
       <Flex justify="center" align="center">
         <Menu shadow="md" width={200}>
           <Menu.Target>

@@ -80,6 +80,7 @@ footer {
   font-size: 2rem;
   color: $title-color;
   margin: 10px 0;
+  overflow-wrap: break-word;
 
   @media (max-width: $mantine-breakpoint-sm) {
     font-size: 1.5rem;
@@ -93,9 +94,9 @@ footer {
 
 .image {
   margin: 10px;
-  border-radius: 100%;
   height: 250px;
   width: auto;
+  border-radius: 100%;
 
   @media (max-width: $mantine-breakpoint-xs) {
     height: 150px;

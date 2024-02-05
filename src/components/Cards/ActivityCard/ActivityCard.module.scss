@@ -2,74 +2,95 @@
 // Developer: @yannick-leguennec (GitHub ID)
 
 .card {
-    width: 500px;
-    // margin: 18px;
-    border-radius: 0 25px 25px 25px;
-    box-shadow: 10px 10px 5px rgba(40, 98, 127, 0.15);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    margin-bottom: 25px;
+  width: 500px;
+  // margin: 18px;
+  border-radius: 0 25px 25px 25px;
+  box-shadow: 10px 10px 5px rgba(40, 98, 127, 0.15);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  margin-bottom: 25px;
+
+  &_image {
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+  }
+
+  &_infos {
+    width: 100%;
+    margin-left: 15px;
+  }
+
+  &_titre {
+    font-size: 1.5rem;
+    color: $title-color;
+    margin: 5px 0;
+  }
+
+  &_button {
+    width: 165px;
+    margin: 10px;
+  }
+
+  &_date {
+    font-size: 1.2rem;
+    color: black;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  &_icon {
+    display: none;
+  }
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 250px;
+    margin: 18px 0;
 
     &_image {
-      height: 50px;
-      width: 50px;
-      border-radius: 100%;
-    }
-
-    &_infos {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-        margin-left: 15px;
-    }
-
-    &_titre {
-        font-size: 1.2rem;
-        color: $title-color;
-    }
-
-      &_button {
-        width: 165px;
-        margin: 10px;
-      }
-
-      
-
-      @media (max-width: $mantine-breakpoint-xs) {
-      width: 220px;
-      margin: 18px 0;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-    &_image {
-      height: 50px;
-      width: 50px;
+      height: 40px;
+      width: 40px;
       border-radius: 100%;
       margin: 10px 0;
     }
 
     &_infos {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        margin: 10px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      margin-left: 15px;
     }
 
     &_titre {
-        font-size: 1.1rem;
-        color: $title-color;
-        text-align: center;
+      font-size: 1rem;
+      color: $title-color;
+      text-align: center;
     }
-      &_button {
-        width: 120px;
-        margin: 10px;
-      }
+    &_button {
+      width: 120px;
+      margin: 10px;
+      display: none;
+    }
+    &_date {
+      font-size: 0.8rem;
+      color: black;
+      text-align: center;
+    }
+    &_badge {
+      padding: 0;
+      font-size: 0.7rem;
+      margin: 0;
+    }
 
-      }
+    &_icon {
+      display: block;
+      margin: 0;
+      border-radius: 100%;
+      padding: 2px;
     }
+  }
+}

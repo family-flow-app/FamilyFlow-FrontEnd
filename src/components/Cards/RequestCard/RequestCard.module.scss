@@ -24,60 +24,71 @@
     justify-content: flex-start;
     align-items: center;
     width: 60px;
-
   }
 
-    &_text {
-      font-size:1rem;
-      font-weight:bold;
-    }
+  &_text {
+    font-size: 1rem;
+    font-weight: bold;
+  }
 
-    &_button {
-      width: auto;
-      margin: 10px;
-    }
+  &_button {
+    width: auto;
+    margin: 10px;
+  }
 
-    
-
-    @media (max-width: $mantine-breakpoint-xs) {
-      width: 200px;
-      margin: 18px 0;
-      display: flex;
-      flex-direction: column;
-  
-      &_header {
-        display: flex;
-        align-items: center;
-      }
-
-  &_image {
-    height: 50px;
-    width: 50px;
+  &_icon {
+    height: 45px;
+    width: 45px;
     border-radius: 100%;
-    margin: 10px 0;
   }
 
-  &_name {
-    flex-grow: 1;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 250px;
+    margin: 18px 0;
+
+    &_header {
+      display: flex;
+      align-items: center;
+    }
+
+    &_image {
+      height: 30px;
+      width: 30px;
+      border-radius: 100%;
+      margin: 10px 0;
+    }
+
+    &_name {
+      flex-grow: 1;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
     &_text {
       width: 100%;
-      font-size:1rem;
-      font-weight:bold;
+      font-size: 0.7rem;
+      font-weight: bold;
       margin: 5px 0;
       display: flex;
       justify-content: center;
     }
 
     &_button {
-      width: auto;
+      width: 25px;
       margin: 10px;
     }
 
+    &_icon {
+      height: 25px;
+      width: 25px;
     }
   }
+}
+
+.iconsContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}

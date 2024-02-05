@@ -2,9 +2,19 @@
 // Developer: @yannick-leguennec (GitHub ID)
 
 import React from 'react';
-import { Button, Text, Badge, Group, Card, useMantineTheme, Image, Title } from '@mantine/core';
+import {
+  Button,
+  ActionIcon,
+  Badge,
+  Group,
+  Card,
+  useMantineTheme,
+  Image,
+  Title,
+} from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { Activity } from '../../../@types/activity'; // Check the path to ensure it's correct
+import { IconQuestionMark } from '@tabler/icons-react';
 import '../../../styles/buttons.scss';
 import classes from './ActivityCard.module.scss';
 import iconTask from '../../../public/img/FF_icone-task.png';
@@ -54,6 +64,8 @@ function ActivityCard({ activity }: ActivityCardProps) {
   // Selects the correct color for the category
   const categoryColor = categoryColors[activity.category_id ?? 'default'];
 
+  console.log('activity', activity);
+
   return (
     <Card withBorder key={activity.id} className={`${classes.card}`}>
       <Image
@@ -61,22 +73,22 @@ function ActivityCard({ activity }: ActivityCardProps) {
         alt={activity.category_id === 1 ? 'Tâche' : 'Événement'}
         className={`${classes.card_image}`}
       />
-      <Group className={`${classes.card_infos}`}>
-        <Badge color={categoryColor} variant="light" w={110}>
+      <div className={`${classes.card_infos}`}>
+        <Badge color={categoryColor} variant="light" w={110} className={`${classes.card_badge}`}>
           {activity.category_id !== null ? categoryLabels[activity.category_id] : ''}
         </Badge>
-        <Title className={`${classes.card_titre}`}>
+        <h1 className={`${classes.card_titre}`}>
           {activity.name && activity.name.length > 25
             ? `${activity.name.substring(0, 25)}...`
             : activity.name}
-        </Title>
+        </h1>
         {/* <Group className={`${classes.card_time}`}> */}
-        <Text fw={900}>
+        <p className={`${classes.card_date}`}>
           {formatTime(activity.starting_time?.toString() || '')} à{' '}
           {formatTime(activity.ending_time?.toString() || '')}
-        </Text>
+        </p>
         {/* </Group> */}
-      </Group>
+      </div>
       <Button
         className={`gradientButton ${classes.card_button}`}
         onClick={handleViewDetails}
@@ -85,6 +97,16 @@ function ActivityCard({ activity }: ActivityCardProps) {
       >
         Voir détails
       </Button>
+      <ActionIcon
+        type="button"
+        className={`gradientButton ${classes.card_icon}`}
+        mt={5}
+        mb={5}
+        ml={5}
+        onClick={handleViewDetails}
+      >
+        <IconQuestionMark />
+      </ActionIcon>
     </Card>
   );
 }

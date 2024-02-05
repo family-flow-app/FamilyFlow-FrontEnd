@@ -195,7 +195,7 @@ function MainUser() {
         buttonText="Retour"
         redirectTo="/main"
       >
-        <Text>{alertMessage}</Text>
+        <Text style={{ textAlign: 'center' }}>{alertMessage}</Text>
       </AlertModal>
     </Container>
   );
