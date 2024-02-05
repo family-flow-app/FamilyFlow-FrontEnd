@@ -1,16 +1,54 @@
 // File: SignUp.module.scss
 // Developer: @yannick-leguennec (GitHub ID)
 
-.mediaContainer {
-@media (max-width: $mantine-breakpoint-xs) {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 12px
-}
+.slide1 {
+  width: 20%;
+
+  @media (max-width: $mantine-breakpoint-xl) and (min-width: $mantine-breakpoint-lg) {
+    width: 25%;
+  }
+
+  @media (max-width: $mantine-breakpoint-lg) and (min-width: $mantine-breakpoint-md) {
+    width: 40%;
+  }
+
+  @media (max-width: $mantine-breakpoint-md) {
+    width: 40%;
+  }
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    width: 50%;
+  }
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 90%;
+  }
 }
 
-.title {
-  color: $title-color;
+.slide2 {
+  width: 20%;
+
+  @media (max-width: $mantine-breakpoint-xl) and (min-width: $mantine-breakpoint-lg) {
+    width: 25%;
+  }
+
+  @media (max-width: $mantine-breakpoint-lg) and (min-width: $mantine-breakpoint-md) {
+    width: 40%;
+  }
+
+  @media (max-width: $mantine-breakpoint-md) {
+    width: 40%;
+  }
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    width: 50%;
+  }
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 90%;
+  }
+}
+
+.input {
+  border-radius: 100px;
 }

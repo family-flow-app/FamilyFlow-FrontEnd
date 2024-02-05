@@ -2,7 +2,7 @@
 // Developer: @yannick-leguennec (GitHub ID)
 
 import React, { useEffect } from 'react';
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserInfoContext/UserInfoContext';
 
 function ProtectedRoute({ allowedRoles }: { allowedRoles: string[] }) {
@@ -27,7 +27,7 @@ function ProtectedRoute({ allowedRoles }: { allowedRoles: string[] }) {
       navigate('/main');
     }
   }, [user, allowedRoles, navigate]);
-
+  // Render the appropriate child component based on the user's role
   return <Outlet />;
 }
 
