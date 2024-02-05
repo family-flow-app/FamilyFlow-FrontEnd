@@ -119,13 +119,11 @@ function MemberProfile() {
           mb={40}
           radius={100}
         />
-        <Title order={1} className={`${classes.primeTitle}`}>
+        <h1 className={`title`}>
           {memberInfo?.firstname} {memberInfo?.lastname}
-        </Title>
+        </h1>
         <Text mb={20}>@{memberInfo?.username}</Text>
-        <Title order={3} mt={5} mb={5}>
-          {memberInfo?.description ?? 'Non spécifiée'}
-        </Title>
+        <h2 className={`subtitle`}>{memberInfo?.description ?? 'Non spécifiée'}</h2>
         <Text mt={5} mb={5}>
           <strong>Membre depuis le</strong>{' '}
           {memberInfo?.created_at

@@ -33,11 +33,10 @@
 
   &_button {
     width: auto;
-    margin: 10px;
   }
 
   @media (max-width: $mantine-breakpoint-xs) {
-    width: 200px;
+    width: 260px;
     margin: 18px 0;
 
     &_header {
@@ -70,7 +69,6 @@
 
     &_button {
       width: auto;
-      margin: 10px;
     }
   }
 }
