@@ -1,22 +1,2 @@
 // File name: Terms.module.scss
 // Developer: @yannick-leguennec - Yannick's GitHub identifier
-
-.primeTitle {
-  color: $title-color;
-  text-align: center;
-}
-
-.title {
-  color: $title-color;
-  text-align: center;
-}
-
-  .mediaContainer {
-    @media (max-width: $mantine-breakpoint-xs) {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 50px 20px
-    }
-  }

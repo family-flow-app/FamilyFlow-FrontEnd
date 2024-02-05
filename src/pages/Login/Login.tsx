@@ -118,13 +118,11 @@ function Login() {
 
   // Main render function for the login form
   return (
-    <Container className={`container ${classes.mediaContainer}`}>
+    <Container className={`container`}>
       <Flex direction="column" justify="center" align="center" gap={10}>
-        <Title className={`${classes.title}`} order={isMobile ? 4 : 1} mb={30}>
-          Bon retour sur Family Flow
-        </Title>
+        <h1 className={`title`}>Bon retour sur Family Flow</h1>
       </Flex>
-      <form onSubmit={form.onSubmit(() => handleSubmit(form.values))} className="form">
+      <form onSubmit={form.onSubmit(() => handleSubmit(form.values))} className={`${classes.form}`}>
         <Flex direction="column" gap={10}>
           <TextInput
             required

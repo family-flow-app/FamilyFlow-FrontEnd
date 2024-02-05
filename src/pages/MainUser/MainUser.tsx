@@ -122,16 +122,11 @@ function MainUser() {
   ));
 
   return (
-    <Container
-      className={`container ${classes.mediaContainer} }`}
-      // style={customStyle}
-    >
+    <Container className={`container`}>
       <Flex justify="center">
-        <Image src={icon_family} alt="family" className={`${classes.image}`} />
+        <Image src={icon_family} alt="family icon" className={`image`} />
       </Flex>
-      <Title mb={25} className={`${classes.primeTitle}`}>
-        Trouvez votre famille
-      </Title>
+      <h1 className={`title`}>Trouvez votre famille</h1>
       <Group className={`${classes.searchContainer}`}>
         <Autocomplete
           className={`${classes.searchBar}`}
@@ -149,6 +144,14 @@ function MainUser() {
         />
         <Group>
           <Button
+            onClick={handleClearSearch}
+            className={`outlineButton ${classes.button}`}
+            size="responsive"
+            radius="xl"
+          >
+            Clear
+          </Button>
+          <Button
             className={`gradientButton ${classes.button}`}
             onClick={handleSearch}
             loading={loading}
@@ -156,14 +159,6 @@ function MainUser() {
             radius="xl"
           >
             Chercher
-          </Button>
-          <Button
-            onClick={handleClearSearch}
-            className={`outlineButton ${classes.button}`}
-            size="responsive"
-            radius="xl"
-          >
-            Clear
           </Button>
         </Group>
       </Group>
@@ -182,9 +177,7 @@ function MainUser() {
         </Flex>
       )}{' '}
       {/* Family list */}
-      <Container size="responsive" p={0}>
-        {familyCard}
-      </Container>
+      <div className={`${classes.cardContainer}`}>{familyCard}</div>
       {/* Modal for displaying family details */}
       <FamilyPublicProfileModal
         currentFamily={currentFamily}

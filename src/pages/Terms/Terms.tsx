@@ -28,25 +28,19 @@ function TermsPage() {
   };
 
   return (
-    <Container className={`container ${classes.mediaContainer}`}>
+    <Container className={`container`}>
       {/* Main title of the page */}
-      <Title mb={25} className={`${classes.primeTitle}`}>
-        Conditions d&apos;Utilisation de Family Flow
-      </Title>
+      <h1 className={`title`}>Conditions d&apos;Utilisation de Family Flow</h1>
 
       {/* Introduction section */}
-      <Title order={2} mb={10} className={`${classes.title}`}>
-        Introduction
-      </Title>
+      <h2 className={`subtitle`}>Introduction</h2>
       <Text>
         Bienvenue sur Family Flow. En utilisant notre site web et nos services, vous acceptez les
         présentes conditions. Veuillez les lire attentivement.
       </Text>
 
       {/* Service usage guidelines section */}
-      <Title order={2} mt={30} mb={10} className={`${classes.title}`}>
-        Utilisation du Service
-      </Title>
+      <h2 className={`subtitle`}>Utilisation du Service</h2>
       <Text>
         Description de la manière dont les utilisateurs peuvent ou ne peuvent pas utiliser votre
         service.
@@ -55,18 +49,14 @@ function TermsPage() {
       {/* Continuer à ajouter d'autres sections selon les besoins, comme la confidentialité, les droits d'auteur, etc. */}
 
       {/* Modifications to the terms section */}
-      <Title order={2} mt={30} mb={10} className={`${classes.title}`}>
-        Modifications des Conditions
-      </Title>
+      <h2 className={`subtitle`}>Modifications des Conditions</h2>
       <Text>
         Nous pouvons modifier les conditions à tout moment en publiant une version révisée sur ce
         site.
       </Text>
 
       {/* Contact information section */}
-      <Title order={2} mt={30} mb={10} className={`${classes.title}`}>
-        Contact
-      </Title>
+      <h2 className={`subtitle`}>Contact</h2>
       <Text>Si vous avez des questions sur ces conditions, veuillez nous contacter.</Text>
       <Flex justify="center" mt={20}>
         <Button

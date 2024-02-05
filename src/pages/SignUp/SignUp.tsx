@@ -417,10 +417,10 @@ function Signup(props: Partial<DropzoneProps>) {
       {activeStep === 1 && (
         <div className={`${classes.slide2}`}>
           <DatePickerInput
+            className={`${classes.radius}`}
             monthsListFormat="MM"
             yearsListFormat="YY"
             label="Date de naissance"
-            className={`${classes.input}`}
             {...form.getInputProps('birthday')}
             mt={20}
             mb={20}
@@ -429,7 +429,7 @@ function Signup(props: Partial<DropzoneProps>) {
           <Textarea
             placeholder="Parle un de toi en quelques mots..."
             label="Description"
-            className={`${classes.input}`}
+            className={`${classes.radius}`}
             {...form.getInputProps('description')}
             onBlur={() => {
               handleBlur('description');
@@ -438,7 +438,7 @@ function Signup(props: Partial<DropzoneProps>) {
             mb={20}
           />
           <Dropzone
-            className="input dropbox"
+            className={`${classes.radius}`}
             onDrop={handleFileUpload}
             onReject={() => setFormError('Fichier rejeté')}
             maxSize={3 * 1024 ** 2}
