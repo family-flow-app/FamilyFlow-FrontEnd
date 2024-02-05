@@ -39,9 +39,6 @@ function FamilyCard({ family, onViewProfile }: FamilyCardProps) {
       <ActionIcon
         type="button"
         className={`gradientButton ${classes.card_icon}`}
-        // mt={5}
-        // mb={5}
-        // ml={5}
         onClick={() => onViewProfile(family.id)}
       >
         <IconUserQuestion />
