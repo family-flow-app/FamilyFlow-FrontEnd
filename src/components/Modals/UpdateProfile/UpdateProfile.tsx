@@ -141,7 +141,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
           return 'Le nouveau mot de passe doit contenir au moins une lettre minuscule';
         if (!/[\W_]/.test(value))
           return 'Le nouveau mot de passe doit contenir au moins un caractère spécial';
-        if (value !== values.password)
+        if (value === values.password)
           return "Le nouveau mots de passe ne peut pas être le même que l'ancien";
         return null;
       },

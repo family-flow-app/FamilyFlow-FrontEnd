@@ -94,10 +94,16 @@ function MainMember() {
     { value: 'famille', label: 'Les activités de ma Famille' },
   ];
 
+  console.log('activities', activities);
+
   const getFilteredActivities = () => {
     switch (filter) {
       case 'moi':
-        return activities.filter((activity) => activity.user_id === user.userId);
+        return activities.filter(
+          (activity) =>
+            activity.user_id === user.userId ||
+            activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId)
+        );
       case 'famille':
         return activities.filter(
           (activity) =>
@@ -106,12 +112,20 @@ function MainMember() {
         );
       case 'evenement':
         return activities.filter(
-          (activity) => activity.user_id === user.userId && activity.category_id === 2
+          (activity) =>
+            activity.category_id === 2 &&
+            (activity.user_id === user.userId ||
+              activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId))
         );
+
       case 'tache':
         return activities.filter(
-          (activity) => activity.user_id === user.userId && activity.category_id === 1
+          (activity) =>
+            activity.category_id === 1 &&
+            (activity.user_id === user.userId ||
+              activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId))
         );
+
       case 'semaine': {
         const today = new Date();
         const oneWeekLater = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
@@ -154,9 +168,7 @@ function MainMember() {
   return (
     <Container className={`container ${classes.extraSettings}`}>
       {/* Activity Search Section */}
-      <h1 mb={25} className={`title`}>
-        Trouve ton activité :
-      </h1>
+      <h1 className={`title`}>Trouve ton activité :</h1>
       <Group className={`${classes.searchContainer}`}>
         <Autocomplete
           className={`${classes.searchBar}`}
