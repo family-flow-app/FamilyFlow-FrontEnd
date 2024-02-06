@@ -152,8 +152,9 @@ const CreateFamily = () => {
     <Container className={`container`}>
       <h1 className={`title`}>Créer une famille</h1>
       <Text mt={10} mb={10}>
-        Nom de famille{' '}
+        Nom de famille <span style={{ color: 'red' }}>*</span>
       </Text>
+
       <TextInput
         placeholder="Nom de la famille"
         radius={100}

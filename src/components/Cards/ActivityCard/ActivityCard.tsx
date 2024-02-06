@@ -1,4 +1,4 @@
-// Filename: ActivityRow.tsx
+// Filename: ActivityCard.tsx
 // Developer: @yannick-leguennec (GitHub ID)
 
 import React from 'react';
