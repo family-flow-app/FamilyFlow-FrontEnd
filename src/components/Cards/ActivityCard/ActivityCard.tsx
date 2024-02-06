@@ -91,7 +91,6 @@ function ActivityCard({ activity }: ActivityCardProps) {
           {formatTime(activity.starting_time?.toString() || '')} à{' '}
           {formatTime(activity.ending_time?.toString() || '')}
         </p>
-        {/* </Group> */}
       </div>
       <Button
         className={`gradientButton ${classes.card_button}`}
@@ -101,16 +100,15 @@ function ActivityCard({ activity }: ActivityCardProps) {
       >
         Voir détails
       </Button>
-      <ActionIcon
-        type="button"
-        className={`gradientButton ${classes.card_icon}`}
-        mt={5}
-        mb={5}
-        ml={5}
-        onClick={handleViewDetails}
-      >
-        <IconQuestionMark />
-      </ActionIcon>
+      <div>
+        <ActionIcon
+          className={`gradientButton ${classes.card_icon}`}
+          type="button"
+          onClick={handleViewDetails}
+        >
+          <IconQuestionMark />
+        </ActionIcon>
+      </div>
     </Card>
   );
 }

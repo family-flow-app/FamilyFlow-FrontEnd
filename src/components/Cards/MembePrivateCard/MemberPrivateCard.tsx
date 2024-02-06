@@ -35,16 +35,17 @@ function MemberPrivateCard({
         alt={`Photo de profil de ${member.firstname} ${member.lastname}`}
       />
        
-      <Container className={`${classes.card_name}`}>
+      <div className={`${classes.card_name}`}>
         <Text className={`${classes.card_text}`}>{`${member.firstname} ${member.lastname}`}</Text>
-      </Container>
+      </div>
       {isAdminUser && (
         <ActionIcon
           color="red"
           type="button"
-          size="xl"
-          m={5}
-          radius="xl"
+          className={` ${classes.card_icon}`}
+          // size="xl"
+          // m={5}
+          // radius="xl"
           onClick={() => onExpelMember(member.id)}
         >
           <IconX />
@@ -52,13 +53,13 @@ function MemberPrivateCard({
       )}
       {member.id !== user.userId && (
         <ActionIcon
-          className={`gradientButton ${classes.card_button}`}
+          className={`gradientButton ${classes.card_icon}`}
           type="button"
-          size="xl"
-          mt={5}
-          mb={5}
-          ml={5}
-          radius="xl"
+          // size="xl"
+          // mt={5}
+          // mb={5}
+          // ml={5}
+          // sradius="xl"
           onClick={() => onViewProfile(member.id)}
         >
           <IconUserQuestion />

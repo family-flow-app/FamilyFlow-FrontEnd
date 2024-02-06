@@ -238,9 +238,9 @@ function MainMember() {
           </Menu.Dropdown>
         </Menu>
       </Flex>
-      <Container className={`${classes.activityContainer}`}>
+      <div className={`${classes.activityContainer}`}>
         <DaySection activities={getFilteredActivities()} />
-      </Container>
+      </div>
     </Container>
   );
 }

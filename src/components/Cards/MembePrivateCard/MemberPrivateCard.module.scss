@@ -22,8 +22,7 @@
     flex-grow: 1;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
-    width: 60px;
+    margin-left: 15px;
   }
 
   &_text {
@@ -31,12 +30,15 @@
     font-weight: bold;
   }
 
-  &_button {
-    width: auto;
+  &_icon {
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    margin: 0 5px;
   }
 
   @media (max-width: $mantine-breakpoint-xs) {
-    width: 260px;
+    width: 270px;
     margin: 18px 0;
 
     &_header {
@@ -45,30 +47,24 @@
     }
 
     &_image {
-      height: 50px;
-      width: 50px;
+      height: 40px;
+      width: 40px;
       border-radius: 100%;
       margin: 0;
     }
 
     &_name {
-      flex-grow: 1;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      margin-left: 10px;
     }
 
     &_text {
-      width: 100%;
       font-size: 0.8rem;
       font-weight: bold;
-      display: flex;
-      justify-content: center;
     }
 
-    &_button {
-      width: auto;
+    &_icon {
+      height: 40px;
+      width: 40px;
     }
   }
 }

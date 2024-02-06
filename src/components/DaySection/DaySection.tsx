@@ -41,11 +41,11 @@ function DaySection({ activities }: DaySectionProps) {
       {Object.entries(groupedActivities).map(([year, dates]) => (
         <React.Fragment key={year}>
           {/* Barre de séparation pour l'année */}
-          <Container>
+          <div>
             <Title order={2} className={classes.yearSeparator}>
               {year}
             </Title>
-          </Container>
+          </div>
 
           {Object.entries(dates).map(([date, dailyActivities]) => (
             <React.Fragment key={date}>
