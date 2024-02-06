@@ -58,7 +58,11 @@ function InvitationInfosModal({
             <Title order={4} className={`${classes.title}`} mb={10}>
               <strong>Envoyé à: </strong>{' '}
             </Title>
-            <Image className={`${classes.image}`} src={iconMember} alt="Image profil" />
+            <Image
+              className={`${classes.image}`}
+              src={iconMember}
+              alt={`Photo de profil de ${invitation.to_user.firstname} ${invitation.to_user.firstname}`}
+            />
             <Title
               mb={20}
               order={3}
@@ -66,7 +70,11 @@ function InvitationInfosModal({
             <Title order={4} className={`${classes.title}`} mb={10}>
               <strong>De la part de: </strong>{' '}
             </Title>
-            <Image className={`${classes.image}`} src={iconMember} alt="To User" />
+            <Image
+              className={`${classes.image}`}
+              src={iconMember}
+              alt={`Photo de profil de ${invitation.from_user.firstname} ${invitation.from_user.firstname}`}
+            />
             <Title
               mb={20}
               order={3}

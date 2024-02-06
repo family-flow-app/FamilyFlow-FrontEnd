@@ -2,7 +2,7 @@
 // Developer: @yannick-leguennec (GitHub username)
 
 .card {
-  width: 250px;
+  width: 270px;
   margin: 18px 36px;
   border-radius: 0 25px 25px 25px;
   box-shadow: 10px 10px 5px rgba(40, 98, 127, 0.15);
@@ -18,33 +18,23 @@
     border-radius: 100%;
   }
 
-    &_text {
-      font-size:1rem;
-      font-weight:bold;
-    }
+  &_text {
+    font-size: 1rem;
+    font-weight: bold;
+  }
 
-    
-
-    @media (max-width: $mantine-breakpoint-xs) {
+  @media (max-width: $mantine-breakpoint-xs) {
     width: 200px;
-    margin: 18px 0;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-  &_image {
-    height: 50px;
-    width: 50px;
-    border-radius: 100%;
     margin: 10px 0;
-  }
 
+    &_image {
+      height: 50px;
+      width: 50px;
+      border-radius: 100%;
+    }
 
     &_text {
-      font-size:1rem;
-      font-weight:bold;
-      margin: 5px 0;
-    }
-
+      font-size: 0.8rem;
     }
   }
+}

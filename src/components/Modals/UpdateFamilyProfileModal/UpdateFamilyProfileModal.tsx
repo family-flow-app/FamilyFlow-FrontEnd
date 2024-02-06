@@ -312,7 +312,7 @@ const UpdateFamilyProfileModal = ({
                     >
                       <img
                         src={imagePreview}
-                        alt="profil picture preview"
+                        alt="Aperçu de la photo de profil téléchargée"
                         style={{
                           maxWidth: '250px',
                           maxHeight: '250px',

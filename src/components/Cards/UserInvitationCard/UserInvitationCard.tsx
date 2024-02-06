@@ -22,7 +22,7 @@ function UserInvitationCard({ user, onInvite }: UserCardProps): React.ReactEleme
       <Image
         className={`${classes.card_image}`}
         src={user.image_url ? user.image_url : defaultIcon}
-        alt={`${user.firstname} ${user.lastname}`}
+        alt={`Photo de profil de ${user.firstname} ${user.lastname}`}
       />
       <Container className={`${classes.card_name}`}>
         <Text className={`${classes.card_text}`}>{`${user.firstname} ${user.lastname}`}</Text>

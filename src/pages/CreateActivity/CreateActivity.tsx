@@ -161,8 +161,8 @@ function CreateActivity() {
   };
 
   return (
-    <Container className={`${classes.container}`}>
-      <Title className={`${classes.primeTitle}`}>Créer une activité</Title>
+    <Container className={`container`}>
+      <h1 className={`title`}>Créer une activité</h1>
       <form onSubmit={handleSubmit} className={`${classes.form}`}>
         {/* Editing form fields */}
         <TextInput

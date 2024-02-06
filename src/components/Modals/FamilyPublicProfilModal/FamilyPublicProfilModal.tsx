@@ -47,20 +47,18 @@ function FamilyPublicProfileModal({
           <Flex direction="column" justify="center" align="center">
             <Image
               src={currentFamily?.image_url ? currentFamily?.image_url : icon}
-              alt={currentFamily?.name}
+              alt={`Photo de profil de la famille ${currentFamily?.name}`}
               fit="contain"
               className={`${classes.image}`}
             />
-            <Title order={1} mb={25} className={`${classes.primeTitle}`}>
-              {currentFamily?.name}
-            </Title>
+            <h1 className={`title`}>{currentFamily?.name}</h1>
             <Text mb={10}>Présentation</Text>
             <Title order={4} className={`${classes.title}`} mb={25}>
               {currentFamily?.description}
             </Title>
             <Text>Membres de la famille</Text>
 
-            <Container>{members}</Container>
+            <div className={`${classes.cardContainer}`}>{members}</div>
 
             <Button
               onClick={() => handleRequest(currentFamily?.id)}

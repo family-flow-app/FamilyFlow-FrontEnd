@@ -95,7 +95,7 @@ function InvitationUserCard({
         <Image
           className={`${classes.card_image}`}
           src={invitation.image_url ? invitation.image_url : icon}
-          alt={`Picture of ${invitation.name}`} // Assure-toi que request a une propriété senderName ou similaire
+          alt={`Photo de profil de la famille ${invitation.name}`} // Assure-toi que request a une propriété senderName ou similaire
         />
         <Container className={`${classes.card_name}`}>
           <Text className={`${classes.card_text}`}>{`${invitation.name}`}</Text>

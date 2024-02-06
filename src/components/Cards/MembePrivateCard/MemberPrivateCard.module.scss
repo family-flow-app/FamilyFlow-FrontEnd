@@ -24,60 +24,51 @@
     justify-content: flex-start;
     align-items: center;
     width: 60px;
-
   }
 
-    &_text {
-      font-size:1rem;
-      font-weight:bold;
-    }
+  &_text {
+    font-size: 1rem;
+    font-weight: bold;
+  }
 
-    &_button {
-      width: auto;
-      margin: 10px;
-    }
+  &_button {
+    width: auto;
+  }
 
-    
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 260px;
+    margin: 18px 0;
 
-    @media (max-width: $mantine-breakpoint-xs) {
-      width: 200px;
-      margin: 18px 0;
+    &_header {
       display: flex;
-      flex-direction: column;
-  
-      &_header {
-        display: flex;
-        align-items: center;
-      }
+      align-items: center;
+    }
 
-  &_image {
-    height: 50px;
-    width: 50px;
-    border-radius: 100%;
-    margin: 10px 0;
-  }
+    &_image {
+      height: 50px;
+      width: 50px;
+      border-radius: 100%;
+      margin: 0;
+    }
 
-  &_name {
-    flex-grow: 1;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    &_name {
+      flex-grow: 1;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
     &_text {
       width: 100%;
-      font-size:1rem;
-      font-weight:bold;
-      margin: 5px 0;
+      font-size: 0.8rem;
+      font-weight: bold;
       display: flex;
       justify-content: center;
     }
 
     &_button {
       width: auto;
-      margin: 10px;
-    }
-
     }
   }
+}

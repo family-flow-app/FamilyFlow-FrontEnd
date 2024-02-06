@@ -49,14 +49,14 @@ function DaySection({ activities }: DaySectionProps) {
 
           {Object.entries(dates).map(([date, dailyActivities]) => (
             <React.Fragment key={date}>
-              <Container>
+              <div className={`${classes.cardContainer}`}>
                 <Title order={3} mb={10}>
                   {date}
                 </Title>
                 {dailyActivities.map((activityItem) => (
                   <ActivityCard key={activityItem.id} activity={activityItem} />
                 ))}
-              </Container>
+              </div>
             </React.Fragment>
           ))}
         </React.Fragment>

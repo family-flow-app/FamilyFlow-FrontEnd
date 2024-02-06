@@ -32,7 +32,7 @@ function MemberPrivateCard({
       <Image
         className={`${classes.card_image}`}
         src={member.image_url ? member.image_url : icon}
-        alt={`${member.firstname} ${member.lastname}`}
+        alt={`Photo de profil de ${member.firstname} ${member.lastname}`}
       />
        
       <Container className={`${classes.card_name}`}>

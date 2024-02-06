@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import AlertModal from '../../Modals/AlertModal/AlertModal';
 import UserRequestModal from '../../Modals/UserRequestModal/UserRequestModal';
-import { Image, Text, Card, Container, ActionIcon } from '@mantine/core';
+import { Image, Text, Card, Container, ActionIcon, Group } from '@mantine/core';
 import { Request } from '../../../@types/request';
 import classes from './RequestCard.module.scss';
 import icon from '../../../public/img/FF_icon_member.png';
@@ -56,9 +56,7 @@ function RequestCard({
   const handleReject = async () => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_BASE_URL_API}/families/${user.familyId}/users/${
-          userRequestInfo.id
-        }`,
+        `${import.meta.env.VITE_BASE_URL_API}/families/${user.familyId}/users/${user.userId}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       handleSuccess(response);
@@ -95,40 +93,51 @@ function RequestCard({
         <Image
           className={`${classes.card_image}`}
           src={userRequestInfo.image_url ? userRequestInfo.image_url : icon}
-          alt={`Picture of ${userRequestInfo.firstname} ${userRequestInfo.lastname}`} // Assure-toi que request a une propriété senderName ou similaire
+          alt={`Photo de profil de ${userRequestInfo.firstname} ${userRequestInfo.lastname}`} // Assure-toi que request a une propriété senderName ou similaire
         />
         <Container className={`${classes.card_name}`}>
           <Text className={`${classes.card_text}`}>
             {`${userRequestInfo.firstname} ${userRequestInfo.lastname}`}
           </Text>
         </Container>
-        <ActionIcon
-          color="green"
-          type="button"
-          size="xl"
-          mt={5}
-          mb={5}
-          mr={5}
-          radius="xl"
-          onClick={handleAccept}
-        >
-          <IconCheck />
-        </ActionIcon>
-        <ActionIcon color="red" type="button" size="xl" m={5} radius="xl" onClick={handleReject}>
-          <IconX />
-        </ActionIcon>
-        <ActionIcon
-          className={`gradientButton ${classes.card_button}`}
-          type="button"
-          size="xl"
-          mt={5}
-          mb={5}
-          ml={5}
-          radius="xl"
-          onClick={openUserModal}
-        >
-          <IconUserQuestion />
-        </ActionIcon>
+        <div className={`${classes.iconsContainer}`}>
+          <ActionIcon
+            className={`${classes.card_icon}`}
+            color="green"
+            type="button"
+            // size="xl"
+            // mt={5}
+            // mb={5}
+            // mr={5}
+            // radius="xl"
+            onClick={handleAccept}
+          >
+            <IconCheck />
+          </ActionIcon>
+          <ActionIcon
+            className={`${classes.card_icon}`}
+            color="red"
+            type="button"
+            // size="xl"
+            // m={5}
+            // radius="xl"
+            onClick={handleReject}
+          >
+            <IconX />
+          </ActionIcon>
+          <ActionIcon
+            className={`gradientButton ${classes.card_icon}`}
+            type="button"
+            // size="xl"
+            // mt={5}
+            // mb={5}
+            // ml={5}
+            // radius="xl"
+            onClick={openUserModal}
+          >
+            <IconUserQuestion />
+          </ActionIcon>
+        </div>
       </Card>
       <AlertModal
         opened={alertModalOpened}

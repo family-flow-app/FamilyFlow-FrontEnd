@@ -1,21 +1,6 @@
 // Nom du fichier : FooterCentered.module.scss
 // Développeur : @yannick-leguennec (Identifiant GitHub)
 
-// Styles de base du footer, applicables en mode mobile et par défaut
-.footer {
-  bottom: 0; // Positionne le footer en bas de la vue
-  width: 100%; // Assure que le footer s'étend sur toute la largeur de la fenêtre
-  min-height: auto; // Hauteur minimale pour le footer, permettant de s'étendre au contenu
-  display: flex; // Utilise Flexbox pour aligner les éléments à l'intérieur
-  align-items: center; // Centre les éléments verticalement à l'intérieur du footer
-  padding: 20px 60px; // Padding horizontal pour le contenu interne
-
-  @media (max-width: $mantine-breakpoint-sm) {
-    padding: 15px 0;
-  }
-
-}
-
 // Conteneur interne pour les éléments du footer
 .inner {
   width: 100%; // Assure que le conteneur interne occupe toute la largeur du footer
@@ -55,7 +40,9 @@
 
   // Ajustements de taille de police pour les appareils mobiles
   @media (max-width: $mantine-breakpoint-sm) {
-    font-size: var(--mantine-font-size-xs); // Réduit la taille de police sur les mobiles pour s'adapter aux petits écrans
+    font-size: var(
+      --mantine-font-size-xs
+    ); // Réduit la taille de police sur les mobiles pour s'adapter aux petits écrans
   }
 }
 
@@ -64,5 +51,3 @@
   margin: 0 8px; // Espace horizontal autour des séparateurs pour éviter que les liens ne soient trop serrés
   // Ajoutez d'autres styles si nécessaire
 }
-
-

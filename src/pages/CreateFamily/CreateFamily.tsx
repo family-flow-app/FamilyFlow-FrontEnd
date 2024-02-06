@@ -1,24 +1,16 @@
+// File: CreateFamily.tsx
+// Developer: @yannick-leguennec (GitHub ID)
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Container,
-  TextInput,
-  Title,
-  Text,
-  Flex,
-  Group,
-  Button,
-  rem,
-  Textarea,
-} from '@mantine/core';
-import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Container, TextInput, Text, Flex, Group, Button, rem, Textarea } from '@mantine/core';
+import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import AlertModal from '@/components/Modals/AlertModal/AlertModal';
 import axios from 'axios';
 import useApiErrorHandler from '@/hooks/useApiErrorHandler/useApiErrorHandler';
 import useHandleSuccess from '@/hooks/useHandleSuccess/useHandleSuccess';
 import { useUser } from '@/context/UserInfoContext/UserInfoContext';
-import globalClasses from '../../styles/globalStyles.scss';
 import classes from './CreateFamily.module.scss';
 import { useForm } from '@mantine/form';
 
@@ -157,21 +149,20 @@ const CreateFamily = () => {
   };
 
   return (
-    <Container className={`${classes.mediaContainer}`}>
-      <Title className={`${classes.primeTitle}`} mt={40} mb={40}>
-        Créer une famille
-      </Title>
-      <Text mt={10} mb={10} fw={600}>
-        Nom de famille:{' '}
+    <Container className={`container`}>
+      <h1 className={`title`}>Créer une famille</h1>
+      <Text mt={10} mb={10}>
+        Nom de famille <span style={{ color: 'red' }}>*</span>
       </Text>
+
       <TextInput
         placeholder="Nom de la famille"
         radius={100}
         {...form.getInputProps('name')}
         required
       />
-      <Text mt={10} mb={10} fw={600}>
-        Description de la famille:{' '}
+      <Text mt={10} mb={10}>
+        Description de la famille{' '}
       </Text>
       <Textarea
         placeholder="Description de la famille"
@@ -182,7 +173,7 @@ const CreateFamily = () => {
           setDescriptionTouched(true);
         }}
       />
-      <Text mt={10} mb={10} fw={600}>
+      <Text mt={10} mb={10}>
         Photo de la famille
       </Text>
       <Dropzone
@@ -232,7 +223,7 @@ const CreateFamily = () => {
               <Text size="lg" inline>
                 Télécharger votre photo
               </Text>
-              <Text size="sm" c="dimmed" inline mt={7}>
+              <Text size="sm" c="dimmed" inline mt={7} style={{ textAlign: 'center' }}>
                 Seulement les fichiers PNG et JPEG sont autorisés
               </Text>
             </Flex>
@@ -250,7 +241,7 @@ const CreateFamily = () => {
           >
             <img
               src={imagePreview}
-              alt="profil picture preview"
+              alt="Aperçu de la photo de profil téléchagée"
               style={{
                 maxWidth: '250px',
                 maxHeight: '250px',

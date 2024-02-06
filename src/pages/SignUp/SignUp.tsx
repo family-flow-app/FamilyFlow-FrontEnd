@@ -20,6 +20,7 @@ import {
   Alert,
   Container,
   Flex,
+  Divider,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { DatePickerInput } from '@mantine/dates';
@@ -316,7 +317,7 @@ function Signup(props: Partial<DropzoneProps>) {
   };
 
   return (
-    <Container className={`container ${classes.mediaContainer}`}>
+    <div className={`container`}>
       <AlertModal
         opened={isModalOpen}
         onClose={() => setModalOpen(false)}
@@ -326,16 +327,12 @@ function Signup(props: Partial<DropzoneProps>) {
       >
         <Text>Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.</Text>
       </AlertModal>
-      <Flex direction="column" justify="center" align="center" gap={10}>
-        <Title order={isMobile ? 3 : 1} className={`${classes.title}`} mt={50}>
-          Bienvenue sur Family Flow
-        </Title>
-        <Title order={isMobile ? 5 : 3} mb={20} className={`${classes.title}`}>
-          Veuillez entrer vos informations
-        </Title>
-      </Flex>
+      {/* <Flex direction="column" justify="center" align="center"> */}
+      <h1 className={`title`}>Bienvenue sur Family Flow</h1>
+      <h2 className={`subtitle`}>Veuillez entrer vos informations</h2>
+      {/* </Flex> */}
       {activeStep === 0 && (
-        <div className="slide1">
+        <div className={`${classes.slide1}`}>
           <TextInput
             placeholder="Ton pseudo"
             label="Pseudo"
@@ -418,12 +415,12 @@ function Signup(props: Partial<DropzoneProps>) {
         </div>
       )}
       {activeStep === 1 && (
-        <div className="slide2">
+        <div className={`${classes.slide2}`}>
           <DatePickerInput
+            className={`${classes.radius}`}
             monthsListFormat="MM"
             yearsListFormat="YY"
             label="Date de naissance"
-            className="input"
             {...form.getInputProps('birthday')}
             mt={20}
             mb={20}
@@ -432,7 +429,7 @@ function Signup(props: Partial<DropzoneProps>) {
           <Textarea
             placeholder="Parle un de toi en quelques mots..."
             label="Description"
-            className="input"
+            className={`${classes.radius}`}
             {...form.getInputProps('description')}
             onBlur={() => {
               handleBlur('description');
@@ -441,7 +438,7 @@ function Signup(props: Partial<DropzoneProps>) {
             mb={20}
           />
           <Dropzone
-            className="input dropbox"
+            className={`${classes.radius}`}
             onDrop={handleFileUpload}
             onReject={() => setFormError('Fichier rejeté')}
             maxSize={3 * 1024 ** 2}
@@ -486,7 +483,7 @@ function Signup(props: Partial<DropzoneProps>) {
                   <Text size="lg" inline>
                     Télécharger votre photo
                   </Text>
-                  <Text size="sm" c="dimmed" inline mt={7}>
+                  <Text size="sm" c="dimmed" inline mt={7} style={{ textAlign: 'center' }}>
                     Seul les fichiers PNG et JPEG sont autorisés
                   </Text>
                 </Flex>
@@ -504,7 +501,7 @@ function Signup(props: Partial<DropzoneProps>) {
               >
                 <img
                   src={imagePreview}
-                  alt="profil picture preview"
+                  alt="Aperçu de la photo de profil téléchargée"
                   style={{
                     maxWidth: '250px',
                     maxHeight: '250px',
@@ -580,7 +577,7 @@ function Signup(props: Partial<DropzoneProps>) {
       )}
       {formError && <Alert color="red">{formError}</Alert>}
       {loginError && <Alert color="red">{loginError}</Alert>}
-    </Container>
+    </div>
   );
 }
 

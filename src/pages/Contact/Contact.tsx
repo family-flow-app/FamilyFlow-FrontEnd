@@ -80,7 +80,7 @@ function Contact() {
   };
 
   return (
-    <Container className={`container ${classes.mediaContainer}`}>
+    <Container className={`container`}>
       <AlertModal
         opened={isModalOpen}
         onClose={() => setModalOpen(false)}
@@ -96,9 +96,7 @@ function Contact() {
       {/* Form submission handling */}
       <form onSubmit={form.onSubmit(handleFormSubmit)}>
         {/* Title of the Contact Form */}
-        <Title className={`${classes.primeTitle}`} mb={25}>
-          Contactez nous
-        </Title>
+        <h1 className={`title`}>Contactez nous</h1>
 
         {/* Grid layout for Name and Email input fields */}
         <SimpleGrid cols={{ base: 1, sm: 2 }} mt="xl">

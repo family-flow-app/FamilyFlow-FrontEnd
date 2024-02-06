@@ -22,7 +22,7 @@ function MemberPublicCard({
         <Image
           className={`${classes.card_image}`}
           src={member.image_url ? member.image_url : icon}
-          alt={`${member.firstname} ${member.lastname}`}
+          alt={`Photo de profil de ${member.firstname} ${member.lastname}`}
         />
         <div style={{ marginLeft: '20px' }}>
           <Text className={`${classes.card_text}`}>{`${member.firstname} ${member.lastname}`}</Text>

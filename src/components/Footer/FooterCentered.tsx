@@ -55,7 +55,7 @@ function FooterCentered() {
   });
 
   return (
-    <footer className={`${classes.footer}`}>
+    <footer>
       <div className={classes.inner}>
         {/* Affichage des liens */}
         <Group className={classes.links}>{items}</Group>
