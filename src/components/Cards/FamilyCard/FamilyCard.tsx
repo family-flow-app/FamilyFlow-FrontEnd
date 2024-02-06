@@ -20,7 +20,7 @@ function FamilyCard({ family, onViewProfile }: FamilyCardProps) {
     <Card className={`${classes.card}`} withBorder>
       <Image
         src={family.image_url ? family.image_url : icon}
-        alt={family.name}
+        alt={`Photo de la famille ${family.name}`}
         className={`${classes.card_image}`}
       />
       <Container className={`${classes.card_name}`}>

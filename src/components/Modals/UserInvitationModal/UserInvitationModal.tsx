@@ -75,7 +75,7 @@ function UserInvitationModal({
             <Image
               className={`${classes.image}`}
               src={userInfos.image_url ? userInfos.image_url : icon}
-              alt={`Picture of ${userInfos.firstname} ${userInfos.lastname}`}
+              alt={`Photo de profil de ${userInfos.firstname} ${userInfos.lastname}`}
             />
             <Title className={`${classes.primeTitle}`}>
               {`${userInfos.firstname} ${userInfos.lastname}`}

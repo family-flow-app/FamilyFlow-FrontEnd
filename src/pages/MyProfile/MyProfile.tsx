@@ -123,7 +123,7 @@ function MyProfile() {
   return (
     <Container className={`container ${classes.mediaContainer}`}>
       <Flex direction="column" align="center" justify="center">
-        <img src={userInfo?.image_url || iconMember} alt="Profile" className={`image`} />
+        <img src={userInfo?.image_url || iconMember} alt="Ma photo de profil" className={`image`} />
         <h1 className={`title`}>
           {userInfo?.firstname} {userInfo?.lastname}
         </h1>
@@ -152,25 +152,30 @@ function MyProfile() {
           <FamilyCard key={familyInfo.id} family={familyInfo} onViewProfile={handleViewProfile} />
         )}
         {/* Affiche les invitations de l'utilisateur s'il en a reçu */}
-        <Text mt={5} mb={5}>
-          <strong>
-            Invitations reçues
-            {invitations && invitations.length > 0 ? ` (${invitations.length})` : ''} :
-          </strong>
-        </Text>
-        {invitations.length > 0 ? (
-          invitations.map((invitation) => (
-            <InvitationUserCard
-              key={invitation.id}
-              invitation={invitation}
-              onRefreshInvitation={refreshInvitations}
-            />
-          ))
-        ) : (
-          <Text mt={5} mb={5}>
-            Aucune invitation reçue.
-          </Text>
-        )}
+        {!user.familyId ? (
+          <>
+            <Text mt={5} mb={5}>
+              <strong>
+                Invitations reçues
+                {invitations && invitations.length > 0 ? ` (${invitations.length})` : ''} :
+              </strong>
+            </Text>
+            {invitations.length > 0 ? (
+              invitations.map((invitation) => (
+                <InvitationUserCard
+                  key={invitation.id}
+                  invitation={invitation}
+                  onRefreshInvitation={refreshInvitations}
+                />
+              ))
+            ) : (
+              <Text mt={5} mb={5}>
+                Aucune invitation reçue.
+              </Text>
+            )}
+          </>
+        ) : null}
+
         <Flex justify="center" className={`${classes.buttonGroup}`}>
           <Button
             className="gradientButton"

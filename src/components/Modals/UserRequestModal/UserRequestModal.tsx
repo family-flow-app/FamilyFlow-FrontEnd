@@ -90,7 +90,7 @@ function UserRequestModal({
             <Image
               className={`${classes.image}`}
               src={userRequestInfo?.image_url ? userRequestInfo.image_url : icon}
-              alt={`Picture of ${userRequestInfo?.firstname} ${userRequestInfo?.lastname}`} // Assure-toi que request a une propriété senderName ou similaire
+              alt={`Photo de profil de ${userRequestInfo?.firstname} ${userRequestInfo?.lastname}`} // Assure-toi que request a une propriété senderName ou similaire
             />
             <Title className={`${classes.primeTitle}`}>
               {`${userRequestInfo?.firstname} ${userRequestInfo?.lastname}`}

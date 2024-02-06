@@ -357,7 +357,7 @@ const FamilyProfile = () => {
             <Image
               className={`${classes.image}`}
               src={familyInfo?.image_url || familyIcon}
-              alt="Profile"
+              alt={`Photo de profil de la famille ${familyInfo.name}`}
             />
             <Title className={`${classes.primeTitle}`} mb={30}>
               {familyInfo?.name}

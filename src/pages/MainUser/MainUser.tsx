@@ -124,7 +124,11 @@ function MainUser() {
   return (
     <Container className={`container`}>
       <Flex justify="center">
-        <Image src={icon_family} alt="family icon" className={`image`} />
+        <Image
+          src={icon_family}
+          alt="Icon représentant une famille et inspirée du logo de Family Flow"
+          className={`image`}
+        />
       </Flex>
       <h1 className={`title`}>Trouvez votre famille</h1>
       <Group className={`${classes.searchContainer}`}>

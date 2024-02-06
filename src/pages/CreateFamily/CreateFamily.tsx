@@ -240,7 +240,7 @@ const CreateFamily = () => {
           >
             <img
               src={imagePreview}
-              alt="profil picture preview"
+              alt="Aperçu de la photo de profil téléchagée"
               style={{
                 maxWidth: '250px',
                 maxHeight: '250px',

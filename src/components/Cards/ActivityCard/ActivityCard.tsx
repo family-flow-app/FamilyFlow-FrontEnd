@@ -70,7 +70,11 @@ function ActivityCard({ activity }: ActivityCardProps) {
     <Card withBorder key={activity.id} className={`${classes.card}`}>
       <Image
         src={activity.category_id !== null ? categoryIcons[activity.category_id] : iconTask}
-        alt={activity.category_id === 1 ? 'Tâche' : 'Événement'}
+        alt={
+          activity.category_id === 1
+            ? 'Icon basé sur le logo de Family Flow décrivant une tâche'
+            : 'Icon basé sur le logo de Family Flow décrivant un événement'
+        }
         className={`${classes.card_image}`}
       />
       <div className={`${classes.card_infos}`}>

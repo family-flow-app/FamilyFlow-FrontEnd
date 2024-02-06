@@ -113,7 +113,7 @@ function MemberProfile() {
       <Flex direction="column" align="center" justify="center">
         <Image
           src={memberInfo?.image_url || iconMember}
-          alt="Member Profile"
+          alt={`Photo de profill de ${memberInfo?.firstname} ${memberInfo?.lastname}`}
           h={250}
           w={250}
           mb={40}

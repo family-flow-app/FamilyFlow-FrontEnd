@@ -15,7 +15,11 @@ function Home() {
       className={` ${classes.home} ${classes.gradientBackground} ${classes.mediaContainer}`}
       size="responsive"
     >
-      <Image src={logo} className={`${classes.responsiveImage}`} />
+      <Image
+        src={logo}
+        className={`${classes.responsiveImage}`}
+        alt="Logo de Family Flow représentant une maison avec un coeur à l'intérieur"
+      />
       <Title order={2} style={{ color: 'white' }} mb={15}>
         Connecte ta famille
       </Title>

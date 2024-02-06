@@ -94,7 +94,7 @@ function UserRequestModal({
             <Image
               className={`${classes.image}`}
               src={invitation?.image_url ? invitation.image_url : icon}
-              alt={`Picture of ${invitation?.name}`} // Assure-toi que request a une propriété senderName ou similaire
+              alt={`Photo de profil de la famille ${invitation?.name}`}
             />
             <Title className={`${classes.primeTitle}`}>{`${invitation?.name}`}</Title>
             <Text mb={20}>
@@ -106,7 +106,7 @@ function UserRequestModal({
             <Image
               className={`${classes.image}`}
               src={invitation?.from_user_id.image_url ? invitation.from_user_id.image_url : icon}
-              alt={`Picture of ${invitation?.from_user_id.firstname}`} // Assure-toi que request a une propriété senderName ou similaire
+              alt={`Photo de profil de ${invitation?.from_user_id.firstname} ${invitation.from_user_id.lastname}`}
             />
             <Title
               className={`${classes.primeTitle}`}

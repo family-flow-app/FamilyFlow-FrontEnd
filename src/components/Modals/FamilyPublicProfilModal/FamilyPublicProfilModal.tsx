@@ -47,7 +47,7 @@ function FamilyPublicProfileModal({
           <Flex direction="column" justify="center" align="center">
             <Image
               src={currentFamily?.image_url ? currentFamily?.image_url : icon}
-              alt={currentFamily?.name}
+              alt={`Photo de profil de la famille ${currentFamily?.name}`}
               fit="contain"
               className={`${classes.image}`}
             />

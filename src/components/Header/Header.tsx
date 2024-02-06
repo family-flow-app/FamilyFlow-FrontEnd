@@ -105,7 +105,7 @@ function HeaderSimple() {
         w="auto"
         fit="contain"
         src={logo}
-        alt="Family Flow logo"
+        alt="Logo de l'entreprise Family Flow, représentant une maison avec un coeur à l'intérieur"
         onClick={handleLogoClick}
         style={{ cursor: 'pointer' }}
       />

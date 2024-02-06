@@ -34,7 +34,7 @@ function InvitationCard({
       <Image
         className={`${classes.card_image}`}
         src={toUser?.image_url ? toUser.image_url : defaultIcon}
-        alt={`${toUser.firstname} ${toUser.lastname}`}
+        alt={`Phote de profil de ${toUser.firstname} ${toUser.lastname}`}
       />
       <Container className={`${classes.card_name}`}>
         <Text className={`${classes.card_text}`}>{`${toUser.firstname} ${toUser.lastname}`}</Text>
