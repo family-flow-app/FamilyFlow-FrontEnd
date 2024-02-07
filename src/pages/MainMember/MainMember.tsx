@@ -30,7 +30,7 @@ function MainMember() {
   const [originalActivities, setOriginalActivities] = useState<Activity[]>([]);
   const [hasSearchResults, setHasSearchResults] = useState(true);
   const [filter, setFilter] = useState<
-    'all' | 'moi' | 'famille' | 'semaine' | 'evenement' | 'tache'
+    'all' | 'participe' | 'createur' | 'famille' | 'semaine' | 'evenement' | 'tache'
   >('all');
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -79,7 +79,7 @@ function MainMember() {
 
   // Filter activities based on selected filter
   const handleCheckboxChange = (
-    value: 'all' | 'moi' | 'famille' | 'semaine' | 'evenement' | 'tache'
+    value: 'all' | 'participe' | 'createur' | 'famille' | 'semaine' | 'evenement' | 'tache'
   ) => {
     setSelectedFilter(value);
     setFilter(value);
@@ -87,7 +87,8 @@ function MainMember() {
 
   const filters = [
     { value: 'all', label: 'Toutes les activités' },
-    { value: 'moi', label: 'Toutes mes activités' },
+    { value: 'participe', label: 'Toutes mes activités' },
+    { value: 'createur', label: 'Toutes mes activités créées' },
     { value: 'evenement', label: 'Seulement mes Événements' },
     { value: 'tache', label: 'Seulement mes Tâches' },
     { value: 'semaine', label: 'Des 7 prochains jours' },
@@ -98,11 +99,11 @@ function MainMember() {
 
   const getFilteredActivities = () => {
     switch (filter) {
-      case 'moi':
-        return activities.filter(
-          (activity) =>
-            activity.user_id === user.userId ||
-            activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId)
+      case 'createur':
+        return activities.filter((activity) => activity.created_by?.id === user.userId);
+      case 'participe':
+        return activities.filter((activity) =>
+          activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId)
         );
       case 'famille':
         return activities.filter(
@@ -114,16 +115,14 @@ function MainMember() {
         return activities.filter(
           (activity) =>
             activity.category_id === 2 &&
-            (activity.user_id === user.userId ||
-              activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId))
+            activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId)
         );
 
       case 'tache':
         return activities.filter(
           (activity) =>
             activity.category_id === 1 &&
-            (activity.user_id === user.userId ||
-              activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId))
+            activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId)
         );
 
       case 'semaine': {
@@ -132,9 +131,16 @@ function MainMember() {
 
         return activities.filter((activity) => {
           const startDate = new Date(activity.starting_time ?? '');
-          return startDate >= today && startDate < oneWeekLater;
+          const isWithinThisWeek = startDate >= today && startDate < oneWeekLater;
+          const isUserAssigned = activity.assigned_to?.some(
+            (assignedUser) => assignedUser.id === user.userId
+          );
+
+          // Retourne uniquement les activités auxquelles l'utilisateur est assigné et qui ont lieu cette semaine
+          return isWithinThisWeek && isUserAssigned;
         });
       }
+
       case 'all':
       default:
         return activities;
@@ -228,7 +234,14 @@ function MainMember() {
                   checked={selectedFilter === option.value}
                   onChange={() =>
                     handleCheckboxChange(
-                      option.value as 'all' | 'moi' | 'famille' | 'semaine' | 'evenement' | 'tache'
+                      option.value as
+                        | 'all'
+                        | 'participe'
+                        | 'createur'
+                        | 'famille'
+                        | 'semaine'
+                        | 'evenement'
+                        | 'tache'
                     )
                   }
                   label={option.label}

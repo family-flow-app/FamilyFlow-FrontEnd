@@ -43,7 +43,13 @@ function ConfirmModal({
 
         {/* Modal body */}
         <Modal.Body>
-          <Title className={classes.primeTitle} order={4} mt={30} mb={30}>
+          <Title
+            className={classes.primeTitle}
+            order={4}
+            mt={30}
+            mb={30}
+            style={{ textAlign: 'center' }}
+          >
             <strong>{message}</strong>
           </Title>
 
