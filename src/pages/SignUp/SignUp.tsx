@@ -518,7 +518,7 @@ function Signup(props: Partial<DropzoneProps>) {
                 onClick={handleRemoveImage}
                 style={{ marginTop: '10px' }}
                 m={10}
-                w={160}
+                w={'auto'}
                 size="auto"
                 radius="xl"
               >

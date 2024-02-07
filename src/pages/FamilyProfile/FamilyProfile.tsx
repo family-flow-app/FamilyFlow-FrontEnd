@@ -417,14 +417,16 @@ const FamilyProfile = () => {
             </Text>
             {/* <Text m={5}> Administrateur(s): </Text> */}
             <Group className={`${classes.buttonGroup}`}>
-              <Button
-                className="gradientButton"
-                w={160}
-                onClick={() => setIsUpdateFamilyProfileModalOpen(true)}
-                radius="xl"
-              >
-                Modifier famille
-              </Button>
+              {user.role === 'admin' && (
+                <Button
+                  className="gradientButton"
+                  w={160}
+                  onClick={() => setIsUpdateFamilyProfileModalOpen(true)}
+                  radius="xl"
+                >
+                  Modifier famille
+                </Button>
+              )}
               <Button className="outlineButton" w={160} onClick={openConfirmModal} radius="xl">
                 Quitter famille
               </Button>

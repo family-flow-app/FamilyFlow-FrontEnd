@@ -43,34 +43,34 @@ function ConfirmModal({
 
         {/* Modal body */}
         <Modal.Body>
-          <Title className={classes.primeTitle} order={3} mt={30} mb={30}>
+          <Title className={classes.primeTitle} order={4} mt={30} mb={30}>
             <strong>{message}</strong>
           </Title>
 
           {/* Action buttons */}
-          <Flex justify="center" align="center" gap={30}>
-            {/* Confirm button */}
-            <Button
-              className="gradientButton"
-              mb={30}
-              w={130}
-              size="responsive"
-              radius="xl"
-              onClick={onConfirm}
-            >
-              Confirmer
-            </Button>
-
+          <Flex justify="center" align="center" gap={10}>
             {/* Cancel button */}
             <Button
               className="outlineButton"
               mb={30}
-              w={130}
+              w={170}
               size="responsive"
               radius="xl"
               onClick={onCancel}
             >
               Annuler
+            </Button>
+
+            {/* Confirm button */}
+            <Button
+              className="gradientButton"
+              mb={30}
+              w={170}
+              size="responsive"
+              radius="xl"
+              onClick={onConfirm}
+            >
+              Confirmer
             </Button>
           </Flex>
         </Modal.Body>

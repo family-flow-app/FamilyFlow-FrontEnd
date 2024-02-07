@@ -51,6 +51,7 @@ const CreateFamily = () => {
         return null;
       },
       description: (value) => {
+        if (!value.trim()) return 'Veuillez entrer une description';
         if (!isDescriptionTouched) {
           return null; // Ne pas valider tant que l'utilisateur n'a pas touché le champ
         }
@@ -162,7 +163,7 @@ const CreateFamily = () => {
         required
       />
       <Text mt={10} mb={10}>
-        Description de la famille{' '}
+        Description de la famille <span style={{ color: 'red' }}>*</span>
       </Text>
       <Textarea
         placeholder="Description de la famille"
@@ -172,6 +173,7 @@ const CreateFamily = () => {
           handleBlur('description');
           setDescriptionTouched(true);
         }}
+        required
       />
       <Text mt={10} mb={10}>
         Photo de la famille
@@ -258,7 +260,7 @@ const CreateFamily = () => {
             onClick={handleRemoveImage}
             style={{ marginTop: '10px' }}
             m={10}
-            w={160}
+            w={'auto'}
             size="auto"
             radius="xl"
           >

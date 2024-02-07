@@ -59,7 +59,7 @@ function AlertModal({
             className="gradientButton"
             onClick={handleRedirect}
             mb={30}
-            w={130}
+            w={'auto'}
             size="responsive"
             radius="xl"
           >

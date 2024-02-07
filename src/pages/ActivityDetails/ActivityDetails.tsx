@@ -199,7 +199,7 @@ function ActivityDetails() {
           <Button
             onClick={handleDeleteActivity}
             className={`outlineButton ${classes.button}`}
-            size="responsive"
+            size="auto"
             radius="xl"
           >
             Supprimer

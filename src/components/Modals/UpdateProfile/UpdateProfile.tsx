@@ -390,7 +390,7 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
                       onClick={handleRemoveImage}
                       style={{ marginTop: '10px' }}
                       m={10}
-                      w={175}
+                      w={'auto'}
                       size="auto"
                       radius="xl"
                     >
