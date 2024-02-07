@@ -56,9 +56,7 @@ function UserRequestModal({
   const handleReject = async () => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_BASE_API_URL}/families/${
-          user.familyId
-        }/users/${userRequestInfo?.id}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/users/${userRequestInfo?.user_id}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       handleSuccess(response);
@@ -100,15 +98,6 @@ function UserRequestModal({
             </Text>
             <Flex>
               <Button
-                onClick={handleAccept}
-                className="gradientButton"
-                m={10}
-                size="responsive"
-                radius="xl"
-              >
-                Accepter
-              </Button>
-              <Button
                 onClick={handleReject}
                 className="outlineButton"
                 m={10}
@@ -116,6 +105,15 @@ function UserRequestModal({
                 radius="xl"
               >
                 Refuser
+              </Button>
+              <Button
+                onClick={handleAccept}
+                className="gradientButton"
+                m={10}
+                size="responsive"
+                radius="xl"
+              >
+                Accepter
               </Button>
             </Flex>
           </Flex>

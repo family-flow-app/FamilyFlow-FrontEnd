@@ -13,12 +13,15 @@ import {
   Title,
 } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../../context/UserInfoContext/UserInfoContext';
 import { Activity } from '../../../@types/activity'; // Check the path to ensure it's correct
-import { IconQuestionMark } from '@tabler/icons-react';
+import { IconQuestionMark, IconUsers } from '@tabler/icons-react';
 import '../../../styles/buttons.scss';
 import classes from './ActivityCard.module.scss';
 import iconTask from '../../../public/img/FF_icone-task.png';
+import iconTaskStar from '../../../public/img/FF_icon_task_stars.png';
 import iconEvent from '../../../public/img/FF_icon.event.png';
+import iconEventStar from '../../../public/img/FF_icon_event_stars.png';
 
 interface ActivityCardProps {
   activity: Activity;
@@ -28,6 +31,7 @@ interface ActivityCardProps {
 function ActivityCard({ activity }: ActivityCardProps) {
   const navigate = useNavigate();
   const theme = useMantineTheme();
+  const { user } = useUser();
 
   // Formats time to a more readable format
   function formatTime(timeString: string): string {
@@ -50,8 +54,8 @@ function ActivityCard({ activity }: ActivityCardProps) {
 
   // Mapping of category IDs to icons
   const categoryIcons: { [key: number]: string } = {
-    1: iconTask,
-    2: iconEvent,
+    1: activity.created_by?.id === user.userId ? iconTaskStar : iconTask,
+    2: activity.created_by?.id === user.userId ? iconEventStar : iconEvent,
   };
 
   // Mapping of category IDs to color themes
@@ -89,7 +93,8 @@ function ActivityCard({ activity }: ActivityCardProps) {
         {/* <Group className={`${classes.card_time}`}> */}
         <p className={`${classes.card_date}`}>
           {formatTime(activity.starting_time?.toString() || '')} à{' '}
-          {formatTime(activity.ending_time?.toString() || '')}
+          {formatTime(activity.ending_time?.toString() || '')} {'  -  '}
+          {<IconUsers className={`${classes.card_iconUser}`} />} {activity.assigned_to?.length || 0}
         </p>
       </div>
       <Button
@@ -109,6 +114,9 @@ function ActivityCard({ activity }: ActivityCardProps) {
           <IconQuestionMark />
         </ActionIcon>
       </div>
+      <div
+        className={`${classes.card_point} ${activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId) ? classes.green : classes.red}`}
+      ></div>
     </Card>
   );
 }

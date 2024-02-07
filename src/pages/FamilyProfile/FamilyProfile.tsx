@@ -415,16 +415,18 @@ const FamilyProfile = () => {
                   ? dayjs.utc(familyInfo.created_at).format('DD/MM/YYYY')
                   : 'Non spécifiée')}
             </Text>
-            <Text m={5}> Administrateur(s): </Text>
+            {/* <Text m={5}> Administrateur(s): </Text> */}
             <Group className={`${classes.buttonGroup}`}>
-              <Button
-                className="gradientButton"
-                w={160}
-                onClick={() => setIsUpdateFamilyProfileModalOpen(true)}
-                radius="xl"
-              >
-                Modifier famille
-              </Button>
+              {user.role === 'admin' && (
+                <Button
+                  className="gradientButton"
+                  w={160}
+                  onClick={() => setIsUpdateFamilyProfileModalOpen(true)}
+                  radius="xl"
+                >
+                  Modifier famille
+                </Button>
+              )}
               <Button className="outlineButton" w={160} onClick={openConfirmModal} radius="xl">
                 Quitter famille
               </Button>
@@ -483,6 +485,11 @@ const FamilyProfile = () => {
         {activeTab === 'requests' && (
           <>
             <h1 className={`title`}>Requêtes</h1>
+            {requests.length === 0 && (
+              <Text style={{ color: 'red' }} m={5}>
+                <strong>Aucune requête en attente.</strong>
+              </Text>
+            )}
             {requests.map(
               (request) => (
                 console.log(request),
@@ -521,6 +528,14 @@ const FamilyProfile = () => {
               />
               <Group mb={20}>
                 <Button
+                  onClick={handleClearSearch}
+                  className={`outlineButton ${classes.button}`}
+                  size="responsive"
+                  radius="xl"
+                >
+                  Clear
+                </Button>
+                <Button
                   className={`gradientButton ${classes.button}`}
                   onClick={handleSearch}
                   loading={loading}
@@ -528,14 +543,6 @@ const FamilyProfile = () => {
                   radius="xl"
                 >
                   Chercher
-                </Button>
-                <Button
-                  onClick={handleClearSearch}
-                  className={`outlineButton ${classes.button}`}
-                  size="responsive"
-                  radius="xl"
-                >
-                  Clear
                 </Button>
               </Group>
             </Group>

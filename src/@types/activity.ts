@@ -9,6 +9,7 @@ export interface Activity {
   category_id: number | null; // Identifiant de la catégorie de l'activité
   family_id: number | null; // Identifiant de la famille associée à l'activité
   user_id: number | null; // Identifiant de l'utilisateur ayant créé l'activité
+  created_by: Member | null; // Identifiant de l'utilisateur ayant créé l'activité
   created_at: Date | null; // Date de création de l'activité (format TIMESTAMPTZ)
   updated_at: Date | null; // Date de mise à jour de l'activité (format TIMESTAMPTZ)
   assigned_to: Member[] | null; // Identifiants des utilisateurs assignés à l'activité

@@ -56,7 +56,7 @@ function RequestCard({
   const handleReject = async () => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_BASE_URL_API}/families/${user.familyId}/users/${user.userId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${user.familyId}/users/${userRequestInfo.user_id}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       handleSuccess(response);

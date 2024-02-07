@@ -102,10 +102,9 @@ function MyProfile() {
   // Handles profile deletion
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_BASE_API_URL}/users/${user.userId}`,
-        { headers: { Authorization: `Bearer ${user.token}` } }
-      );
+      await axios.delete(`${import.meta.env.VITE_BASE_API_URL}/users/${user.userId}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
       console.log('Profile deleted');
       logout();
     } catch (error: any) {
@@ -179,7 +178,7 @@ function MyProfile() {
         <Flex justify="center" className={`${classes.buttonGroup}`}>
           <Button
             className="gradientButton"
-            w={150}
+            w={'auto'}
             radius="xl"
             m={10}
             onClick={handleOpenUpdateProfile}
@@ -188,7 +187,7 @@ function MyProfile() {
           </Button>
           <Button
             className="outlineButton"
-            w={150}
+            w={'auto'}
             radius="xl"
             m={10}
             onClick={handleOpenDeleteModal}

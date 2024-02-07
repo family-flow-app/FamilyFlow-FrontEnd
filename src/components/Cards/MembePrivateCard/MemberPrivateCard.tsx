@@ -43,9 +43,6 @@ function MemberPrivateCard({
           color="red"
           type="button"
           className={` ${classes.card_icon}`}
-          // size="xl"
-          // m={5}
-          // radius="xl"
           onClick={() => onExpelMember(member.id)}
         >
           <IconX />
@@ -55,11 +52,6 @@ function MemberPrivateCard({
         <ActionIcon
           className={`gradientButton ${classes.card_icon}`}
           type="button"
-          // size="xl"
-          // mt={5}
-          // mb={5}
-          // ml={5}
-          // sradius="xl"
           onClick={() => onViewProfile(member.id)}
         >
           <IconUserQuestion />

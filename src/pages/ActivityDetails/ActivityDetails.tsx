@@ -148,7 +148,7 @@ function ActivityDetails() {
     <Container className={`container ${classes.extraSettings}`}>
       {/* Activity Details */}
       {activityDetails && (
-        <Container>
+        <Flex direction={'column'} align={'center'}>
           <h1 className={`title`}>{activityDetails.name}</h1>
           <Container className={`${classes.infos}`}>
             <Text>
@@ -172,17 +172,17 @@ function ActivityDetails() {
               {formatDateTime(activityDetails.ending_time)}
             </Text>
           </Container>
-        </Container>
+        </Flex>
       )}
       {/* List of Participants */}
       {activityDetails && (
-        <Container>
+        <Flex direction={'column'} align={'center'}>
           <h2 className={`subtitle`}>Participants</h2>
           {activityDetails?.assigned_to?.map((member: Member) => (
             // <MemberPublicCard key={member.id} member={member} activity_id={activityId} />
             <MemberPublicCard key={member.id} member={member} />
           ))}
-        </Container>
+        </Flex>
       )}
       {/* Edit and Delete Buttons (if authorized) */}
       {isUserAuthorized && (
@@ -199,7 +199,7 @@ function ActivityDetails() {
           <Button
             onClick={handleDeleteActivity}
             className={`outlineButton ${classes.button}`}
-            size="responsive"
+            size="auto"
             radius="xl"
           >
             Supprimer
