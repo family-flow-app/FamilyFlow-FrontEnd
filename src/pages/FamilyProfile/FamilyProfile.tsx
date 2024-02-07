@@ -483,6 +483,11 @@ const FamilyProfile = () => {
         {activeTab === 'requests' && (
           <>
             <h1 className={`title`}>Requêtes</h1>
+            {requests.length === 0 && (
+              <Text style={{ color: 'red' }} m={5}>
+                <strong>Aucune requête en attente.</strong>
+              </Text>
+            )}
             {requests.map(
               (request) => (
                 console.log(request),
