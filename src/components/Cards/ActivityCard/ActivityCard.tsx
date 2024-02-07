@@ -13,8 +13,9 @@ import {
   Title,
 } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../../context/UserInfoContext/UserInfoContext';
 import { Activity } from '../../../@types/activity'; // Check the path to ensure it's correct
-import { IconQuestionMark } from '@tabler/icons-react';
+import { IconQuestionMark, IconUsers } from '@tabler/icons-react';
 import '../../../styles/buttons.scss';
 import classes from './ActivityCard.module.scss';
 import iconTask from '../../../public/img/FF_icone-task.png';
@@ -28,6 +29,7 @@ interface ActivityCardProps {
 function ActivityCard({ activity }: ActivityCardProps) {
   const navigate = useNavigate();
   const theme = useMantineTheme();
+  const { user } = useUser();
 
   // Formats time to a more readable format
   function formatTime(timeString: string): string {
@@ -89,7 +91,8 @@ function ActivityCard({ activity }: ActivityCardProps) {
         {/* <Group className={`${classes.card_time}`}> */}
         <p className={`${classes.card_date}`}>
           {formatTime(activity.starting_time?.toString() || '')} à{' '}
-          {formatTime(activity.ending_time?.toString() || '')}
+          {formatTime(activity.ending_time?.toString() || '')} {'  -  '}
+          {<IconUsers className={`${classes.card_iconUser}`} />} {activity.assigned_to?.length || 0}
         </p>
       </div>
       <Button
@@ -109,6 +112,9 @@ function ActivityCard({ activity }: ActivityCardProps) {
           <IconQuestionMark />
         </ActionIcon>
       </div>
+      <div
+        className={`${classes.card_point} ${activity.user_id === user.userId || activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId) ? classes.green : classes.red}`}
+      ></div>
     </Card>
   );
 }

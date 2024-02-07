@@ -415,7 +415,7 @@ const FamilyProfile = () => {
                   ? dayjs.utc(familyInfo.created_at).format('DD/MM/YYYY')
                   : 'Non spécifiée')}
             </Text>
-            <Text m={5}> Administrateur(s): </Text>
+            {/* <Text m={5}> Administrateur(s): </Text> */}
             <Group className={`${classes.buttonGroup}`}>
               <Button
                 className="gradientButton"
