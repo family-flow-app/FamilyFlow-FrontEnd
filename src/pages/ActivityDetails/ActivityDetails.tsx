@@ -153,9 +153,9 @@ function ActivityDetails() {
     <Container className={`container ${classes.extraSettings}`}>
       {/* Activity Details */}
       {activityDetails && (
-        <Flex direction={'column'} align={'center'}>
+        <div className={`${classes.containerInfos}`}>
           <h1 className={`title`}>{activityDetails.name}</h1>
-          <Container className={`${classes.infos}`}>
+          <div className={`${classes.infos}`}>
             <Text>
               <strong>Type d&apos;activité: </strong>{' '}
               {activityDetails.category_id
@@ -176,18 +176,20 @@ function ActivityDetails() {
               <strong className={`${classes.strong}`}>Date et heure de fin: </strong>{' '}
               {formatDateTime(activityDetails.ending_time)}
             </Text>
-          </Container>
-        </Flex>
+          </div>
+        </div>
       )}
       {/* List of Participants */}
       {activityDetails && (
-        <Flex direction={'column'} align={'center'}>
-          <h2 className={`subtitle`}>Participants</h2>
+        <div>
+          <h2 className={`subtitle`} style={{ textAlign: 'center' }}>
+            Participants
+          </h2>
           {activityDetails?.assigned_to?.map((member: Member) => (
             // <MemberPublicCard key={member.id} member={member} activity_id={activityId} />
             <MemberPublicCard key={member.id} member={member} />
           ))}
-        </Flex>
+        </div>
       )}
       {/* Edit and Delete Buttons (if authorized) */}
       {isUserAuthorized && (
