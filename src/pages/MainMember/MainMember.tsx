@@ -185,20 +185,20 @@ function MainMember() {
         />
         <Group>
           <Button
-            onClick={handleSearch}
-            className={`gradientButton ${classes.button}`}
-            size="responsive"
-            radius="xl"
-          >
-            Chercher
-          </Button>
-          <Button
             onClick={handleClearSearch}
             className={`outlineButton ${classes.button}`}
             size="responsive"
             radius="xl"
           >
             Clear
+          </Button>
+          <Button
+            onClick={handleSearch}
+            className={`gradientButton ${classes.button}`}
+            size="responsive"
+            radius="xl"
+          >
+            Chercher
           </Button>
         </Group>
       </Group>
