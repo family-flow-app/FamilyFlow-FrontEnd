@@ -53,6 +53,11 @@ function ActivityDetails() {
     // Add more categories as needed
   };
 
+  // Check if the user is assigned to the activity
+  const isUserAssignedToActivity = activityDetails?.assigned_to?.some(
+    (member) => member.id === user.userId
+  );
+
   // Fetch activity details
   useEffect(() => {
     const fetchActivityDetails = async () => {
@@ -206,7 +211,7 @@ function ActivityDetails() {
           </Button>
         </Container>
       )}
-      {!isUserAuthorized && activityDetails?.category_id === 2 && (
+      {!isUserAuthorized && activityDetails?.category_id === 2 && isUserAssignedToActivity && (
         <>
           <Flex justify="center" align="center">
             <Button
@@ -215,9 +220,9 @@ function ActivityDetails() {
               mt={10}
               type="submit"
               radius="xl"
-              className={` outlineButton`}
+              className={`outlineButton`}
             >
-              Quitter l&apos;activité
+              Quitter l'activité
             </Button>
           </Flex>
         </>
