@@ -30,7 +30,7 @@ function MainMember() {
   const [originalActivities, setOriginalActivities] = useState<Activity[]>([]);
   const [hasSearchResults, setHasSearchResults] = useState(true);
   const [filter, setFilter] = useState<
-    'all' | 'moi' | 'famille' | 'semaine' | 'evenement' | 'tache'
+    'all' | 'participe' | 'createur' | 'famille' | 'semaine' | 'evenement' | 'tache'
   >('all');
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -46,7 +46,7 @@ function MainMember() {
     const fetchActivities = async () => {
       try {
         const response = await axios.get<Activity[]>(
-          `https://family-flow-api.up.railway.app/families/${familyId}/activities`,
+          `${import.meta.env.VITE_BASE_API_URL}/families/${familyId}/activities`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -79,7 +79,7 @@ function MainMember() {
 
   // Filter activities based on selected filter
   const handleCheckboxChange = (
-    value: 'all' | 'moi' | 'famille' | 'semaine' | 'evenement' | 'tache'
+    value: 'all' | 'participe' | 'createur' | 'famille' | 'semaine' | 'evenement' | 'tache'
   ) => {
     setSelectedFilter(value);
     setFilter(value);
@@ -87,50 +87,60 @@ function MainMember() {
 
   const filters = [
     { value: 'all', label: 'Toutes les activités' },
-    { value: 'moi', label: 'Toutes mes activités' },
+    { value: 'participe', label: 'Toutes mes activités' },
+    { value: 'createur', label: 'Toutes mes activités créées' },
     { value: 'evenement', label: 'Seulement mes Événements' },
     { value: 'tache', label: 'Seulement mes Tâches' },
     { value: 'semaine', label: 'Des 7 prochains jours' },
     { value: 'famille', label: 'Les activités de ma Famille' },
   ];
 
+  console.log('activities', activities);
+
   const getFilteredActivities = () => {
     switch (filter) {
-      case 'moi':
-        return activities.filter(
-          (activity) => activity.user_id === user.userId
+      case 'createur':
+        return activities.filter((activity) => activity.created_by?.id === user.userId);
+      case 'participe':
+        return activities.filter((activity) =>
+          activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId)
         );
       case 'famille':
         return activities.filter(
           (activity) =>
             activity.family_id === user.familyId &&
-            !activity.assigned_to?.some(
-              (assignedUser) => assignedUser.id === user.userId
-            )
+            !activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId)
         );
       case 'evenement':
         return activities.filter(
           (activity) =>
-            activity.user_id === user.userId && activity.category_id === 2
+            activity.category_id === 2 &&
+            activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId)
         );
+
       case 'tache':
         return activities.filter(
           (activity) =>
-            activity.user_id === user.userId && activity.category_id === 1
+            activity.category_id === 1 &&
+            activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId)
         );
+
       case 'semaine': {
         const today = new Date();
-        const oneWeekLater = new Date(
-          today.getFullYear(),
-          today.getMonth(),
-          today.getDate() + 7
-        );
+        const oneWeekLater = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 
         return activities.filter((activity) => {
           const startDate = new Date(activity.starting_time ?? '');
-          return startDate >= today && startDate < oneWeekLater;
+          const isWithinThisWeek = startDate >= today && startDate < oneWeekLater;
+          const isUserAssigned = activity.assigned_to?.some(
+            (assignedUser) => assignedUser.id === user.userId
+          );
+
+          // Retourne uniquement les activités auxquelles l'utilisateur est assigné et qui ont lieu cette semaine
+          return isWithinThisWeek && isUserAssigned;
         });
       }
+
       case 'all':
       default:
         return activities;
@@ -141,9 +151,7 @@ function MainMember() {
   const handleSearch = () => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     const filtered = activities.filter((activity) => {
-      const nameMatch = activity.name
-        ?.toLowerCase()
-        .includes(lowerCaseSearchTerm);
+      const nameMatch = activity.name?.toLowerCase().includes(lowerCaseSearchTerm);
       const activityDate = dayjs(activity.starting_time).format('DD/MM/YYYY');
       const dateMatch = activityDate.includes(searchTerm);
 
@@ -166,19 +174,12 @@ function MainMember() {
   return (
     <Container className={`container ${classes.extraSettings}`}>
       {/* Activity Search Section */}
-      <Title mb={25} className={`${classes.primeTitle}`}>
-        Trouve ton activité :
-      </Title>
+      <h1 className={`title`}>Trouve ton activité :</h1>
       <Group className={`${classes.searchContainer}`}>
         <Autocomplete
           className={`${classes.searchBar}`}
           placeholder="Recherche ton activité..."
-          leftSection={
-            <IconSearch
-              style={{ width: rem(16), height: rem(16) }}
-              stroke={1.5}
-            />
-          }
+          leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
           value={searchTerm}
           onChange={setSearchTerm}
           radius="xl"
@@ -190,14 +191,6 @@ function MainMember() {
         />
         <Group>
           <Button
-            onClick={handleSearch}
-            className={`gradientButton ${classes.button}`}
-            size="responsive"
-            radius="xl"
-          >
-            Chercher
-          </Button>
-          <Button
             onClick={handleClearSearch}
             className={`outlineButton ${classes.button}`}
             size="responsive"
@@ -205,29 +198,31 @@ function MainMember() {
           >
             Clear
           </Button>
+          <Button
+            onClick={handleSearch}
+            className={`gradientButton ${classes.button}`}
+            size="responsive"
+            radius="xl"
+          >
+            Chercher
+          </Button>
         </Group>
       </Group>
 
       {/* No Search Results Message */}
       {!hasSearchResults && (
         <div>
-          Aucune activité trouvée pour &quot;{searchTerm}&quot;. Veuillez
-          essayer une autre recherche.
+          Aucune activité trouvée pour &quot;{searchTerm}&quot;. Veuillez essayer une autre
+          recherche.
         </div>
       )}
 
       {/* Displaying Activities */}
-      <Title mb={25} className={`${classes.primeTitle}`}>
-        Mes Activités
-      </Title>
+      <h2 className={`subtitle`}>Mes Activités</h2>
       <Flex justify="center" align="center">
         <Menu shadow="md" width={200}>
           <Menu.Target>
-            <Button
-              className={`filterButton ${classes.button}`}
-              size="responsive"
-              radius="xl"
-            >
+            <Button className={`filterButton ${classes.button}`} size="responsive" radius="xl">
               Filtres
             </Button>
           </Menu.Target>
@@ -241,7 +236,8 @@ function MainMember() {
                     handleCheckboxChange(
                       option.value as
                         | 'all'
-                        | 'moi'
+                        | 'participe'
+                        | 'createur'
                         | 'famille'
                         | 'semaine'
                         | 'evenement'
@@ -255,9 +251,9 @@ function MainMember() {
           </Menu.Dropdown>
         </Menu>
       </Flex>
-      <Container className={`${classes.activityContainer}`}>
+      <div className={`${classes.activityContainer}`}>
         <DaySection activities={getFilteredActivities()} />
-      </Container>
+      </div>
     </Container>
   );
 }

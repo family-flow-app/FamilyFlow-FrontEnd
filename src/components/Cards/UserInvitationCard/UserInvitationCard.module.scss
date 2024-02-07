@@ -1,4 +1,4 @@
-// File Name: MemberCard.module.scss
+// File Name: UserCard.module.scss
 // Developer: @yannick-leguennec (GitHub username)
 
 .card {
@@ -24,60 +24,56 @@
     justify-content: flex-start;
     align-items: center;
     width: 60px;
-
   }
 
-    &_text {
-      font-size:1rem;
-      font-weight:bold;
-    }
-
-    &_button {
-      width: 100px;
-      margin: 10px;
-    }
-
-    
-
-    @media (max-width: $mantine-breakpoint-xs) {
-      width: 200px;
-      margin: 18px 0;
-      display: flex;
-      flex-direction: column;
-  
-      &_header {
-        display: flex;
-        align-items: center;
-      }
-
-  &_image {
-    height: 50px;
-    width: 50px;
-    border-radius: 100%;
-    margin: 10px 0;
+  &_text {
+    font-size: 1rem;
+    font-weight: bold;
   }
 
-  &_name {
-    flex-grow: 1;
-    width: 100%;
+  &_button {
+    width: auto;
+    margin: 10px 8px;
+  }
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 200px;
+    margin: 18px 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    flex-direction: column;
+
+    &_header {
+      display: flex;
+      align-items: center;
+    }
+
+    &_image {
+      height: 50px;
+      width: 50px;
+      border-radius: 100%;
+      margin: 10px 0;
+    }
+
+    &_name {
+      flex-grow: 1;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
     &_text {
       width: 100%;
-      font-size:1rem;
-      font-weight:bold;
+      font-size: 1rem;
+      font-weight: bold;
       margin: 5px 0;
       display: flex;
       justify-content: center;
     }
 
     &_button {
-      width: 100px;
+      width: auto;
       margin: 10px;
     }
-
-    }
   }
+}

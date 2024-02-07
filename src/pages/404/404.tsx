@@ -20,7 +20,11 @@ function NothingFoundBackground() {
       <div className={classes.inner}>
         <div className={classes.content}>
           <Title className={classes.primeTitle}>Oups 404</Title>
-          <Image src={picture} alt="404" height={250} />
+          <Image
+            src={picture}
+            alt="Photo d'une machine à lavée cassée afin d'animer la page 404 signifiant que la page demandée n'existe pas"
+            height={250}
+          />
           <Text className={classes.description} fw={700}>
             Cette page n&apos;existe pas
           </Text>

@@ -19,10 +19,7 @@ const useHandleSuccess = () => {
         return response.data;
       default:
         // Handle other successful responses.
-        console.log(
-          `Réponse API réussie - Statut: ${response.status}, Données: `,
-          response.data
-        );
+        console.log(`Réponse API réussie - Statut: ${response.status}, Données: `, response.data);
         return response.data;
     }
   }, []);

@@ -4,15 +4,7 @@
 import React, { useState } from 'react';
 import { useToggle, upperFirst, useMediaQuery } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
-import {
-  TextInput,
-  PasswordInput,
-  Button,
-  Title,
-  Text,
-  Container,
-  Flex,
-} from '@mantine/core';
+import { TextInput, PasswordInput, Button, Title, Text, Container, Flex } from '@mantine/core';
 import '../../styles/buttons.scss';
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -58,8 +50,7 @@ function Login() {
       // Password validation
       password: (value) => {
         if (!value.trim()) return 'Le mot de passe est requis';
-        if (value.length < 8)
-          return 'Le mot de passe doit contenir au moins 8 caractères';
+        if (value.length < 8) return 'Le mot de passe doit contenir au moins 8 caractères';
         if (!/[A-Z]/.test(value))
           return 'Le mot de passe doit contenir au moins une lettre majuscule';
         if (!/[a-z]/.test(value))
@@ -73,9 +64,10 @@ function Login() {
 
   // Async function to handle form submission
   const handleSubmit = async (values: LoginFormValues) => {
+    console.log(values);
     try {
       const response = await axios.post(
-        'https://family-flow-api.up.railway.app/login',
+        `${import.meta.env.VITE_BASE_API_URL}/login`,
         JSON.stringify(values),
         {
           headers: {
@@ -84,12 +76,7 @@ function Login() {
         }
       );
 
-      const {
-        user_id: userId,
-        firstname,
-        family_id: familyId,
-        role,
-      } = response.data.response;
+      const { user_id: userId, firstname, family_id: familyId, role } = response.data.response;
       const token = response.data.token.toString();
 
       setUser({
@@ -110,6 +97,7 @@ function Login() {
       navigate('/main');
     } catch (error) {
       if (error instanceof AxiosError) {
+        console.log(error);
         handleError(error);
         setLoginError(
           'Erreur de connexion - Vérifier que votre email ou votre mot de passe sont corrects'
@@ -130,16 +118,11 @@ function Login() {
 
   // Main render function for the login form
   return (
-    <Container className={`container ${classes.mediaContainer}`}>
+    <Container className={`container`}>
       <Flex direction="column" justify="center" align="center" gap={10}>
-        <Title className={`${classes.title}`} order={isMobile ? 4 : 1} mb={30}>
-          Bon retour sur Family Flow
-        </Title>
+        <h1 className={`title`}>Bon retour sur Family Flow</h1>
       </Flex>
-      <form
-        onSubmit={form.onSubmit(() => handleSubmit(form.values))}
-        className="form"
-      >
+      <form onSubmit={form.onSubmit(() => handleSubmit(form.values))} className={`${classes.form}`}>
         <Flex direction="column" gap={10}>
           <TextInput
             required
@@ -159,9 +142,7 @@ function Login() {
         </Flex>
         {loginError && (
           <Flex justify="center">
-            <Text className={`${classes.alert} ${classes.mediaContainer}`}>
-              {loginError}
-            </Text>
+            <Text className={`${classes.alert} ${classes.mediaContainer}`}>{loginError}</Text>
           </Flex>
         )}
         <Flex justify="center" mt={20}>
@@ -182,6 +163,7 @@ function Login() {
             m={10}
             w={100}
             className="gradientButton"
+            data-testid="submit-button"
           >
             {upperFirst(type)}
           </Button>

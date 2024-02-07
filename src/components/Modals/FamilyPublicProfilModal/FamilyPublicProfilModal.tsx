@@ -2,18 +2,10 @@
 // Developer: @yannick-leguennec (GitHub username)
 
 import React from 'react';
-import {
-  Button,
-  Flex,
-  Image,
-  Modal,
-  Title,
-  Container,
-  Text,
-} from '@mantine/core';
+import { Button, Flex, Image, Modal, Title, Container, Text } from '@mantine/core';
 import { Family } from '../../../@types/family';
 import { Member } from '../../../@types/member';
-import MemberPublicCard from '../../MemberPublicCard/MemberPublicCard';
+import MemberPublicCard from '../../Cards/MemberPublicCard/MemberPublicCard';
 import classes from './FamilyPublicProfilModal.module.scss';
 import icon from '../../../public/img/FF_icon_family.png';
 
@@ -55,20 +47,18 @@ function FamilyPublicProfileModal({
           <Flex direction="column" justify="center" align="center">
             <Image
               src={currentFamily?.image_url ? currentFamily?.image_url : icon}
-              alt={currentFamily?.name}
+              alt={`Photo de profil de la famille ${currentFamily?.name}`}
               fit="contain"
               className={`${classes.image}`}
             />
-            <Title order={1} mb={25} className={`${classes.primeTitle}`}>
-              {currentFamily?.name}
-            </Title>
+            <h1 className={`title`}>{currentFamily?.name}</h1>
             <Text mb={10}>Présentation</Text>
             <Title order={4} className={`${classes.title}`} mb={25}>
               {currentFamily?.description}
             </Title>
             <Text>Membres de la famille</Text>
 
-            <Container>{members}</Container>
+            <div className={`${classes.cardContainer}`}>{members}</div>
 
             <Button
               onClick={() => handleRequest(currentFamily?.id)}

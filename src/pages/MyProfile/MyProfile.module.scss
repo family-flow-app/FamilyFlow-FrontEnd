@@ -1,0 +1,9 @@
+// MyProfile.module.scss
+// Developer: @yannick-leguennec
+
+.buttonGroup {
+  @media (max-width: $mantine-breakpoint-xs) {
+    display: flex;
+    flex-direction: column;
+  }
+}

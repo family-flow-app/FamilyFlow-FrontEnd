@@ -20,6 +20,7 @@ import {
   Alert,
   Container,
   Flex,
+  Divider,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { DatePickerInput } from '@mantine/dates';
@@ -116,8 +117,7 @@ function Signup(props: Partial<DropzoneProps>) {
       },
       password: (value) => {
         if (!value.trim()) return 'Le mot de passe est requis';
-        if (value.length < 8)
-          return 'Le mot de passe doit contenir au moins 8 caractères';
+        if (value.length < 8) return 'Le mot de passe doit contenir au moins 8 caractères';
         if (!/[A-Z]/.test(value))
           return 'Le mot de passe doit contenir au moins une lettre majuscule';
         if (!/[a-z]/.test(value))
@@ -128,8 +128,7 @@ function Signup(props: Partial<DropzoneProps>) {
       },
       confirmPassword: (value, values) => {
         if (!value.trim()) return 'La confirmation du mot de passe est requise';
-        if (value !== values.password)
-          return 'Les mots de passe ne correspondent pas';
+        if (value !== values.password) return 'Les mots de passe ne correspondent pas';
         return null;
       },
       description: (value) => {
@@ -146,11 +145,7 @@ function Signup(props: Partial<DropzoneProps>) {
   // useEffect for handling form errors and notifications related to password confirmation
   useEffect(() => {
     // Display a notification if the password and the password confirmation do not match
-    if (
-      form.values.password &&
-      form.values.confirmPassword &&
-      !form.errors.confirmPassword
-    ) {
+    if (form.values.password && form.values.confirmPassword && !form.errors.confirmPassword) {
       setFormError(null);
     }
     // Display a notification if an error is present in the form
@@ -181,14 +176,7 @@ function Signup(props: Partial<DropzoneProps>) {
 
   // Logic for handling steps in the form
   const fieldsByStep: FieldsByStepType = {
-    0: [
-      'username',
-      'firstname',
-      'lastname',
-      'email',
-      'password',
-      'confirmPassword',
-    ],
+    0: ['username', 'firstname', 'lastname', 'email', 'password', 'confirmPassword'],
     // Ajoute d'autres étapes si nécessaire
   };
 
@@ -208,9 +196,7 @@ function Signup(props: Partial<DropzoneProps>) {
       }
 
       const errors = form.validate();
-      const hasErrors = currentStepFields.some(
-        (field) => !!errors[field as keyof typeof errors]
-      );
+      const hasErrors = currentStepFields.some((field) => !!errors[field as keyof typeof errors]);
 
       if (!hasErrors) {
         setErrorMessage(null); // Réinitialiser le message d'erreur
@@ -238,52 +224,43 @@ function Signup(props: Partial<DropzoneProps>) {
 
     const formData = new FormData();
 
-    // Ajouter toutes les données du formulaire à formData, sauf 'terms'
+    // Ajoute toutes les données du formulaire à formData, sauf 'terms'
     Object.entries(form.values).forEach(([key, value]) => {
       if (key !== 'terms') {
         if (key === 'birthday' && value) {
-          // Formater et ajouter la date de naissance si elle n'est pas vide
+          // Formate et ajoute la date de naissance si le champ n'est pas vide
           const formattedDate = dayjs(value).format('YYYY-MM-DD');
           formData.append(key, formattedDate);
-        } else if (key === 'description' && value === '') {
-          // Si le champ 'description' est vide, choisir de ne pas l'ajouter ou d'ajouter une chaîne vide
-          // formData.append(key, '');
         } else if (value) {
-          // Ajouter les autres champs s'ils ne sont pas vides
+          // Ajoute les champs obligatoires
           formData.append(key, value);
         }
       }
     });
-
+    // Ajoute l'image si présente
     if (imageFile) {
-      formData.append('image_url', imageFile); // Ajouter l'image si présente
+      formData.append('image_url', imageFile);
     }
-
+    // Vérifie le contenu de formData
     for (const [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
 
     try {
       const response = await axios.post(
-        'https://family-flow-api.up.railway.app/signup',
-        // 'https://family-flow.onrender.com/signup',
-        formData, // Envoi des données en utilisant FormData
+        `${import.meta.env.VITE_BASE_API_URL}/signup`,
+        formData, // Données envoyées à l'API
         {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         }
       );
-
-      console.log("Réponse de l'API :", response.data);
-
       if (response.status === 201) {
         handleSuccess(response);
         setModalOpen(true);
       } else {
-        throw new Error(
-          `La requête a échoué avec le statut : ${response.status}`
-        );
+        throw new Error(`La requête a échoué avec le statut : ${response.status}`);
       }
     } catch (error: any) {
       if (
@@ -314,9 +291,9 @@ function Signup(props: Partial<DropzoneProps>) {
         return;
       }
 
-      setImageFile(file); // Stocker le fichier d'image pour l'envoi
-      const imageUrl = URL.createObjectURL(file); // Créer un URL d'aperçu pour l'affichage
-      setImagePreview(imageUrl); // Mettre à jour l'état pour l'aperçu
+      setImageFile(file); // Stocke le fichier d'image pour l'envoi
+      const imageUrl = URL.createObjectURL(file); // Crée une URL pour afficher l'aperçu
+      setImagePreview(imageUrl); // Met à jour l'état pour l'aperçu
     }
   };
 
@@ -340,7 +317,7 @@ function Signup(props: Partial<DropzoneProps>) {
   };
 
   return (
-    <Container className={`container ${classes.mediaContainer}`}>
+    <div className={`container`}>
       <AlertModal
         opened={isModalOpen}
         onClose={() => setModalOpen(false)}
@@ -348,21 +325,14 @@ function Signup(props: Partial<DropzoneProps>) {
         buttonText="Se connecter"
         redirectTo="/login"
       >
-        <Text>
-          Votre compte a été créé avec succès. Vous pouvez maintenant vous
-          connecter.
-        </Text>
+        <Text>Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.</Text>
       </AlertModal>
-      <Flex direction="column" justify="center" align="center" gap={10}>
-        <Title order={isMobile ? 3 : 1} className={`${classes.title}`} mt={50}>
-          Bienvenue sur Family Flow
-        </Title>
-        <Title order={isMobile ? 5 : 3} mb={20} className={`${classes.title}`}>
-          Veuillez entrer vos informations
-        </Title>
-      </Flex>
+      {/* <Flex direction="column" justify="center" align="center"> */}
+      <h1 className={`title`}>Bienvenue sur Family Flow</h1>
+      <h2 className={`subtitle`}>Veuillez entrer vos informations</h2>
+      {/* </Flex> */}
       {activeStep === 0 && (
-        <div className="slide1">
+        <div className={`${classes.slide1}`}>
           <TextInput
             placeholder="Ton pseudo"
             label="Pseudo"
@@ -377,8 +347,8 @@ function Signup(props: Partial<DropzoneProps>) {
             placeholder="Ton nom"
             label="Nom"
             className="input"
-            {...form.getInputProps('firstname')}
-            onBlur={() => handleBlur('firstname')}
+            {...form.getInputProps('lastname')}
+            onBlur={() => handleBlur('lastname')}
             radius="xl"
             required
           />
@@ -386,8 +356,8 @@ function Signup(props: Partial<DropzoneProps>) {
             placeholder="Ton prénom"
             label="Prénom"
             className="input"
-            {...form.getInputProps('lastname')}
-            onBlur={() => handleBlur('lastname')}
+            {...form.getInputProps('firstname')}
+            onBlur={() => handleBlur('firstname')}
             radius="xl"
             required
           />
@@ -419,9 +389,7 @@ function Signup(props: Partial<DropzoneProps>) {
             mb={20}
             required
           />
-          <Flex justify="center">
-            {errorMessage && <Text color="red">{errorMessage}</Text>}
-          </Flex>
+          <Flex justify="center">{errorMessage && <Text color="red">{errorMessage}</Text>}</Flex>
           <Flex justify="center">
             <Button
               className="outlineButton"
@@ -447,12 +415,12 @@ function Signup(props: Partial<DropzoneProps>) {
         </div>
       )}
       {activeStep === 1 && (
-        <div className="slide2">
+        <div className={`${classes.slide2}`}>
           <DatePickerInput
+            className={`${classes.radius}`}
             monthsListFormat="MM"
             yearsListFormat="YY"
             label="Date de naissance"
-            className="input"
             {...form.getInputProps('birthday')}
             mt={20}
             mb={20}
@@ -461,7 +429,7 @@ function Signup(props: Partial<DropzoneProps>) {
           <Textarea
             placeholder="Parle un de toi en quelques mots..."
             label="Description"
-            className="input"
+            className={`${classes.radius}`}
             {...form.getInputProps('description')}
             onBlur={() => {
               handleBlur('description');
@@ -470,24 +438,17 @@ function Signup(props: Partial<DropzoneProps>) {
             mb={20}
           />
           <Dropzone
-            className="input dropbox"
+            className={`${classes.radius}`}
             onDrop={handleFileUpload}
             onReject={() => setFormError('Fichier rejeté')}
             maxSize={3 * 1024 ** 2}
-            // todo : Reactivate it when DB ready to handle picture
             disabled={!!imagePreview}
-            // disabled
             accept={IMAGE_MIME_TYPE}
             {...props}
             mb={20}
           >
             {!imagePreview && ( // Conditionner l'affichage des icônes uniquement si aucun aperçu d'image n'est présent
-              <Group
-                justify="center"
-                gap="xl"
-                mih={220}
-                style={{ pointerEvents: 'none' }}
-              >
+              <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
                 <Dropzone.Accept>
                   <IconUpload
                     style={{
@@ -518,17 +479,12 @@ function Signup(props: Partial<DropzoneProps>) {
                     stroke={1.5}
                   />
                 </Dropzone.Idle>
-                <Flex
-                  direction="column"
-                  justify="center"
-                  align="center"
-                  gap={10}
-                >
+                <Flex direction="column" justify="center" align="center" gap={10}>
                   <Text size="lg" inline>
                     Télécharger votre photo
                   </Text>
-                  <Text size="sm" c="dimmed" inline mt={7}>
-                    Seulement les fichiers PNG et JPEG sont autorisés
+                  <Text size="sm" c="dimmed" inline mt={7} style={{ textAlign: 'center' }}>
+                    Seul les fichiers PNG et JPEG sont autorisés
                   </Text>
                 </Flex>
               </Group>
@@ -545,11 +501,11 @@ function Signup(props: Partial<DropzoneProps>) {
               >
                 <img
                   src={imagePreview}
-                  alt="Aperçu"
+                  alt="Aperçu de la photo de profil téléchargée"
                   style={{
-                    maxWidth: '75%', // ou une valeur fixe comme 300px
-                    maxHeight: '75%', // ou une valeur fixe comme 200px
-                    objectFit: 'contain', // Assure que tout l'image est visible
+                    maxWidth: '250px',
+                    maxHeight: '250px',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
@@ -562,7 +518,7 @@ function Signup(props: Partial<DropzoneProps>) {
                 onClick={handleRemoveImage}
                 style={{ marginTop: '10px' }}
                 m={10}
-                w={160}
+                w={'auto'}
                 size="auto"
                 radius="xl"
               >
@@ -621,7 +577,7 @@ function Signup(props: Partial<DropzoneProps>) {
       )}
       {formError && <Alert color="red">{formError}</Alert>}
       {loginError && <Alert color="red">{loginError}</Alert>}
-    </Container>
+    </div>
   );
 }
 

@@ -20,8 +20,8 @@ function ServerError() {
       <div className={classes.label}>500</div>
       <Title className={classes.title}>OMG...</Title>
       <Text size="lg" ta="center" className={classes.description}>
-        Nos serveurs sont juste trop occupés à sauver le monde présentement.
-        Veuillez réessayer plus tard.
+        Nos serveurs sont juste trop occupés à sauver le monde présentement. Veuillez réessayer plus
+        tard.
       </Text>
       <Group justify="center">
         <Button

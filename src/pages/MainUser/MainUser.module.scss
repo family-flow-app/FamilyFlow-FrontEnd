@@ -2,61 +2,37 @@
 // Developer: @yannick-leguennec (GitHub username)
 
 .searchContainer {
-    width: auto;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .searchBar {
-    margin: 0 auto;
-    width: 350px;
-    height: auto;
-    display: flex;
-    flex-direction: column;
+  margin: 0 auto;
+  width: 350px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
 
-    @media (max-width: $mantine-breakpoint-xs) {
-      width: 250px;
-    };
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 250px;
+  }
 }
 
 .button {
-
   width: 110px;
   margin: 10px;
 
   @media (max-width: $mantine-breakpoint-xs) {
-  margin: 10px 0;
-};
-
+    margin: 10px 0;
+  }
 }
 
-.primeTitle {
-    color: $title-color;
-    text-align: center;
-
-    @media (max-width: $mantine-breakpoint-xs) {
-      font-size: 1.5rem;
-    };
+.cardContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
-
-.image {
-  height: 80px;
-  width: 80px;
-  border-radius: 100%;
-  margin: 20px;
-}
-
-
-  .mediaContainer {
-    @media (max-width: $mantine-breakpoint-xs) {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 50px 12px
-    }
-    }
-  

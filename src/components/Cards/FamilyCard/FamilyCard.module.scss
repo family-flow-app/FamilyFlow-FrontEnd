@@ -1,0 +1,84 @@
+// File Name: FamilyCard.module.scss
+// Developer: @yannick-leguennec (GitHub username)
+
+.card {
+  width: 400px;
+  margin: 18px;
+  border-radius: 0 25px 25px 25px;
+  box-shadow: 10px 10px 5px rgba(40, 98, 127, 0.15);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+
+  &_image {
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+  }
+
+  &_name {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 60px;
+  }
+
+  &_text {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  &_button {
+    width: 115px;
+    margin: 10px;
+  }
+
+  &_icon {
+    display: none;
+  }
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 270px;
+    margin: 18px 0;
+
+    &_image {
+      height: 40px;
+      width: 40px;
+      border-radius: 100%;
+    }
+
+    &_name {
+      flex-grow: 1;
+      width: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &_text {
+      width: 100%;
+      font-weight: bold;
+      margin: 5px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    &_button {
+      width: auto;
+      margin: 10px;
+      display: none;
+    }
+
+    &_icon {
+      margin: 0;
+      display: block;
+      padding: 5px;
+      height: 35px;
+      width: 35px;
+      border-radius: 100%;
+    }
+  }
+}

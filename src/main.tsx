@@ -1,7 +1,7 @@
 // File Name: main.tsx
 // Developer: @yannick-leguennec (GitHub username)
 
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
@@ -14,65 +14,51 @@ import '@mantine/dates/styles.css';
 
 import HeaderSimple from './components/Header/Header';
 import FooterCentered from './components/Footer/FooterCentered';
-import {
-  UserProvider,
-  useUser,
-} from './context/UserInfoContext/UserInfoContext';
+import { UserProvider, useUser } from './context/UserInfoContext/UserInfoContext';
 import PageLoader from './components/Loader/PageLoader';
 import AppLoader from './components/Loader/AppLoader';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import UserStatusUpdater from './components/UserStatusUpdater/UserStatusUpdater';
 
-const Home = React.lazy(() => import('./pages/Home/Home'));
-const Login = React.lazy(() => import('./pages/Login/Login'));
-const Main = React.lazy(() => import('./pages/Main/Main'));
-const SignUp = React.lazy(() => import('./pages/SignUp/SignUp'));
-const MyProfile = React.lazy(() => import('./pages/MyProfile/MyProfile'));
-const CreateFamily = React.lazy(
-  () => import('./pages/CreateFamily/CreateFamily')
-);
-const CreateActivity = React.lazy(
-  () => import('./pages/CreateActivity/CreateActivity')
-);
-const Contact = React.lazy(() => import('./pages/Contact/Contact'));
-const LegalMentions = React.lazy(
-  () => import('./pages/LegalMentions/LegalMentions')
-);
-const Terms = React.lazy(() => import('./pages/Terms/Terms'));
-const FamilyProfile = React.lazy(
-  () => import('./pages/FamilyProfile/FamilyProfile')
-);
-const MemberProfile = React.lazy(
-  () => import('./pages/MemberProfile/MemberProfile')
-);
-const ActivityDetails = React.lazy(
-  () => import('./pages/ActivityDetails/ActivityDetails')
-);
-const About = React.lazy(() => import('./pages/About/About'));
-const NothingFoundBackground = React.lazy(() => import('./pages/404/404'));
-const ServerError = React.lazy(() => import('./pages/500/500'));
-const ServerOverload = React.lazy(() => import('./pages/503/503'));
+const Home = lazy(() => import('./pages/Home/Home'));
+const Login = lazy(() => import('./pages/Login/Login'));
+const Main = lazy(() => import('./pages/Main/Main'));
+const SignUp = lazy(() => import('./pages/SignUp/SignUp'));
+const MyProfile = lazy(() => import('./pages/MyProfile/MyProfile'));
+const CreateFamily = lazy(() => import('./pages/CreateFamily/CreateFamily'));
+const CreateActivity = lazy(() => import('./pages/CreateActivity/CreateActivity'));
+const Contact = lazy(() => import('./pages/Contact/Contact'));
+const LegalMentions = lazy(() => import('./pages/LegalMentions/LegalMentions'));
+const Terms = lazy(() => import('./pages/Terms/Terms'));
+const FamilyProfile = lazy(() => import('./pages/FamilyProfile/FamilyProfile'));
+const MemberProfile = lazy(() => import('./pages/MemberProfile/MemberProfile'));
+const ActivityDetails = lazy(() => import('./pages/ActivityDetails/ActivityDetails'));
+const About = lazy(() => import('./pages/About/About'));
+const NothingFoundBackground = lazy(() => import('./pages/404/404'));
+const ServerError = lazy(() => import('./pages/500/500'));
+const ServerOverload = lazy(() => import('./pages/503/503'));
 
 function App() {
   const [appLoading, setAppLoading] = useState(true);
   const { user } = useUser();
 
   // Vérifie si l'utilisateur est connecté et a un rôle autorisé
-  const isUserAuthorized =
-    user && user.role && ['user', 'member', 'admin'].includes(user.role);
+  const isUserAuthorized = user && user.role && ['user', 'member', 'admin'].includes(user.role);
 
   useEffect(() => {
-    // Simulez le chargement initial de l'application ou effectuez des opérations de démarrage ici
-    const timer = setTimeout(() => setAppLoading(false), 3000); // Ajustez selon les besoins
+    // Simule le chargement de l'application
+    const timer = setTimeout(() => setAppLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
 
   if (appLoading) {
-    return <AppLoader />; // Affichez le loader d'application lors du premier chargement
+    return <AppLoader />; // Affiche le loader d'application si l'application est en cours de chargement
   }
 
   return (
     <Router>
+      <UserStatusUpdater />
       <ScrollToTop />
       {isUserAuthorized && <HeaderSimple />}
       <Routes>
@@ -169,11 +155,7 @@ function App() {
           />
         </Route>
         {/* Protected Routes for 'user', 'member', and 'admin' */}
-        <Route
-          element={
-            <ProtectedRoute allowedRoles={['user', 'member', 'admin']} />
-          }
-        >
+        <Route element={<ProtectedRoute allowedRoles={['user', 'member', 'admin']} />}>
           <Route
             path="/main"
             element={
@@ -221,7 +203,7 @@ function App() {
             }
           />
           <Route
-            path="/member-profile/:id"
+            path="/members/:id"
             element={
               <Suspense fallback={<PageLoader />}>
                 <MemberProfile />
@@ -256,4 +238,3 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </MantineProvider>
   </React.StrictMode>
 );
-

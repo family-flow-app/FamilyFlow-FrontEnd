@@ -65,15 +65,11 @@ function Contact() {
   }) => {
     try {
       console.log('Values submitted:', values);
-      const response = await axios.post(
-        'https://family-flow-api.up.railway.app/send-email',
-        values,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await axios.post(`${import.meta.env.VITE_BASE_API_URL}/send-email`, values, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       // Gérer la réponse positive ici, par exemple afficher un message de succès
       handleSuccess(response.data);
       setModalOpen(true);
@@ -84,7 +80,7 @@ function Contact() {
   };
 
   return (
-    <Container className={`container ${classes.mediaContainer}`}>
+    <Container className={`container`}>
       <AlertModal
         opened={isModalOpen}
         onClose={() => setModalOpen(false)}
@@ -93,16 +89,14 @@ function Contact() {
         redirectTo={redirectTo}
       >
         <Text className={`${classes.textModal}`}>
-          Nous vous remercions pour votre message et nous vous répondrons dans
-          les plus brefs délais.
+          Nous vous remercions pour votre message et nous vous répondrons dans les plus brefs
+          délais.
         </Text>
       </AlertModal>
       {/* Form submission handling */}
       <form onSubmit={form.onSubmit(handleFormSubmit)}>
         {/* Title of the Contact Form */}
-        <Title className={`${classes.primeTitle}`} mb={25}>
-          Contactez nous
-        </Title>
+        <h1 className={`title`}>Contactez nous</h1>
 
         {/* Grid layout for Name and Email input fields */}
         <SimpleGrid cols={{ base: 1, sm: 2 }} mt="xl">

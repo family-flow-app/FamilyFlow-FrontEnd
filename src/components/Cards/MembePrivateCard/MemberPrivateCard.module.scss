@@ -1,0 +1,71 @@
+// File Name: MemberCard.module.scss
+// Developer: @yannick-leguennec (GitHub username)
+
+.card {
+  width: 400px;
+  margin: 18px;
+  border-radius: 0 25px 25px 25px;
+  box-shadow: 10px 10px 5px rgba(40, 98, 127, 0.15);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+
+  &_image {
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+  }
+
+  &_name {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 15px;
+  }
+
+  &_text {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  &_icon {
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    margin: 0 5px;
+  }
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 270px;
+    margin: 18px 0;
+
+    &_header {
+      display: flex;
+      align-items: center;
+    }
+
+    &_image {
+      height: 40px;
+      width: 40px;
+      border-radius: 100%;
+      margin: 0;
+    }
+
+    &_name {
+      margin-left: 10px;
+    }
+
+    &_text {
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    &_icon {
+      height: 40px;
+      width: 40px;
+      margin: 0 3px;
+    }
+  }
+}

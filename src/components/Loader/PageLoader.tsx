@@ -22,8 +22,7 @@ function PageLoader() {
   return (
     <div style={containerStyle}>
       <Loader color="cyan" /> {/* Cyan-colored loader */}
-      <Text style={{ marginTop: '10px' }}>Chargement en cours...</Text>{' '}
-      {/* Loader text */}
+      <Text style={{ marginTop: '10px' }}>Chargement en cours...</Text> {/* Loader text */}
     </div>
   );
 }

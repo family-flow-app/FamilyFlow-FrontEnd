@@ -6,11 +6,7 @@ import React from 'react'; // Add this line
 import { Group, ActionIcon } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
-import {
-  IconBrandTwitter,
-  IconBrandInstagram,
-  IconBrandFacebook,
-} from '@tabler/icons-react';
+import { IconBrandTwitter, IconBrandInstagram, IconBrandFacebook } from '@tabler/icons-react';
 import { useUser } from '../../context/UserInfoContext/UserInfoContext';
 import '../../styles/globalStyles.scss';
 import classes from './FooterCentered.module.scss';
@@ -34,9 +30,7 @@ function FooterCentered() {
   const { user } = useUser();
 
   const footerClass =
-    user.role === 'visitor'
-      ? `${classes.footer} ${classes.visitorFooter}`
-      : classes.footer;
+    user.role === 'visitor' ? `${classes.footer} ${classes.visitorFooter}` : classes.footer;
 
   const breakpointMd = '62em';
   const isDesktop = useMediaQuery(`(min-width: ${breakpointMd} )`);
@@ -61,40 +55,19 @@ function FooterCentered() {
   });
 
   return (
-    <footer className={`${classes.footer}`}>
+    <footer>
       <div className={classes.inner}>
         {/* Affichage des liens */}
         <Group className={classes.links}>{items}</Group>
         {/* Boutons des réseaux sociaux */}
         <Group gap="sm" justify="flex-end" wrap="nowrap">
-          <ActionIcon
-            size="md"
-            variant="default"
-            radius="xl"
-            component="a"
-            href="//facebook.com"
-          >
+          <ActionIcon size="md" variant="default" radius="xl" component="a" href="//facebook.com">
             <IconBrandFacebook style={{ width: 18, height: 18 }} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon
-            size="md"
-            variant="default"
-            radius="xl"
-            component="a"
-            href="//instagram.com"
-          >
-            <IconBrandInstagram
-              style={{ width: 18, height: 18 }}
-              stroke={1.5}
-            />
+          <ActionIcon size="md" variant="default" radius="xl" component="a" href="//instagram.com">
+            <IconBrandInstagram style={{ width: 18, height: 18 }} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon
-            size="md"
-            variant="default"
-            radius="xl"
-            component="a"
-            href="//twitter.com"
-          >
+          <ActionIcon size="md" variant="default" radius="xl" component="a" href="//twitter.com">
             <IconBrandTwitter style={{ width: 18, height: 18 }} stroke={1.5} />
           </ActionIcon>
         </Group>

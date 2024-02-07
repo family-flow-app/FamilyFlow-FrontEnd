@@ -1,26 +1,26 @@
 /* Contact.module.scss */
 /* Developed by @yannick-leguennec - GitHub ID */
 
-.primeTitle {
-  color: $title-color;
-  text-align: center;
-}
+// .primeTitle {
+//   color: $title-color;
+//   text-align: center;
+// }
 
-.mediaContainer {
-  @media (max-width: $mantine-breakpoint-xs) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 50px 12px
-  }
-}
+// .mediaContainer {
+//   @media (max-width: $mantine-breakpoint-xs) {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     padding: 50px 12px
+//   }
+// }
 
-.button {
-  width: 100px;
-  margin: 10px;
-}
+// .button {
+//   width: 100px;
+//   margin: 10px;
+// }
 
-.textModal {
-  text-align: center;
-}
+// .textModal {
+//   text-align: center;
+// }

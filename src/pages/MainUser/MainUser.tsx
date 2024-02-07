@@ -22,7 +22,7 @@ import '../../styles/globalStyles.scss';
 import classes from './MainUser.module.scss';
 import '../../styles/buttons.scss';
 import AlertModal from '../../components/Modals/AlertModal/AlertModal';
-import FamilyCard from '../../components/FamilyCard/FamilyCard';
+import FamilyCard from '../../components/Cards/FamilyCard/FamilyCard';
 import { Family } from '../../@types/family';
 import FamilyPublicProfileModal from '../../components/Modals/FamilyPublicProfilModal/FamilyPublicProfilModal';
 import icon_family from '../../public/img/FF_icon_family.png';
@@ -51,9 +51,7 @@ function MainUser() {
     setErrorMessage(null);
     try {
       const response = await axios.get(
-        `https://family-flow-api.up.railway.app/families?name=${encodeURIComponent(
-          searchTerm
-        )}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families?name=${encodeURIComponent(searchTerm)}`,
         {
           headers: {
             Authorization: `Bearer ${user?.token}`,
@@ -100,7 +98,7 @@ function MainUser() {
     if (!familyId) return;
     try {
       const response = await axios.post(
-        `https://family-flow-api.up.railway.app/requests`,
+        `${import.meta.env.VITE_BASE_API_URL}/requests`,
         {
           family_id: familyId,
         },
@@ -111,9 +109,7 @@ function MainUser() {
         }
       );
       handleSuccess(response);
-      setAlertMessage(
-        'Votre demande pour rejoindre la famille a bien été envoyée !'
-      );
+      setAlertMessage('Votre demande pour rejoindre la famille a bien été envoyée !');
       setAlertModalOpened(true);
     } catch (error: any) {
       handleError(error);
@@ -122,34 +118,24 @@ function MainUser() {
 
   // Generate cards for families
   const familyCard = families.map((family) => (
-    <FamilyCard
-      key={family.id}
-      family={family}
-      onViewProfile={handleViewProfile}
-    />
+    <FamilyCard key={family.id} family={family} onViewProfile={handleViewProfile} />
   ));
 
   return (
-    <Container
-      className={`container ${classes.mediaContainer} }`}
-      // style={customStyle}
-    >
+    <Container className={`container`}>
       <Flex justify="center">
-        <Image src={icon_family} alt="family" className={`${classes.image}`} />
+        <Image
+          src={icon_family}
+          alt="Icon représentant une famille et inspirée du logo de Family Flow"
+          className={`image`}
+        />
       </Flex>
-      <Title mb={25} className={`${classes.primeTitle}`}>
-        Trouvez votre famille
-      </Title>
+      <h1 className={`title`}>Trouvez votre famille</h1>
       <Group className={`${classes.searchContainer}`}>
         <Autocomplete
           className={`${classes.searchBar}`}
           placeholder="Recherchez..."
-          leftSection={
-            <IconSearch
-              style={{ width: rem(16), height: rem(16) }}
-              stroke={1.5}
-            />
-          }
+          leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
           data={[]} // Initialize with real data
           onChange={setSearchTerm}
           value={searchTerm}
@@ -162,6 +148,14 @@ function MainUser() {
         />
         <Group>
           <Button
+            onClick={handleClearSearch}
+            className={`outlineButton ${classes.button}`}
+            size="responsive"
+            radius="xl"
+          >
+            Clear
+          </Button>
+          <Button
             className={`gradientButton ${classes.button}`}
             onClick={handleSearch}
             loading={loading}
@@ -169,14 +163,6 @@ function MainUser() {
             radius="xl"
           >
             Chercher
-          </Button>
-          <Button
-            onClick={handleClearSearch}
-            className={`outlineButton ${classes.button}`}
-            size="responsive"
-            radius="xl"
-          >
-            Clear
           </Button>
         </Group>
       </Group>
@@ -191,15 +177,11 @@ function MainUser() {
       {/* Display error message */}
       {errorMessage && (
         <Flex justify="center" mt={20}>
-          <Text style={{ color: 'red', textAlign: 'center' }}>
-            {errorMessage}
-          </Text>
+          <Text style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</Text>
         </Flex>
       )}{' '}
       {/* Family list */}
-      <Container size="responsive" p={0}>
-        {familyCard}
-      </Container>
+      <div className={`${classes.cardContainer}`}>{familyCard}</div>
       {/* Modal for displaying family details */}
       <FamilyPublicProfileModal
         currentFamily={currentFamily}
@@ -217,7 +199,7 @@ function MainUser() {
         buttonText="Retour"
         redirectTo="/main"
       >
-        <Text>{alertMessage}</Text>
+        <Text style={{ textAlign: 'center' }}>{alertMessage}</Text>
       </AlertModal>
     </Container>
   );

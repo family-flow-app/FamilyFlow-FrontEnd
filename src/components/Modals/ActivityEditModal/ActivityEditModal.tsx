@@ -3,16 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-  Modal,
-  TextInput,
-  Select,
-  Textarea,
-  Button,
-  Text,
-  MultiSelect,
-  Flex,
-} from '@mantine/core';
+import { Modal, TextInput, Select, Textarea, Button, Text, MultiSelect, Flex } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import { Activity } from '../../../@types/activity';
@@ -20,7 +11,7 @@ import { Member } from '../../../@types/member';
 import useApiErrorHandler from '../../../hooks/useApiErrorHandler/useApiErrorHandler';
 import useHandleSuccess from '../../../hooks/useHandleSuccess/useHandleSuccess';
 import AlertModal from '../AlertModal/AlertModal';
-import MemberPublicCard from '../../MemberPublicCard/MemberPublicCard';
+import MemberPublicCard from '../../Cards/MemberPublicCard/MemberPublicCard';
 
 interface ActivityEditModalProps {
   isOpen: boolean;
@@ -43,8 +34,11 @@ function ActivityEditModal({
   // State management for family members and selected members
   const [familyMembers, setFamilyMembers] = useState<Member[]>([]);
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [formError, setFormError] = useState('');
   const [alertModalOpened, setAlertModalOpened] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
 
   // Hook for handling API errors and success
   const handleError = useApiErrorHandler();
@@ -70,15 +64,12 @@ function ActivityEditModal({
     validate: {
       name: (value) => {
         const defaultValue = value ?? ''; // Fournir une valeur par défaut de chaîne vide
-        if (defaultValue.length > 50)
-          return 'Le nom ne doit pas dépasser 50 caractères';
+        if (defaultValue.length > 50) return 'Le nom ne doit pas dépasser 50 caractères';
         if (defaultValue.length === 0) return 'Le nom est requis';
         return null; // Pas d'erreur
       },
       description: (value = '') =>
-        value.length > 1000
-          ? 'La description ne doit pas dépasser 1000 caractères'
-          : null,
+        value.length > 1000 ? 'La description ne doit pas dépasser 1000 caractères' : null,
       startingTime: (value, values) =>
         value &&
         values.endingTime &&
@@ -100,7 +91,7 @@ function ActivityEditModal({
     const fetchFamilyMembers = async () => {
       try {
         const response = await axios.get<Member[]>(
-          `https://family-flow-api.up.railway.app/families/${familyId}/users`,
+          `${import.meta.env.VITE_BASE_API_URL}/families/${familyId}/users`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setFamilyMembers(response.data);
@@ -112,9 +103,7 @@ function ActivityEditModal({
 
     if (isOpen) {
       fetchFamilyMembers();
-      setSelectedMembers(
-        activityDetails?.assigned_to?.map((member) => member.id) || []
-      );
+      setSelectedMembers(activityDetails?.assigned_to?.map((member) => member.id) || []);
       if (activityDetails) {
         form.setValues({
           id: activityDetails.id,
@@ -129,9 +118,9 @@ function ActivityEditModal({
           categoryId: activityDetails.category_id?.toString() || '',
           family_id: activityDetails.family_id,
           user_id: activityDetails.user_id,
-          assigned_to:
-            activityDetails.assigned_to?.map((member) => member.id) || [],
+          assigned_to: activityDetails.assigned_to?.map((member) => member.id) || [],
         });
+        setSelectedCategory(activityDetails.category_id?.toString() || '');
       }
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, familyId, token, activityDetails]);
@@ -144,40 +133,61 @@ function ActivityEditModal({
     }
   }, [form.values.startingTime, form]);
 
+  // Fonction pour gérer le changement de la valeur du Select
+  const handleCategoryChange = (value: string | null) => {
+    if (value) {
+      setSelectedCategory(value);
+    }
+  };
+
   // Function to handle form submission and save changes
   const handleSaveChanges = async () => {
-    const formValidation = await form.validate();
-    if (formValidation.hasErrors) {
-      console.log('Erreurs de validation du formulaire', formValidation.errors);
+    console.log('handleSaveChanges 1');
+
+    if (selectedCategory === '') {
+      setFormError('* Vous devez sélectionner une catégorie pour cette activité.');
+      return;
+    } else if (selectedMembers.length === 0) {
+      setFormError('* Vous devez sélectionner au moins un membre pour cette activité.');
       return;
     }
 
-    const { name, description, categoryId, startingTime, endingTime, id } =
-      form.values;
+    console.log('handleSaveChanges 2');
+
+    const { name, description, categoryId, startingTime, endingTime, id } = form.values;
     const updatedActivity = {
       name,
       description,
-      category_id: Number(categoryId),
-      starting_time:
-        startingTime instanceof Date
-          ? startingTime.toISOString()
-          : startingTime,
-      ending_time:
-        endingTime instanceof Date ? endingTime.toISOString() : endingTime,
+      category_id: selectedCategory,
+      starting_time: startingTime instanceof Date ? startingTime.toISOString() : startingTime,
+      ending_time: endingTime instanceof Date ? endingTime.toISOString() : endingTime,
       assigned_to: selectedMembers,
     };
+    console.log('handleSaveChanges 3');
+    console.log('updatedActivity', updatedActivity);
 
     try {
       const response = await axios.put<Activity>(
-        `https://family-flow-api.up.railway.app/families/${familyId}/activities/${id}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${familyId}/activities/${id}`,
         updatedActivity,
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      console.log('handleSaveChanges 4');
+
       onSave(response.data);
+      console.log('handleSaveChanges 5');
+
+      setIsSuccess(true);
       setAlertMessage('Activité mise à jour avec succès.');
+      console.log('handleSaveChanges 6');
+
       setAlertModalOpened(true);
+      console.log('handleSaveChanges 7');
       handleSuccess(response);
     } catch (error: any) {
+      console.log('reponse', error);
+
+      setIsSuccess(false);
       setAlertMessage("Erreur lors de la modification de l'activité.");
       setAlertModalOpened(true);
       handleError(error);
@@ -187,13 +197,7 @@ function ActivityEditModal({
   // Render the modal and form
   return (
     <>
-      <Modal.Root
-        opened={isOpen}
-        onClose={onClose}
-        centered
-        className="modal"
-        size="auto"
-      >
+      <Modal.Root opened={isOpen} onClose={onClose} centered className="modal" size="auto">
         <Modal.Overlay style={{ backdropFilter: 'blur(10)' }} />
         <Modal.Content>
           <Modal.Header style={{ background: headerColor, color: 'white' }}>
@@ -215,17 +219,17 @@ function ActivityEditModal({
               <Textarea
                 {...form.getInputProps('description')}
                 label="Description"
-                withAsterisk
                 radius="xl"
                 mb={15}
               />
               <Select
                 label="Catégorie"
-                {...form.getInputProps('categoryId')}
                 data={[
                   { value: '1', label: 'Tâche' },
                   { value: '2', label: 'Événement' },
                 ]}
+                value={selectedCategory}
+                onChange={handleCategoryChange}
                 withAsterisk
                 required
                 radius="xl"
@@ -253,9 +257,7 @@ function ActivityEditModal({
                   label: `${member.firstname} ${member.lastname}`,
                 }))}
                 value={selectedMembers.map((id) => id.toString())}
-                onChange={(selectedValues) =>
-                  setSelectedMembers(selectedValues.map(Number))
-                }
+                onChange={(selectedValues) => setSelectedMembers(selectedValues.map(Number))}
                 checkIconPosition="right"
                 withScrollArea={false}
                 label="Membres participants"
@@ -271,6 +273,13 @@ function ActivityEditModal({
                     <MemberPublicCard key={member.id} member={member} />
                   ))}
               </Flex>
+              {formError && (
+                <Flex justify="center" align="center">
+                  <Text size="sm" style={{ color: 'red' }}>
+                    {formError}
+                  </Text>
+                </Flex>
+              )}
               <Flex justify="center" align="center">
                 <Button
                   type="submit"
@@ -292,7 +301,7 @@ function ActivityEditModal({
         opened={alertModalOpened}
         onClose={() => setAlertModalOpened(false)}
         title="Confirmation"
-        buttonText="Retour"
+        buttonText={isSuccess ? 'Continuer' : 'Retour'}
         redirectTo="/main"
       >
         <Text>{alertMessage}</Text>

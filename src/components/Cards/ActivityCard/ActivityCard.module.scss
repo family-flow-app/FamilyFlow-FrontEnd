@@ -1,0 +1,116 @@
+// Filename: ActivityRow.module.scss
+// Developer: @yannick-leguennec (GitHub ID)
+
+.card {
+  width: 500px;
+  // margin: 18px;
+  border-radius: 0 25px 25px 25px;
+  box-shadow: 10px 10px 5px rgba(40, 98, 127, 0.15);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  margin-bottom: 25px;
+
+  &_image {
+    height: 60px;
+    width: 60px;
+  }
+
+  &_infos {
+    width: 100%;
+    margin-left: 15px;
+  }
+
+  &_titre {
+    font-size: 1.5rem;
+    color: $title-color;
+    margin: 5px 0;
+  }
+
+  &_button {
+    width: 165px;
+    margin: 10px;
+  }
+
+  &_date {
+    font-size: 1.2rem;
+    color: black;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  &_icon {
+    display: none;
+  }
+
+  &_point {
+    height: 0.8rem;
+    width: 0.8rem;
+    border-radius: 100%;
+    position: absolute;
+    right: 15px;
+    top: 13px;
+  }
+
+  .green {
+    background-color: green;
+  }
+
+  .red {
+    background-color: red;
+  }
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 270px;
+    margin: 18px 0;
+
+    &_image {
+      height: 45px;
+      width: 45px;
+      margin: 10px 0;
+    }
+
+    &_infos {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      margin-left: 15px;
+    }
+
+    &_badge {
+      padding: 0;
+      font-size: 0.7rem;
+      margin: 0;
+    }
+
+    &_titre {
+      font-size: 1rem;
+      color: $title-color;
+    }
+
+    &_date {
+      font-size: 0.8rem;
+      color: black;
+      text-align: center;
+    }
+
+    &_button {
+      display: none;
+    }
+
+    &_icon {
+      display: block;
+      height: 40px;
+      width: 40px;
+      border-radius: 100%;
+      text-align: center;
+    }
+
+    &_iconUser {
+      height: 15px;
+    }
+  }
+}

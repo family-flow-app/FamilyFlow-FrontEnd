@@ -70,8 +70,7 @@ function HeaderSimple() {
   };
 
   // Determines the current user role for navigation
-  const currentRole =
-    user.role && Object.keys(links).includes(user.role) ? user.role : 'visitor';
+  const currentRole = user.role && Object.keys(links).includes(user.role) ? user.role : 'visitor';
 
   // Maps each link to a navigation item
   const navigationLinks = (links[currentRole] || []).map((item) => {
@@ -88,9 +87,7 @@ function HeaderSimple() {
         key={item.label}
         to={item.link}
         onClick={handleClick}
-        className={`${classes.link} ${
-          isActive(item.link) ? classes.active : ''
-        }`}
+        className={`${classes.link} ${isActive(item.link) ? classes.active : ''}`}
       >
         {item.label}
       </Link>
@@ -108,7 +105,7 @@ function HeaderSimple() {
         w="auto"
         fit="contain"
         src={logo}
-        alt="Family Flow logo"
+        alt="Logo de l'entreprise Family Flow, représentant une maison avec un coeur à l'intérieur"
         onClick={handleLogoClick}
         style={{ cursor: 'pointer' }}
       />

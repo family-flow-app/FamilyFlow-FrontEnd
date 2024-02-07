@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Text, Card, Group, Button, Container, Title } from '@mantine/core';
+import { Text, Button, Container, Title, Flex } from '@mantine/core';
 import dayjs from 'dayjs';
 import { Activity } from '../../@types/activity';
 import { useUser } from '../../context/UserInfoContext/UserInfoContext';
@@ -16,7 +16,7 @@ import ActivityEditModal from '../../components/Modals/ActivityEditModal/Activit
 import '../../styles/globalStyles.scss';
 import classes from './ActivityDetails.module.scss';
 import '../../styles/buttons.scss';
-import MemberPublicCard from '../../components/MemberPublicCard/MemberPublicCard';
+import MemberPublicCard from '../../components/Cards/MemberPublicCard/MemberPublicCard';
 
 function ActivityDetails() {
   // States
@@ -24,6 +24,9 @@ function ActivityDetails() {
   const [activityDetails, setActivityDetails] = useState<Activity | null>(null);
   const [alertModalOpened, setAlertModalOpened] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [alertModalLeaveActivityOpened, setAlertModalLeaveActivityOpened] = useState(false);
+  const [alertMessageLeaveActivity, setAlertMessageLeaveActivity] = useState('');
+  const [responseTrue, setResponseTrue] = useState(false);
 
   // Custom Hooks
   const { id } = useParams<{ id: string }>();
@@ -33,8 +36,7 @@ function ActivityDetails() {
   const handleError = useApiErrorHandler();
   const handleSuccess = useHandleSuccess();
   const navigate = useNavigate();
-  const isUserAuthorized =
-    user.role === 'admin' || user.userId === activityDetails?.user_id;
+  const isUserAuthorized = user.role === 'admin' || user.userId === activityDetails?.user_id;
 
   // Function to format date and time
   const formatDateTime = (date: Date | null) => {
@@ -58,7 +60,7 @@ function ActivityDetails() {
 
       try {
         const response = await axios.get<Activity>(
-          `https://family-flow-api.up.railway.app/families/${familyId}/activities/${activityId}`,
+          `${import.meta.env.VITE_BASE_API_URL}/families/${familyId}/activities/${activityId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -69,6 +71,8 @@ function ActivityDetails() {
         }
 
         setActivityDetails(response.data);
+        console.log('activity', response.data);
+
         handleSuccess(response);
       } catch (error: any) {
         handleError(error);
@@ -94,19 +98,46 @@ function ActivityDetails() {
     setEditModalOpen(false);
   };
 
+  // Function to leave an activity
+  const handleLeaveActivity = async () => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_BASE_API_URL}/activities/${activityDetails?.id}/user/${
+          user.userId
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      setResponseTrue(true);
+      setAlertMessageLeaveActivity("Vous avez quitté l'activité avec succès.");
+      setAlertModalLeaveActivityOpened(true);
+      handleSuccess(response.data);
+      console.log(response);
+    } catch (error: any) {
+      setResponseTrue(false);
+      setAlertMessageLeaveActivity("Erreur lors de la suppression de l'activité.");
+      setAlertModalLeaveActivityOpened(true);
+      handleError(error);
+      console.log(error);
+    }
+  };
+
   // Function to delete the activity
   const handleDeleteActivity = async () => {
     try {
       const response = await axios.delete(
-        `https://family-flow-api.up.railway.app/families/${familyId}/activities/${activityId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/families/${familyId}/activities/${activityId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setAlertMessage('Activity successfully deleted.');
+      setAlertMessage('Activité supprimée avec succès.');
       setAlertModalOpened(true);
       handleSuccess(response);
     } catch (error: any) {
-      setAlertMessage('Error deleting the activity.');
+      setAlertMessage("Erreur lors de la suppression de l'activité.");
       setAlertModalOpened(true);
       handleError(error);
     }
@@ -117,10 +148,8 @@ function ActivityDetails() {
     <Container className={`container ${classes.extraSettings}`}>
       {/* Activity Details */}
       {activityDetails && (
-        <Container>
-          <Title className={`${classes.primeTitle}`}>
-            {activityDetails.name}
-          </Title>
+        <Flex direction={'column'} align={'center'}>
+          <h1 className={`title`}>{activityDetails.name}</h1>
           <Container className={`${classes.infos}`}>
             <Text>
               <strong>Type d&apos;activité: </strong>{' '}
@@ -129,37 +158,32 @@ function ActivityDetails() {
                 : 'Unknown Category'}
             </Text>
             <Text>
-              <strong>Description:</strong> {activityDetails.description}
+              <strong>Description:</strong>{' '}
+              {activityDetails?.description ? activityDetails.description : 'aucune description'}
             </Text>
             <Text>
-              <strong className={`${classes.strong}`}>
-                Date et heure de début:{' '}
-              </strong>{' '}
+              <strong className={`${classes.strong}`}>Date et heure de début: </strong>{' '}
               {activityDetails.starting_time
                 ? formatDateTime(activityDetails.starting_time)
                 : 'No date provided'}
             </Text>
             <Text>
-              <strong className={`${classes.strong}`}>
-                Date et heure de fin:{' '}
-              </strong>{' '}
+              <strong className={`${classes.strong}`}>Date et heure de fin: </strong>{' '}
               {formatDateTime(activityDetails.ending_time)}
             </Text>
           </Container>
-        </Container>
+        </Flex>
       )}
       {/* List of Participants */}
-      {(activityDetails?.assigned_to?.length ?? 0) > 0 ? (
-        <Container>
-          <Title className={`${classes.title}`}>Participants</Title>
+      {activityDetails && (
+        <Flex direction={'column'} align={'center'}>
+          <h2 className={`subtitle`}>Participants</h2>
           {activityDetails?.assigned_to?.map((member: Member) => (
+            // <MemberPublicCard key={member.id} member={member} activity_id={activityId} />
             <MemberPublicCard key={member.id} member={member} />
           ))}
-        </Container>
-      ) : (
-        <Text>No assigned participants</Text>
+        </Flex>
       )}
-
       {/* Edit and Delete Buttons (if authorized) */}
       {isUserAuthorized && (
         <Container className={`${classes.containerButtons}`}>
@@ -175,12 +199,28 @@ function ActivityDetails() {
           <Button
             onClick={handleDeleteActivity}
             className={`outlineButton ${classes.button}`}
-            size="responsive"
+            size="auto"
             radius="xl"
           >
             Supprimer
           </Button>
         </Container>
+      )}
+      {!isUserAuthorized && activityDetails?.category_id === 2 && (
+        <>
+          <Flex justify="center" align="center">
+            <Button
+              onClick={handleLeaveActivity}
+              w={150}
+              mt={10}
+              type="submit"
+              radius="xl"
+              className={` outlineButton`}
+            >
+              Quitter l&apos;activité
+            </Button>
+          </Flex>
+        </>
       )}
       {familyId != null && (
         <ActivityEditModal
@@ -196,10 +236,19 @@ function ActivityDetails() {
         opened={alertModalOpened}
         onClose={() => setAlertModalOpened(false)}
         title="Confirmation"
-        buttonText="Return"
+        buttonText="Continuer"
         redirectTo="/main"
       >
         <Text>{alertMessage}</Text>
+      </AlertModal>
+      <AlertModal
+        opened={alertModalLeaveActivityOpened}
+        onClose={() => setAlertModalLeaveActivityOpened(false)}
+        title={responseTrue ? 'Confirmation' : 'Erreur'}
+        buttonText={responseTrue ? 'Continuer' : 'Retour'}
+        redirectTo={responseTrue ? '/main' : ''}
+      >
+        <Text>{alertMessageLeaveActivity}</Text>
       </AlertModal>
     </Container>
   );

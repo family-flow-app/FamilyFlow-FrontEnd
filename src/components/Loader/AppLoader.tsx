@@ -27,6 +27,7 @@ function AppLoader() {
         src={logo}
         className={`${classes.responsiveImage}`}
         fit="contain"
+        alt="Logo de l'entreprise Family Flow, représentant une maison avec un coeur à l'intérieur"
       />
 
       {/* Loader animation */}

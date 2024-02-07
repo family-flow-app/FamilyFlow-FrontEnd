@@ -2,10 +2,11 @@
 // Developer: @yannick-leguennec (GitHub username)
 
 import React from 'react';
-import { Card, Flex, Image, Text, Button, Container } from '@mantine/core'; // importez les composants nécessaires
+import { Card, Flex, Image, Text, Button, Container, ActionIcon } from '@mantine/core'; // importez les composants nécessaires
 import classes from './FamilyCard.module.scss';
-import { Family } from '../../@types/family';
-import icon from '../../public/img/FF_icon_family.png';
+import { Family } from '@/@types/family';
+import icon from '../../../public/img/FF_icon_family.png';
+import { IconUserQuestion } from '@tabler/icons-react';
 
 interface FamilyCardProps {
   family: Family;
@@ -13,25 +14,19 @@ interface FamilyCardProps {
 }
 
 function FamilyCard({ family, onViewProfile }: FamilyCardProps) {
+  console.log('family CARD', family);
+
   return (
     <Card className={`${classes.card}`} withBorder>
       <Image
         src={family.image_url ? family.image_url : icon}
-        alt={family.name}
+        alt={`Photo de la famille ${family.name}`}
         className={`${classes.card_image}`}
       />
       <Container className={`${classes.card_name}`}>
         <Text className={`${classes.card_text}`}>{family.name}</Text>
       </Container>
-      {/* <Container style={{ flexGrow: 1 }} w={100}>
-          <Flex justify="flex-start" align="center">
-            <Text size="sm" style={{ color: 'dimmed' }}>
-              {family.description && family.description.length > 15
-                ? `${family.description.substring(0, 15)}...`
-                : family.description}
-            </Text>
-          </Flex>
-        </Container> */}
+      {}
       <Button
         className={`gradientButton ${classes.card_button}`}
         type="button"
@@ -41,6 +36,13 @@ function FamilyCard({ family, onViewProfile }: FamilyCardProps) {
       >
         Voir profil
       </Button>
+      <ActionIcon
+        type="button"
+        className={`gradientButton ${classes.card_icon}`}
+        onClick={() => onViewProfile(family.id)}
+      >
+        <IconUserQuestion />
+      </ActionIcon>
     </Card>
   );
 }

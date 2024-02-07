@@ -1,100 +1,104 @@
 // Filename: globalStyles.scss
 // Developer: @yannick-leguennec (GitHub ID)
-
 @import '../styles//mantine'; // Importe les variables de taille d'écran Mantine
 @import '../styles//mixins'; // Importe les mixins Mantine
 
 // Global variables setup for consistent styling across the application.
 
+/********/
+/*HEADER*/
+/********/
 header {
   background: linear-gradient(to right, $header-gradient-background1, $header-gradient-background2);
+  position: relative; // Keeps the header at the top of the viewport at all times.
+  top: 0;
+  width: 100%; // Header spans the full width of the viewport.
+  z-index: 10; // Ensures the header layers above other elements on the page.
 }
 
+/******************/
+/*GLOBAL CONTAINER*/
+/******************/
 // Base styles for the main container that wraps the content of all pages.
 .container {
+  display: flex;
   flex-grow: 1; // Enables the container to expand to fill the available vertical space within its flex container.
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%; // Ensures the container width is responsive and occupies the full width of the viewport.
   background: none;
-  font-family: 'Varela Round', 'Roboto', sans-serif;
-  @include flex-center-column; // Applies the flex-center-column mixin to center the container contents vertically and horizontally.
   margin: 0;
+  padding: 3rem 0;
+  // font-family: 'Varela Round', 'Roboto', sans-serif;
+  @include flex-center-column; // Applies the flex-center-column mixin to center the container contents vertically and horizontally.
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding: 3rem 1rem;
+  }
 }
 
+/********/
+/*FOOTER*/
+/********/
 footer {
   background: linear-gradient(to right, $footer-gradient-background1, $footer-gradient-background2);
+  padding: 20px 60px; // Padding horizontal pour le contenu interne
+  // position: relative; // Keeps the footer at the bottom of the viewport at all times.
+  // bottom: 0;
+  width: 100%; // Footer spans the full width of the viewport.
+  // z-index: 10; // Ensures the footer layers above other elements on the page.
   margin-top: auto;
-}
 
-// Media queries and styles for desktop screens and above.
-@media (min-width: $mantine-breakpoint-md) {
-  header {
-    position: relative; // Keeps the header at the top of the viewport at all times.
-    top: 0;
-    width: 100%; // Header spans the full width of the viewport.
-    z-index: 10; // Ensures the header layers above other elements on the page.
-  }
-
-  .container {
-    width: 100%; // Adjusts the width of the main container for desktop screens, encouraging a centered layout.
-    @include flex-center-column; // Applies the flex-center-column mixin to center the container contents vertically and horizontally.
-    margin: 0;
-  }
-  
-  footer {
-    position: relative; // Keeps the footer at the bottom of the viewport at all times.
-    bottom: 0;
-    width: 100%; // Footer spans the full width of the viewport.
-    z-index: 10; // Ensures the footer layers above other elements on the page.
-    margin-top: auto;
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding: 15px 0;
   }
 }
 
-// Styles specific to iPad and similar devices, particularly for landscape orientation.
-@media (max-width: $mantine-breakpoint-lg) and (min-width: $mantine-breakpoint-md) {
-  .container {
-    flex-grow: 1; // Ensures the container can grow to fill available space, adapting to different screen sizes.
-    width: 100%; // Slightly increases the width of the container for tablets in landscape mode.
-    @include flex-center-column; // Applies the flex-center-column mixin to center the container contents vertically and horizontally.
+/*******/
+/*TITLE*/
+/*******/
+
+.title {
+  font-family: 'Varela Round', 'Roboto', sans-serif;
+  font-size: 3rem;
+  color: $title-color;
+  margin: 15px 0;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    font-size: 2rem;
+    text-align: center;
   }
 }
 
-// Styles specific to mobile devices, accounting for the reduced screen size in portrait orientation.
-@media (max-width: $mantine-breakpoint-sm) {
-  header {
-    position: relative; // Allows the header to follow the normal document flow on mobile, avoiding fixed positioning.
-  }
+/*******/
+/*SUBTITLE*/
+/*******/
 
-  .container {
-    flex-grow: 1; // Enables the container to expand vertically, filling the space between header and footer.
-    @include flex-center-column; // Applies the flex-center-column mixin to center the container contents vertically and horizontally.
-  }
+.subtitle {
+  font-family: 'Varela Round', 'Roboto', sans-serif;
+  font-size: 2rem;
+  color: $title-color;
+  margin: 10px 0;
+  overflow-wrap: break-word;
 
-  footer {
-    position: relative; // Allows the footer to follow the normal document flow on mobile, avoiding fixed positioning.
-    margin-top: auto;
+  @media (max-width: $mantine-breakpoint-sm) {
+    font-size: 1.5rem;
+    text-align: center;
   }
-
 }
 
-// Styles specific to mobile devices, accounting for the reduced screen size in portrait orientation.
-@media (max-width: $mantine-breakpoint-xs) {
-  header {
-    position: relative; // Allows the header to follow the normal document flow on mobile, avoiding fixed positioning.
-  }
+/*******/
+/*IMAGE*/
+/*******/
 
-  .container {
-    flex-grow: 1; // Enables the container to expand vertically, filling the space between header and footer.
-    @include flex-center-column; // Applies the flex-center-column mixin to center the container contents vertically and horizontally.
-  }
+.image {
+  margin: 10px;
+  height: 250px;
+  width: auto;
+  border-radius: 100%;
 
-  footer {
-    position: relative; // Allows the footer to follow the normal document flow on mobile, avoiding fixed positioning.
-    margin-top: auto;
+  @media (max-width: $mantine-breakpoint-xs) {
+    height: 150px;
   }
-
 }
-
-
-
-
-
