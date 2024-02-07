@@ -121,30 +121,40 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
       description: (value) => {
         return value.length <= 500 ? null : 'La description ne doit pas dépasser 500 caractères';
       },
-      password: (value) => {
-        if (value.length < 8) return 'Le mot de passe actuel doit contenir au moins 8 caractères';
-        if (!/[A-Z]/.test(value))
-          return 'Le mot de passe actuel doit contenir au moins une lettre majuscule';
-        if (!/[a-z]/.test(value))
-          return 'Le mot de passe actuel doit contenir au moins une lettre minuscule';
-        if (!/[\W_]/.test(value))
-          return 'Le mot de passe actuel doit contenir au moins un caractère spécial';
-        return null;
+      password: (value, values) => {
+        if (values.newPassword || values.confirmNewPassword) {
+          if (!value.trim()) return 'Le mot de passe actuel est requis';
+          if (value.length < 8) return 'Le mot de passe actuel doit contenir au moins 8 caractères';
+          if (!/[A-Z]/.test(value))
+            return 'Le mot de passe actuel doit contenir au moins une lettre majuscule';
+          if (!/[a-z]/.test(value))
+            return 'Le mot de passe actuel doit contenir au moins une lettre minuscule';
+          if (!/[\W_]/.test(value))
+            return 'Le mot de passe actuel doit contenir au moins un caractère spécial';
+          return null;
+        }
       },
       newPassword: (value, values) => {
-        if (value.length < 8) return 'Le nouveau mot de passe doit contenir au moins 8 caractères';
-        if (!/[A-Z]/.test(value))
-          return 'Le nouveau mot de passe doit contenir au moins une lettre majuscule';
-        if (!/[a-z]/.test(value))
-          return 'Le nouveau mot de passe doit contenir au moins une lettre minuscule';
-        if (!/[\W_]/.test(value))
-          return 'Le nouveau mot de passe doit contenir au moins un caractère spécial';
-        if (value === values.password)
-          return "Le nouveau mots de passe ne peut pas être le même que l'ancien";
-        return null;
+        if (value.trim()) {
+          if (value.length < 8)
+            return 'Le nouveau mot de passe doit contenir au moins 8 caractères';
+          if (!/[A-Z]/.test(value))
+            return 'Le nouveau mot de passe doit contenir au moins une lettre majuscule';
+          if (!/[a-z]/.test(value))
+            return 'Le nouveau mot de passe doit contenir au moins une lettre minuscule';
+          if (!/[\W_]/.test(value))
+            return 'Le nouveau mot de passe doit contenir au moins un caractère spécial';
+          if (value === values.password)
+            return "Le nouveau mots de passe ne peut pas être le même que l'ancien";
+          return null;
+        }
       },
       confirmNewPassword: (value, values) => {
-        if (value !== values.newPassword) return 'Les nouveaux mots de passe ne correspondent pas';
+        if (values.newPassword.trim()) {
+          if (!value.trim()) return 'La confirmation du nouveau mot de passe est requise';
+          if (value !== values.newPassword)
+            return 'Les nouveaux mots de passe ne correspondent pas';
+        }
         return null;
       },
     },
@@ -152,25 +162,24 @@ function UpdateProfile({ userInfo, opened, close, setUser }: UpdateProfileProps)
 
   // Soumission du formulaire
   const handleSubmit = async () => {
-    const { password, newPassword, confirmNewPassword } = form.values;
-
-    // // Vérifie si l'utilisateur a tenté de changer son mot de passe
-    // if (password || newPassword || confirmNewPassword) {
-    //   // Vérifie si tous les champs nécessaires sont remplis
-    //   if (!password || !newPassword || !confirmNewPassword) {
-    //     setFormError(
-    //       'Veuillez remplir tous les champs de mot de passe pour changer votre mot de passe.'
-    //     );
-    //     return; // Empêche la soumission du formulaire
-    //   }
-    //   // Vérifie si le nouveau mot de passe et la confirmation correspondent
-    //   if (newPassword !== confirmNewPassword) {
-    //     setFormError('Le nouveau mot de passe et la confirmation ne correspondent pas.');
-    //     return; // Empêche la soumission du formulaire
-    //   }
-    // }
-
     try {
+      // Détermine si l'utilisateur tente de changer son mot de passe
+      const isChangingPassword =
+        form.values.password || form.values.newPassword || form.values.confirmNewPassword;
+
+      // Si l'utilisateur tente de changer son mot de passe mais ne remplit pas correctement les champs, affiche une erreur et arrête la soumission
+      if (isChangingPassword) {
+        if (!form.values.password || !form.values.newPassword || !form.values.confirmNewPassword) {
+          setFormError(
+            'Veuillez remplir tous les champs de mot de passe pour changer votre mot de passe.'
+          );
+          return;
+        }
+        if (form.values.newPassword !== form.values.confirmNewPassword) {
+          setFormError('Le nouveau mot de passe et la confirmation ne correspondent pas.');
+          return;
+        }
+      }
       const filteredFormValues = Object.fromEntries(
         Object.entries(form.values).filter(([key, value]) => value !== '' && value !== null)
       );
