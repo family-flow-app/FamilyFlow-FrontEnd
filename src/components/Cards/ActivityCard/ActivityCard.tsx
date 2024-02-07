@@ -113,7 +113,7 @@ function ActivityCard({ activity }: ActivityCardProps) {
         </ActionIcon>
       </div>
       <div
-        className={`${classes.card_point} ${activity.user_id === user.userId || activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId) ? classes.green : classes.red}`}
+        className={`${classes.card_point} ${activity.assigned_to?.some((assignedUser) => assignedUser.id === user.userId) ? classes.green : classes.red}`}
       ></div>
     </Card>
   );
