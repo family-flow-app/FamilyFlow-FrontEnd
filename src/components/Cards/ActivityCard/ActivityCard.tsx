@@ -19,7 +19,9 @@ import { IconQuestionMark, IconUsers } from '@tabler/icons-react';
 import '../../../styles/buttons.scss';
 import classes from './ActivityCard.module.scss';
 import iconTask from '../../../public/img/FF_icone-task.png';
+import iconTaskStar from '../../../public/img/FF_icon_task_stars.png';
 import iconEvent from '../../../public/img/FF_icon.event.png';
+import iconEventStar from '../../../public/img/FF_icon_event_stars.png';
 
 interface ActivityCardProps {
   activity: Activity;
@@ -52,8 +54,8 @@ function ActivityCard({ activity }: ActivityCardProps) {
 
   // Mapping of category IDs to icons
   const categoryIcons: { [key: number]: string } = {
-    1: iconTask,
-    2: iconEvent,
+    1: activity.created_by?.id === user.userId ? iconTaskStar : iconTask,
+    2: activity.created_by?.id === user.userId ? iconEventStar : iconEvent,
   };
 
   // Mapping of category IDs to color themes

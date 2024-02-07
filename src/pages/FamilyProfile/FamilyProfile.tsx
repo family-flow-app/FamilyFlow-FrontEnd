@@ -528,6 +528,14 @@ const FamilyProfile = () => {
               />
               <Group mb={20}>
                 <Button
+                  onClick={handleClearSearch}
+                  className={`outlineButton ${classes.button}`}
+                  size="responsive"
+                  radius="xl"
+                >
+                  Clear
+                </Button>
+                <Button
                   className={`gradientButton ${classes.button}`}
                   onClick={handleSearch}
                   loading={loading}
@@ -535,14 +543,6 @@ const FamilyProfile = () => {
                   radius="xl"
                 >
                   Chercher
-                </Button>
-                <Button
-                  onClick={handleClearSearch}
-                  className={`outlineButton ${classes.button}`}
-                  size="responsive"
-                  radius="xl"
-                >
-                  Clear
                 </Button>
               </Group>
             </Group>
